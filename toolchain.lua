@@ -581,7 +581,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		}
 
 	configuration { "vs*", _filter }
-		includedirs { path.join(getProjectPath("rbase"), "compat/msvc") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
 		defines {
 			"WIN32",
 			"_WIN32",
@@ -603,7 +603,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		}
 
 	configuration { "vs2008", _filter }
-		includedirs { path.join(getProjectPath("rbase"), "compat/msvc/pre1600") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
 
 	configuration { "x32", "vs*", _filter }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
@@ -643,7 +643,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 
 	configuration { "mingw-*", _filter }
 		defines { "WIN32" }
-		includedirs { path.join(getProjectPath("rbase"), "compat/mingw") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/mingw") }
 		buildoptions {
 			"-Wunused-value",
 			"-fdata-sections",
@@ -883,7 +883,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 	configuration { "freebsd", _filter }
 		defines { "RTM_FREEBSD" }
 		includedirs {
-			path.join(getProjectPath("rbase"), "compat/freebsd"),
+			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
 		}
 
 	configuration { "nacl or nacl-arm or pnacl", _filter }
@@ -902,7 +902,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		}
 		includedirs {
 			"$(NACL_SDK_ROOT)/include",
-			path.join(getProjectPath("rbase"), "compat/nacl"),
+			path.join(getProjectPath("rbase"), "inc/compat/nacl"),
 		}
 
 	configuration { "nacl", _filter }
@@ -966,7 +966,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 
 	configuration { "Xbox360", _filter }
 		defines { "RTM_XBOX360" }
-		includedirs { path.join(getProjectPath("rbase"), "compat/msvc") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
 		defines {
 			"NOMINMAX",
 			"_XBOX",
@@ -990,7 +990,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wunused-value",
 			"-Wundef",
 		}
-		includedirs { path.join(getProjectPath("rbase"), "compat/osx") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/osx") }
 
 	configuration { "ios*", _filter }
 		defines { "RTM_IOS" }
@@ -1002,7 +1002,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wunused-value",
 			"-Wundef",
 		}
-		includedirs { path.join(getProjectPath("rbase"), "compat/ios") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
 
 	configuration { "ios-arm", _filter }
 		linkoptions {
@@ -1036,7 +1036,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 
 	configuration { "qnx-arm", _filter }
 		defines { "RTM_QNX" }
---		includedirs { path.join(getProjectPath("rbase"), "compat/qnx") }
+--		includedirs { path.join(getProjectPath("rbase"), "inc/compat/qnx") }
 		buildoptions {
 			"-Wno-psabi", -- note: the mangling of 'va_list' has changed in GCC 4.4.0
 			"-Wunused-value",
