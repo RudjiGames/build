@@ -262,7 +262,6 @@ function loadProject(_projectName, _load)
 	for _,path in ipairs(RTM_PROJECT_DIRS) do
 		prjFile = path .. _projectName .. ".lua"
 		if os.isfile(prjFile) then dofile(prjFile) break end
-
 		prjFile = path .. _projectName .. "/genie/" .. _projectName .. ".lua"
 		if os.isfile(prjFile) then dofile(prjFile) break end
 	end
@@ -324,8 +323,7 @@ function addDependencies(_name, _additionalDeps)
 end
 
 function addLibProjects(_name)
-	local libScript = getProjectGenieScriptPath(_name)
-	loadProject(libScript)
+	loadProject(_name)
 
 	local projectDir = getProjectPath(_name)
 
