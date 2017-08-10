@@ -1,5 +1,6 @@
 build
 ======
+[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/rmem/blob/master/LICENSE)
 
 A set of build system scripts based on [GENie](https://github.com/bkaradzic/GENie) and other tools.  
 Scripts allow rellocating projects supporting modular physical code design.
