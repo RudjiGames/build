@@ -653,7 +653,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++0x",
+			"-std=c++11",
 		}
 		linkoptions {
 			"-Wl,--gc-sections",
@@ -730,7 +730,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wundef",
 		}
 --		buildoptions_cpp {
---			"-std=c++0x",
+--			"-std=c++11",
 --		}
 		links {
 			"rt",
@@ -796,7 +796,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++0x",
+			"-std=c++11",
 		}
 		linkoptions {
 			"-no-canonical-prefixes",
@@ -898,7 +898,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++0x",
+			"-std=c++11",
 		}
 		includedirs {
 			"$(NACL_SDK_ROOT)/include",
@@ -1043,7 +1043,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++0x",
+			"-std=c++11",
 		}
 
 	configuration { "rpi", _filter }
@@ -1060,7 +1060,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++0x",
+			"-std=c++11",
 		}
 		includedirs {
 			"/opt/vc/include",
