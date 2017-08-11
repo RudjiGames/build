@@ -1308,16 +1308,16 @@ function rappUsed(_filter, _binDir)
 
 	configuration { "linux-* or freebsd", _filter }
 		links {
-			"X11",
-			"GL",
+--			"X11",
+--			"GL",
 			"pthread",
 		}
 
 	configuration { "rpi", _filter }
 		links {
-			"X11",
-			"GLESv2",
-			"EGL",
+--			"X11",
+--			"GLESv2",
+--			"EGL",
 			"bcm_host",
 			"vcos",
 			"vchiq_arm",
