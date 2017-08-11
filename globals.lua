@@ -134,9 +134,9 @@ Lib = {
 -- configuration specific defines
 --------------------------------------------------------
 
-Defines_Debug   = { "RTM_DEBUG", "_DEBUG", "DEBUG" }
-Defines_Release = { "RTM_RELEASE", "NDEBUG" }
-Defines_Retail  = { "RTM_RETAIL", "NDEBUG", "RETAIL" }
+Defines_Debug   = { "RTM_DEBUG_BUILD", "_DEBUG", "DEBUG" }
+Defines_Release = { "RTM_RELEASE_BUILD", "NDEBUG" }
+Defines_Retail  = { "RTM_RETAIL_BUILD", "NDEBUG", "RETAIL" }
 
 dofile (RTM_SCRIPTS_DIR .. "project_3rd.lua")
 dofile (RTM_SCRIPTS_DIR .. "project_cmdtool.lua")
