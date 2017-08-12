@@ -289,7 +289,11 @@ function mkdir(_dirname)
 	end
 
 	if not os.isdir(dir) then
-		os.execute("mkdir " .. dir)
+		if not os.is("windows") then
+			os.execute("mkdir " .. dir .. " -p")
+		else
+			os.execute("mkdir " .. dir)
+		end
 	end
 end
 
