@@ -1,0 +1,13 @@
+language: lua
+
+script:
+
+branches:
+  only:
+    - master
+
+after_success:
+
+notifications:
+  email: false
+
