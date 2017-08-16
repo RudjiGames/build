@@ -1,5 +1,15 @@
 language: lua
 
+matrix:
+  include:
+
+  - os: linux
+    compiler: gcc
+  - os: osx
+    compiler: clang
+#    env:
+#     - PLATFORM=''
+
 script:
 
 branches:
