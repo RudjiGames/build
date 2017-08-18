@@ -23,7 +23,8 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 
 		project().path = getProjectPathRoot(project().name) .. _name .. "/"
 		
-		local	sourceFiles = mergeTables(	{ project().path .. "src/**.cpp" },
+		local	sourceFiles = mergeTables(	{ project().path .. "inc/**.h" },
+											{ project().path .. "src/**.cpp" },
 											{ project().path .. "src/**.h" },
 											{ project().path .. "src/**.ui" },
 											{ project().path .. "src/**.qrc" },
