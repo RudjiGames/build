@@ -5,12 +5,17 @@
 
 function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraConfig)
 
-	group ("tools")
+	_libProjNotExe	= _libProjNotExe or false
+	_includes		= _includes or {}
+	_prebuildcmds	= _prebuildcmds or {}
+	
+	if _libProjNotExe == true then
+		group ("toollibs")
+	else
+		group ("tools")
+	end
+	
 	project (_name)
-
-		_libProjNotExe	= _libProjNotExe or false
-		_includes		= _includes or {}
-		_prebuildcmds	= _prebuildcmds or {}
 
 		local projKind = "WindowedApp"
 		if _libProjNotExe == true then
