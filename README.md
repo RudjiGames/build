@@ -12,6 +12,11 @@ You can get the latest source code by cloning it from github:
 
       git clone https://github.com/milostosic/build.git 
 
+Dependencies
+======
+
+**build** requires Lua to be installed for Qt based projects as it's used for MOC-ing and similar tasks.
+
 Author
 ======
 
