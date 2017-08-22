@@ -10,6 +10,7 @@
 
 require("lfs")
 
+RTM_QT_FILES            = "../.qt"
 RTM_QT_FILES_PATH_MOC	= "../.qt/qt_moc"
 RTM_QT_FILES_PATH_UI	= "../.qt/qt_ui"
 RTM_QT_FILES_PATH_QRC	= "../.qt/qt_qrc"
@@ -52,6 +53,7 @@ if inputFileModTime == nil then
 	return
 end
 
+qtOutputDirectory			= sourceDir .. RTM_QT_FILES
 qtMocOutputDirectory		= sourceDir .. RTM_QT_FILES_PATH_MOC
 qtUIOutputDirectory			= sourceDir .. RTM_QT_FILES_PATH_UI
 qtQRCOutputDirectory		= sourceDir .. RTM_QT_FILES_PATH_QRC
@@ -63,23 +65,35 @@ qtUIPostfix		= "_ui"
 qtTSPostfix		= "_ts"
 
 windows = package.config:sub( 1, 1 ) == "\\"
+windowsExe = ".exe"
 del = "\\"
 if not windows then
 	del = "/"
+	windowsExe = ""
 end
+
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
+qtMocExe = "moc" .. windowsExe
+qtUICExe = "uic" .. windowsExe
+qtQRCExe = "rcc" .. windowsExe
+qtTSExe  = "lrelease" .. windowsExe
 
 --Set up the qt tools executable path
 if windows then
-	qtMocExe = qtDirectory..del.."qtbase"..del.."bin"..del..[[moc.exe]]
-	qtUICExe = qtDirectory..del.."qtbase"..del.."bin"..del..[[uic.exe]]
-	qtQRCExe = qtDirectory..del.."qtbase"..del.."bin"..del..[[rcc.exe]]
-	qtTSExe  = qtDirectory..del.."qtbase"..del.."bin"..del..[[lrelease.exe]]
-else
-	qtMocExe = "moc"
-	qtUICExe = "uic"
-	qtQRCExe = "rcc"
-	qtTSExe  = "lrelease"
+
+	if file_exists(qtDirectory..del.."qtbase"..del.."bin"..del..qtMocExe) then
+		qtMocExe = qtDirectory..del.."qtbase"..del.."bin"..del..qtMocExe
+		qtUICExe = qtDirectory..del.."qtbase"..del.."bin"..del..qtUICExe
+		qtQRCExe = qtDirectory..del.."qtbase"..del.."bin"..del..qtQRCExe
+		qtTSExe  = qtDirectory..del.."qtbase"..del.."bin"..del..qtTSExe
+	end
 end
+
+lfs.mkdir( qtOutputDirectory )
 
 function checkUpToDate(outputFileName) 
 	outputFileModTime = lfs.attributes( outputFileName, "modification" )
