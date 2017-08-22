@@ -122,7 +122,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
-					local source = QT_PATH .. '\\qtbase\\bin\\' .. libname
+					local source = QT_PATH .. '\\bin\\' .. libname
 					local dest = destPath .. libname
 
 					if not os.isdir(destPath) then
@@ -142,13 +142,13 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 				if _ACTION:find("vs") then
 					otherDLLNames = { "libEGL" .. _dbgPrefix , "libGLESv2" .. _dbgPrefix, "qwindows" .. _dbgPrefix, "qminimal" .. _dbgPrefix }
-					otherDLLSrcPrefix = { "\\qtbase\\bin\\", "\\qtbase\\bin\\", "\\qtbase\\plugins\\platforms\\", "\\qtbase\\plugins\\platforms\\" }
+					otherDLLSrcPrefix = { "\\bin\\", "\\bin\\", "\\plugins\\platforms\\", "\\plugins\\platforms\\" }
 					otherDLLDstPrefix = { "", "", "platforms\\", "platforms\\" }
 				end
 
 				if _ACTION:find("gmake") then
 					otherDLLNames = { "icudt52", "icuin52", "icuuc52", "qwindows" .. _dbgPrefix, "qminimal" .. _dbgPrefix }
-					otherDLLSrcPrefix = { "\\qtbase\\bin\\", "\\qtbase\\bin\\", "\\qtbase\\bin\\", "\\qtbase\\plugins\\platforms\\", "\\qtbase\\plugins\\platforms\\" }
+					otherDLLSrcPrefix = { "\\bin\\", "\\bin\\", "\\bin\\", "\\plugins\\platforms\\", "\\plugins\\platforms\\" }
 					otherDLLDstPrefix = { "", "", "", "platforms\\", "platforms\\" }
 				end
 					
@@ -166,13 +166,13 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			defines { "QT_LARGEFILE_SUPPORT", "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
 
-			local libsDirectory = QT_PATH .. "/qtbase/lib/"
+			local libsDirectory = QT_PATH .. "/lib/"
 
 			configuration { _config }
 			libdirs { libsDirectory }
 
 			configuration { _config }
-			includedirs	{ QT_PATH .. "/qtbase/include" }
+			includedirs	{ QT_PATH .. "/include" }
 			includedirs	{ QT_PATH .. "/qtwinextras/include" }
 				
 			if _ACTION:find("vs") then
