@@ -16,7 +16,7 @@ RTM_ROOT_DIR			= path.getabsolute(RTM_SCRIPTS_DIR .. "../") .. "/"		-- project r
 RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
 
 local RTM_PROJECT_DIRS_LIST = {
-	"/",
+	"",
 	"3rd/",
 	"src/libs/",
 	"src/game/games/",
