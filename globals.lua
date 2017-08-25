@@ -16,7 +16,7 @@ RTM_ROOT_DIR			= path.getabsolute(RTM_SCRIPTS_DIR .. "../") .. "/"		-- project r
 RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
 
 local RTM_PROJECT_DIRS_LIST = {
-	"",
+	"/",
 	"3rd/",
 	"src/libs/",
 	"src/game/games/",
@@ -192,18 +192,22 @@ function getProjectDesc(_name)
 	}
 end
 
-function getProjectPath(_name)
-	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		libDir = dir .. _name
-		if os.isdir(libDir) then return libDir .. "/" end
-	end
-	return ""
-end
+ProjectPath = {
+	Dir		= {},
+	Root	= {}
+}
 
-function getProjectPathRoot(_name)
+function getProjectPath(_name, _pathType)
+	_pathType = _pathType or ProjectPath.Dir
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		libDir = dir .. _name
-		if os.isdir(libDir) then return dir end
+		if os.isdir(libDir) then 
+			if _pathType == ProjectPath.Dir then
+				return libDir .. "/" 
+			else
+				return dir
+			end
+		end
 	end
 	return ""
 end
@@ -222,7 +226,7 @@ function addIncludePath(_path)
 end
 
 function isGENieProject(_projectName)
-	local projectParentDir = getProjectPathRoot(_projectName)
+	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 	if os.isfile(projectParentDir .. _projectName .. ".lua") then return true end
 	if os.isfile(projectParentDir .. _projectName .. "/genie/genie.lua") then return true end
 	return false
@@ -230,7 +234,7 @@ end
 
 function addInclude(_projectName)
 
-	local projectParentDir = getProjectPathRoot(_projectName)
+	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 
 	addIncludePath(projectParentDir)
 	addIncludePath(projectParentDir .. _projectName .. "/include")

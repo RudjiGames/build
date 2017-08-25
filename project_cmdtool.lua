@@ -14,7 +14,7 @@ function addProject_cmd(_name, _extraConfig)
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(_name) ..  "/src/"
+		project().path = getProjectPath(_name) ..  "src/"
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )
@@ -22,7 +22,7 @@ function addProject_cmd(_name, _extraConfig)
 
 		addPCH( project().path, project().name )
 
-		includedirs { getProjectPathRoot(_name), project().path }
+		includedirs { getProjectPath(_name, ProjectPath.Root), project().path }
 
 		flags { Flags_Cmd }
 

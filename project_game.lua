@@ -17,7 +17,7 @@ function addProject_game(_name, _extraConfig)
 			kind		"ConsoleApp"
 		configuration {}
 
-		project().path = getProjectPathRoot(_name) .. "/"
+		project().path = getProjectPath(_name, ProjectPath.Root)
 
 		local srcFilesPath = project().path .. "src/"
 

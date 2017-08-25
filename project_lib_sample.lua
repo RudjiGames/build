@@ -14,7 +14,7 @@ function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		local libsPath = getProjectPathRoot(_lib)
+		local libsPath = getProjectPath(_lib, ProjectPath.Root)
 
 		project().path = libsPath .. _lib .. "/"
 

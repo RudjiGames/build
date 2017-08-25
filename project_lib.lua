@@ -29,7 +29,7 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 		kind        ( libKind )
 		uuid		( os.uuid(project().name) )
 		
-		local libsPath = getProjectPathRoot(_name)
+		local libsPath = getProjectPath(_name, ProjectPath.Root)
 
 		local projectPath = libsPath .. _name
 		local srcFilesPath = projectPath .. "/src/"

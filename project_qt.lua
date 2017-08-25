@@ -26,7 +26,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 		kind		( projKind )
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPathRoot(project().name) .. _name .. "/"
+		project().path = getProjectPath(project().name, ProjectPath.Root) .. _name .. "/"
 		
 		local	sourceFiles = mergeTables(	{ project().path .. "inc/**.h" },
 											{ project().path .. "src/**.cpp" },
@@ -48,7 +48,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 
 		includedirs
 		{ 
-			getProjectPathRoot(project().name),
+			getProjectPath(project().name, ProjectPath.Root),
 			project().path .. "src/",
 			_includes
 		}
@@ -70,9 +70,9 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 																	)
 
 		configuration {"windows", "x32", "not gmake" }
-			libdirs { getProjectPathRoot("DIA") .. "DIA/lib/x32/" }
+			libdirs { getProjectPath("DIA", ProjectPath.Root) .. "DIA/lib/x32/" }
 		configuration {"windows", "x64", "not gmake" }
-			libdirs { getProjectPathRoot("DIA") .. "DIA/lib/x64/" }
+			libdirs { getProjectPath("DIA", ProjectPath.Root) .. "DIA/lib/x64/" }
 
 		configuration {}
 
