@@ -50,7 +50,7 @@ end
 local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
-	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. "/") + string.len(projName))
+	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. del) + string.len(projName))
 	sourceDir = sourceDir .. "src/"
 end
 
