@@ -21,10 +21,28 @@ qtDirectory = arg[3] or qtDirectory
 
 lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
 
+findLast = function(string, what, plain)
+	plain = plain or true
+	local lastMatch = 1
+	local result = -1
+	local thisMatch
+
+	while lastMatch ~= -1 do
+		thisMatch = string:find(what, lastMatch, plain)
+		if thisMatch == nil then
+			lastMatch = -1
+		else
+			result = thisMatch
+			lastMatch = result + 1
+		end
+	end
+	return result
+end
+
 local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
-	sourceDir = arg[2]:sub(1, arg[2]:find(projName) + string.len(projName))
+	sourceDir = arg[2]:sub(1, findLast(arg[2], projName) + string.len(projName))
 	sourceDir = sourceDir .. "src/"
 end
 
