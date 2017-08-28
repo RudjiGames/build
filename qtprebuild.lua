@@ -21,6 +21,14 @@ qtDirectory = arg[3] or qtDirectory
 
 lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
 
+windows = package.config:sub( 1, 1 ) == "\\"
+windowsExe = ".exe"
+del = "\\"
+if not windows then
+	del = "/"
+	windowsExe = ""
+end
+
 findLast = function(string, what, plain)
 	plain = plain or true
 	local lastMatch = 1
@@ -83,14 +91,6 @@ qtMocPostfix	= "_moc"
 qtQRCPostfix	= "_qrc"
 qtUIPostfix		= "_ui"
 qtTSPostfix		= "_ts"
-
-windows = package.config:sub( 1, 1 ) == "\\"
-windowsExe = ".exe"
-del = "\\"
-if not windows then
-	del = "/"
-	windowsExe = ""
-end
 
 function file_exists(name)
    local f=io.open(name,"r")
