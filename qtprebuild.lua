@@ -19,6 +19,8 @@ RTM_QT_FILES_PATH_TS	= "../.qt/qt_qm"
 local qtDirectory = ""
 qtDirectory = arg[3] or qtDirectory
 
+lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
+
 local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
@@ -144,12 +146,20 @@ if arg[1] == "-moc" then
 
 	if checkUpToDate(outputFileName) == true then return end
 	
-	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f".. arg[4] .. "_pch.h -f" .. arg[5] .. "\""
+	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[5] .. "\""
 	if windows then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
 	end
 
-	if( 0 ~= os.execute( fullMOCPath ) ) then
+	local result = 1
+	if lua_version == "5.3" then
+		local value, type
+		value, type, result = os.execute(fullMOCPath)
+	else
+		result = os.execute(fullMOCPath)
+	end
+
+	if 0 ~= result then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFileName, 5 ) ); io.stdout:flush()
 	else
 		--print( "MOC Created "..outputFileName )
