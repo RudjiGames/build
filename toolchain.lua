@@ -735,9 +735,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wunused-value",
 			"-Wundef",
 		}
---		buildoptions_cpp {
---			"-std=c++11",
---		}
+		buildoptions_cpp {
+			"-std=c++11",
+		}
 		links {
 			"rt",
 			"dl",
