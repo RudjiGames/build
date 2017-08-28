@@ -63,7 +63,9 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 		}
 
 		flags { Flags_QtTool }
-		buildoptions { "-fPIC" }
+		if os.is("linux") then
+			buildoptions { "-fPIC" }
+		endif
 
 		local outputDir = RTM_OUT_DIR
 		if _libProjNotExe == true then
