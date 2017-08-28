@@ -139,6 +139,17 @@ getPath=function(str,sep)
     return str:match("(.*"..sep..")")
 end
 
+runProgram = function(command)
+	local result = 1
+	if lua_version == "5.3" then
+		local value, type
+		value, type, result = os.execute(command)
+	else
+		result = os.execute(command)
+	end
+	return result
+end
+
 if arg[1] == "-moc" then
 
 	lfs.mkdir( qtMocOutputDirectory )
@@ -151,15 +162,7 @@ if arg[1] == "-moc" then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
 	end
 
-	local result = 1
-	if lua_version == "5.3" then
-		local value, type
-		value, type, result = os.execute(fullMOCPath)
-	else
-		result = os.execute(fullMOCPath)
-	end
-
-	if 0 ~= result then
+	if 0 ~= runProgram(fullMOCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFileName, 5 ) ); io.stdout:flush()
 	else
 		--print( "MOC Created "..outputFileName )
