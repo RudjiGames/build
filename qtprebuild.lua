@@ -179,7 +179,7 @@ elseif arg[1] == "-rcc" then
 		fullRCCPath = '""'..qtQRCExe..'" -name "'..getFileNameNoExtFromPath( arg[2] )..'" "'..arg[2]..'" -o "'..outputFileName..'""'
 	end
 
-	if( 0 ~= os.execute( fullRCCPath ) ) then
+	if 0 ~= runProgram(fullRCCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[RCC Failed to generate ]]..outputFileName, 6 ) ); io.stdout:flush()
 	else
 		--print( "RCC Created "..outputFileName )
@@ -196,7 +196,7 @@ elseif arg[1] == "-uic" then
 			fullUICPath = '""'..qtUICExe..'" "'..arg[2]..'" -o "'..outputFileName..'""'
 		end
 
-		if( 0 ~= os.execute( fullUICPath ) ) then
+		if 0 ~= runProgram(fullUICPath) then
 			print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFileName, 7 ) ); io.stdout:flush()
 		else
 			--print( "UIC Created "..outputFileName )
@@ -213,7 +213,7 @@ elseif arg[1] == "-ts" then
 			fullTSPath = '""'..qtTSExe..'" "'..arg[2]
 		end
 
-		if( 0 ~= os.execute( fullTSPath ) ) then
+		if 0 ~= runProgram( fullTSPath) then
 			print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFileName, 7 ) ); io.stdout:flush()
 		else
 			--print( "UIC Created "..outputFileName )
