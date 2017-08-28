@@ -304,7 +304,9 @@ function rmdir(_dirname)
 	end
 
 	if os.isdir(dir) then
-		dir = dir .. " /s /q"
+		if os.is("windows") then
+			dir = dir .. " /s /q"
+		end
 		os.execute("rmdir " .. dir)
 	end
 end
