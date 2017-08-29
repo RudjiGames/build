@@ -670,14 +670,14 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		}
 
 	configuration { "x32", "mingw-gcc", _filter }
-		defines { "RTM_WIN32", "RTM_WINDOWS" }
+		defines { "RTM_WIN32", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(DXSDK_DIR)/lib/x86",
 		}
 		buildoptions { "-m32" }
 
 	configuration { "x64", "mingw-gcc", _filter }
-		defines { "RTM_WIN64", "RTM_WINDOWS" }
+		defines { "RTM_WIN64", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(DXSDK_DIR)/lib/x64",
 			"$(GLES_X64_DIR)",
@@ -696,14 +696,14 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		}
 
 	configuration { "x32", "mingw-clang", _filter }
-		defines { "RTM_WIN32", "RTM_WINDOWS" }
+		defines { "RTM_WIN32", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(DXSDK_DIR)/lib/x86",
 		}
 		buildoptions { "-m32" }
 
 	configuration { "x64", "mingw-clang", _filter }
-		defines { "RTM_WIN64", "RTM_WINDOWS" }
+		defines { "RTM_WIN64", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(DXSDK_DIR)/lib/x64",
 			"$(GLES_X64_DIR)",
