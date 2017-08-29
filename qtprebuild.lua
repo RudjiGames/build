@@ -19,10 +19,38 @@ RTM_QT_FILES_PATH_TS	= "../.qt/qt_qm"
 local qtDirectory = ""
 qtDirectory = arg[3] or qtDirectory
 
+lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
+
+windows = package.config:sub( 1, 1 ) == "\\"
+windowsExe = ".exe"
+del = "\\"
+if not windows then
+	del = "/"
+	windowsExe = ""
+end
+
+findLast = function(string, what, plain)
+	plain = plain or true
+	local lastMatch = 1
+	local result = -1
+	local thisMatch
+
+	while lastMatch ~= -1 do
+		thisMatch = string:find(what, lastMatch, plain)
+		if thisMatch == nil then
+			lastMatch = -1
+		else
+			result = thisMatch
+			lastMatch = result + 1
+		end
+	end
+	return result
+end
+
 local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
-	sourceDir = arg[2]:sub(1, arg[2]:find(projName) + string.len(projName))
+	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. del) + string.len(projName))
 	sourceDir = sourceDir .. "src/"
 end
 
@@ -63,14 +91,6 @@ qtMocPostfix	= "_moc"
 qtQRCPostfix	= "_qrc"
 qtUIPostfix		= "_ui"
 qtTSPostfix		= "_ts"
-
-windows = package.config:sub( 1, 1 ) == "\\"
-windowsExe = ".exe"
-del = "\\"
-if not windows then
-	del = "/"
-	windowsExe = ""
-end
 
 function file_exists(name)
    local f=io.open(name,"r")
@@ -137,6 +157,17 @@ getPath=function(str,sep)
     return str:match("(.*"..sep..")")
 end
 
+runProgram = function(command)
+	local result = 1
+	if lua_version == "5.3" then
+		local value, type
+		value, type, result = os.execute(command)
+	else
+		result = os.execute(command)
+	end
+	return result
+end
+
 if arg[1] == "-moc" then
 
 	lfs.mkdir( qtMocOutputDirectory )
@@ -144,12 +175,12 @@ if arg[1] == "-moc" then
 
 	if checkUpToDate(outputFileName) == true then return end
 	
-	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f".. arg[4] .. "_pch.h -f" .. arg[5] .. "\""
+	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[5] .. "\""
 	if windows then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
 	end
 
-	if( 0 ~= os.execute( fullMOCPath ) ) then
+	if 0 ~= runProgram(fullMOCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFileName, 5 ) ); io.stdout:flush()
 	else
 		--print( "MOC Created "..outputFileName )
@@ -166,7 +197,7 @@ elseif arg[1] == "-rcc" then
 		fullRCCPath = '""'..qtQRCExe..'" -name "'..getFileNameNoExtFromPath( arg[2] )..'" "'..arg[2]..'" -o "'..outputFileName..'""'
 	end
 
-	if( 0 ~= os.execute( fullRCCPath ) ) then
+	if 0 ~= runProgram(fullRCCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[RCC Failed to generate ]]..outputFileName, 6 ) ); io.stdout:flush()
 	else
 		--print( "RCC Created "..outputFileName )
@@ -183,7 +214,7 @@ elseif arg[1] == "-uic" then
 			fullUICPath = '""'..qtUICExe..'" "'..arg[2]..'" -o "'..outputFileName..'""'
 		end
 
-		if( 0 ~= os.execute( fullUICPath ) ) then
+		if 0 ~= runProgram(fullUICPath) then
 			print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFileName, 7 ) ); io.stdout:flush()
 		else
 			--print( "UIC Created "..outputFileName )
@@ -200,7 +231,7 @@ elseif arg[1] == "-ts" then
 			fullTSPath = '""'..qtTSExe..'" "'..arg[2]
 		end
 
-		if( 0 ~= os.execute( fullTSPath ) ) then
+		if 0 ~= runProgram( fullTSPath) then
 			print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFileName, 7 ) ); io.stdout:flush()
 		else
 			--print( "UIC Created "..outputFileName )

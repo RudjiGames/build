@@ -304,8 +304,12 @@ function rmdir(_dirname)
 	end
 
 	if os.isdir(dir) then
-		dir = dir .. " /s /q"
-		os.execute("rmdir " .. dir)
+		if os.is("windows") then
+			dir = "rmdir /s /q " .. dir
+		else
+			dir = "rm -rf " .. dir
+		end
+		os.execute(dir)
 	end
 end
 
@@ -733,9 +737,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wunused-value",
 			"-Wundef",
 		}
---		buildoptions_cpp {
---			"-std=c++11",
---		}
+		buildoptions_cpp {
+			"-std=c++11",
+		}
 		links {
 			"rt",
 			"dl",
