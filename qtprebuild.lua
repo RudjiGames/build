@@ -50,9 +50,9 @@ end
 local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
-	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. del) + string.len(projName))
-	print(sourceDir)
-	sourceDir = sourceDir .. "src" .. del
+	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. "/") + string.len(projName))
+	print(arg[2], sourceDir)
+	sourceDir = sourceDir .. "src/"
 end
 
 function BuildErrorWarningString( line, isError, message, code )
@@ -180,7 +180,6 @@ if arg[1] == "-moc" then
 	if windows then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
 	end
-	print(outputFileName)
 
 	if 0 ~= runProgram(fullMOCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFileName, 5 ) ); io.stdout:flush()
