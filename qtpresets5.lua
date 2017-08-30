@@ -16,6 +16,8 @@ RTM_QT_FILES_PATH_TS	= "../.qt/qt_qm"
 
 QT_LIB_PREFIX		= "Qt" .. qt.version
 
+
+
 function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
 		
 		local sourcePath			= getProjectPath(_projectName) .. "src/"
@@ -162,9 +164,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 					end
 				end
 			end
-			
 
-			defines { "QT_LARGEFILE_SUPPORT", "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
+			defines { "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
 
 			local libsDirectory = QT_PATH .. "/lib/"
 
@@ -172,6 +173,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			libdirs { libsDirectory }
 
 			configuration { _config }
+
 			includedirs	{ QT_PATH .. "/include" }
 			includedirs	{ QT_PATH .. "/qtwinextras/include" }
 				
@@ -187,15 +189,11 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 				local libDebug = libsDirectory .. QT_LIB_PREFIX .. lib .. "d" -- .. ".lib"
 				local libRelease = libsDirectory .. QT_LIB_PREFIX .. lib -- .. ".lib"
 
-				configuration { "debug", "vs*", _config }
+				configuration { "debug", _config }
 					links( libDebug )
-				configuration { "debug", "gmake", _config }
-					linkoptions( libDebug )
 
-				configuration { "not debug", "vs*", _config }
+				configuration { "not debug", _config }
 					links( libRelease )
-				configuration { "not debug", "gmake", _config }
-					linkoptions( libRelease )
 			end
 	
 			configuration { _config }
