@@ -29,14 +29,14 @@ if not windows then
 	windowsExe = ""
 end
 
-findLast = function(string, what, plain)
+findLast = function(str, what, plain)
 	plain = plain or true
 	local lastMatch = 1
 	local result = -1
 	local thisMatch
 
 	while lastMatch ~= -1 do
-		thisMatch = string:find(what, lastMatch, plain)
+		thisMatch = str:find(what, lastMatch, plain)
 		if thisMatch == nil then
 			lastMatch = -1
 		else
@@ -180,7 +180,6 @@ if arg[1] == "-moc" then
 	if windows then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
 	end
-	print(getPath(arg[2]))
 	print(outputFileName)
 
 	if 0 ~= runProgram(fullMOCPath) then
