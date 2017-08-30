@@ -51,7 +51,6 @@ local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
 	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. "/") + string.len(projName))
-	print(arg[2], sourceDir)
 	sourceDir = sourceDir .. "src/"
 end
 
