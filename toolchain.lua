@@ -650,6 +650,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wunused-value",
 			"-fdata-sections",
 			"-ffunction-sections",
+			"-fopenmp",
 			"-msse2",
 			"-Wunused-value",
 			"-Wundef",
@@ -657,20 +658,29 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		buildoptions_cpp {
 			"-std=c++11",
 		}
+		links { 
+			"gomp", 
+			"ole32",
+			"oleaut32"
+		}
 		linkoptions {
 			"-Wl,--gc-sections",
 			"-static-libgcc",
-			"-static-libstdc++",
+			"-static-libstdc++"
 		}
 
 	configuration { "x32", "mingw-gcc", _filter }
 		defines { "RTM_WIN32", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		buildoptions { "-m32" }
+		libdirs {
+			"$(MINGW)/x86_64-w64-mingw32/lib32"
+		}
 
 	configuration { "x64", "mingw-gcc", _filter }
 		defines { "RTM_WIN64", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(GLES_X64_DIR)",
+			"$(MINGW)/x86_64-w64-mingw32/lib"
 		}
 		buildoptions { "-m64" }
 
