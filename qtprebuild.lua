@@ -29,14 +29,14 @@ if not windows then
 	windowsExe = ""
 end
 
-findLast = function(string, what, plain)
+findLast = function(str, what, plain)
 	plain = plain or true
 	local lastMatch = 1
 	local result = -1
 	local thisMatch
 
 	while lastMatch ~= -1 do
-		thisMatch = string:find(what, lastMatch, plain)
+		thisMatch = str:find(what, lastMatch, plain)
 		if thisMatch == nil then
 			lastMatch = -1
 		else
@@ -50,7 +50,7 @@ end
 local sourceDir = ""
 if arg[2] ~= nil then
 	local projName = arg[4]
-	sourceDir = arg[2]:sub(1, arg[2]:find(projName) + string.len(projName))
+	sourceDir = arg[2]:sub(1, findLast(arg[2], projName .. "/") + string.len(projName))
 	sourceDir = sourceDir .. "src/"
 end
 
