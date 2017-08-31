@@ -661,7 +661,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		links { 
 			"gomp", 
 			"ole32",
-			"oleaut32"
+			"oleaut32",
+			"uuid"
 		}
 		linkoptions {
 			"-Wl,--gc-sections",
