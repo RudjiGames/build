@@ -138,26 +138,21 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 					end
 				end
 
-				otherDLLNames = {}
-				otherDLLSrcPrefix = {}
-				otherDLLDstPrefix = {}
-
-				if _ACTION:find("vs") then
-					otherDLLNames = { "libEGL" .. _dbgPrefix , "libGLESv2" .. _dbgPrefix, "qwindows" .. _dbgPrefix, "qminimal" .. _dbgPrefix }
-					otherDLLSrcPrefix = { "\\bin\\", "\\bin\\", "\\plugins\\platforms\\", "\\plugins\\platforms\\" }
-					otherDLLDstPrefix = { "", "", "platforms\\", "platforms\\" }
-				end
-
+				otherDLLNames = { "libEGL" .. _dbgPrefix, "libGLESv2" .. _dbgPrefix, "platforms\\qwindows" .. _dbgPrefix, "platforms\\qminimal" .. _dbgPrefix }
+				otherDLLSrcPrefix = { "\\bin\\", "\\bin\\", "\\plugins\\", "\\plugins\\", "\\bin\\" }
+	
 				if _ACTION:find("gmake") then
-					otherDLLNames = { "icudt52", "icuin52", "icuuc52", "qwindows" .. _dbgPrefix, "qminimal" .. _dbgPrefix }
-					otherDLLSrcPrefix = { "\\bin\\", "\\bin\\", "\\bin\\", "\\plugins\\platforms\\", "\\plugins\\platforms\\" }
-					otherDLLDstPrefix = { "", "", "", "platforms\\", "platforms\\" }
+					if _is64bit then
+						otherDLLNames = mergeTwoTables(otherDLLNames, {"libstdc++_64-6"})
+					else
+						otherDLLNames = mergeTwoTables(otherDLLNames, {"libstdc++-6"})
+					end
 				end
 					
 				for i=1, #otherDLLNames, 1 do
 					local libname =  otherDLLNames[i] .. '.dll'
 					local source = QT_PATH .. otherDLLSrcPrefix[i] .. libname
-					local dest = destPath .. '\\' .. otherDLLDstPrefix[i] .. libname
+					local dest = destPath .. '\\' .. libname
 					if not os.isfile(dest) then
 						mkdir(path.getdirectory(dest))
 						os.copyfile( source, dest )
