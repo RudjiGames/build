@@ -39,6 +39,12 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 				print ("The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets5.lua")
 				os.exit()
 			end
+		else
+			local qtLibs  = "pkg-config --libs " .. QT_LIB_PREFIX .. "Core"
+			local libPipe = io.popen( qtLibs, 'r' )
+			qtLibs = libPipe:read( '*line' )
+			libPipe:close()
+			QT_PATH = string.sub(qtLibs, 3, string.len(qtLibs) - 13)
 		end
 
 		flatten( _mocfiles )
@@ -194,6 +200,9 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			configuration { _config }
 
 		else
+			-- should run this first (path may vary):
+			-- export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/user/Qt5.7.0/5.7/gcc_64/lib/pkgconfig
+			-- lfs support is required too: sudo luarocks install luafilesystem
 			local qtLinks = QT_LIB_PREFIX .. table.concat( libsToLink, " " .. QT_LIB_PREFIX )
 
 			local qtLibs  = "pkg-config --libs " .. qtLinks

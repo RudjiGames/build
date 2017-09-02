@@ -102,15 +102,11 @@ qtUICExe = "uic" .. windowsExe
 qtQRCExe = "rcc" .. windowsExe
 qtTSExe  = "lrelease" .. windowsExe
 
---Set up the qt tools executable path
-if windows then
-
-	if file_exists(qtDirectory..del.."bin"..del..qtMocExe) then
-		qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
-		qtUICExe = qtDirectory..del.."bin"..del..qtUICExe
-		qtQRCExe = qtDirectory..del.."bin"..del..qtQRCExe
-		qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
-	end
+if file_exists(qtDirectory..del.."bin"..del..qtMocExe) then
+	qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
+	qtUICExe = qtDirectory..del.."bin"..del..qtUICExe
+	qtQRCExe = qtDirectory..del.."bin"..del..qtQRCExe
+	qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
 end
 
 lfs.mkdir( qtOutputDirectory )
