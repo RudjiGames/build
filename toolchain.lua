@@ -641,6 +641,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 	configuration { "*-gcc* or osx", _filter }
 		buildoptions {
 			"-Wshadow",
+			"-fopenmp",
+		}
+		links {
+			"gomp", 
 		}
 
 	configuration { "mingw-*", _filter }
@@ -650,7 +654,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-Wunused-value",
 			"-fdata-sections",
 			"-ffunction-sections",
-			"-fopenmp",
 			"-msse2",
 			"-Wunused-value",
 			"-Wundef",
@@ -659,7 +662,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-std=c++11",
 		}
 		links { 
-			"gomp", 
 			"ole32",
 			"oleaut32",
 			"uuid"
