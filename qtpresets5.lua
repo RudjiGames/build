@@ -31,20 +31,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			qtEnv = "QTDIR_" .. qtEnv .. "_x86"
 		end
 				
-		local QT_PATH = "";
-
-		if os.is("windows") then
-			QT_PATH = os.getenv(qtEnv)
-			if QT_PATH == nil then
-				print ("The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets5.lua")
-				os.exit()
-			end
-		else
-			local qtLibs  = "pkg-config --libs " .. QT_LIB_PREFIX .. "Core"
-			local libPipe = io.popen( qtLibs, 'r' )
-			qtLibs = libPipe:read( '*line' )
-			libPipe:close()
-			QT_PATH = string.sub(qtLibs, 3, string.len(qtLibs) - 13)
+		local QT_PATH = os.getenv(qtEnv)
+		if QT_PATH == nil then
+			print ("The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets5.lua")
+			os.exit()
 		end
 
 		flatten( _mocfiles )
