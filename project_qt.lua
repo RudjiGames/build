@@ -41,15 +41,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 		qrcFiles	= 	{ os.matchfiles( project().path .. "src/**.qrc") }
 		tsFiles		= 	{ os.matchfiles( project().path .. "src/**.ts") }
 
-		if os.is("windows") then
-			extras = "WinExtras"
-		elseif os.is("linux") then
-			extras = "X11Extras"
-		else
-			extras = nil
-		end
-
-		libsToLink	=	{ "Core", "Gui", "Widgets", "Network", extras }
+		libsToLink	=	{ "Core", "Gui", "Widgets", "Network" }
 
 		addPCH( project().path .. "src/", project().name )
 

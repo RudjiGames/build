@@ -120,6 +120,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 				local destPath = binDir
 				destPath = string.gsub( destPath, "([/]+)", "\\" )
 
+				_libsToLink = mergeTables(_libsToLink, "WinExtras")
+
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
 					local source = QT_PATH .. '\\bin\\' .. libname
@@ -191,6 +193,9 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			configuration { _config }
 
 		else
+
+--			extras = "X11Extras"
+
 			-- should run this first (path may vary):
 			-- export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/user/Qt5.7.0/5.7/gcc_64/lib/pkgconfig
 			-- lfs support is required too: sudo luarocks install luafilesystem
