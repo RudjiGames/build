@@ -115,12 +115,12 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		if os.is("windows") then
 
+			_libsToLink = mergeTables(_libsToLink, "WinExtras")
+			
 			if _copyDynamicLibraries then
 
 				local destPath = binDir
 				destPath = string.gsub( destPath, "([/]+)", "\\" )
-
-				_libsToLink = mergeTables(_libsToLink, "WinExtras")
 
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
@@ -194,7 +194,11 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		else
 
---			extras = "X11Extras"
+			-- check if X11Extras is needed
+			local extrasLib = QT_PATH .. "lib/lib" .. QT_LIB_PREFIX .. "X11Extras.a"
+			if os.isfile(extrasLib) == true then
+				_libsToLink = mergeTables(_libsToLink, "X11Extras")
+			end
 
 			-- should run this first (path may vary):
 			-- export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/user/Qt5.7.0/5.7/gcc_64/lib/pkgconfig
@@ -206,17 +210,12 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			local libPipe = io.popen( qtLibs, 'r' )
 			local flagPipe= io.popen( qtFlags, 'r' )
 
-print("0000000000000000000000000000000000000000")
-print(qtFlags)
-print(qtLibs)
-			
+	
 			qtLibs = libPipe:read( '*line' )
 			qtFlags = flagPipe:read( '*line' )
 			libPipe:close()
 			flagPipe:close()
-print(qtFlags)
-print(qtLibs)
-print("0000000000000000000000000000000000000000")
+
 			configuration { _config }
 			buildoptions { qtFlags }
 			linkoptions { qtLibs }
