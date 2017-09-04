@@ -201,12 +201,17 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			local libPipe = io.popen( qtLibs, 'r' )
 			local flagPipe= io.popen( qtFlags, 'r' )
 
+print("0000000000000000000000000000000000000000")
+print(qtFlags)
+print(qtLibs)
+			
 			qtLibs = libPipe:read( '*line' )
 			qtFlags = flagPipe:read( '*line' )
 			libPipe:close()
 			flagPipe:close()
 print(qtFlags)
 print(qtLibs)
+print("0000000000000000000000000000000000000000")
 			configuration { _config }
 			buildoptions { qtFlags }
 			linkoptions { qtLibs }
