@@ -111,6 +111,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		local subDir = getTargetOS() .. "/" .. getTargetCompiler() .. pathAdd .. "/" 				
 		local binDir = RTM_BUILD_DIR .. subDir .. solution().name.. "/bin/"
 	
+		includedirs	{ QT_PATH .. "/include" }
+
 		if os.is("windows") then
 
 			if _copyDynamicLibraries then
@@ -158,14 +160,13 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			defines { "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
 
-			local libsDirectory = QT_PATH .. "/lib/"
+			local libsDirectory = QT_PATH .. "/lib"
 
 			configuration { _config }
 			libdirs { libsDirectory }
 
 			configuration { _config }
 
-			includedirs	{ QT_PATH .. "/include" }
 			includedirs	{ QT_PATH .. "/qtwinextras/include" }
 				
 			if _ACTION:find("vs") then
@@ -204,7 +205,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			qtFlags = flagPipe:read( '*line' )
 			libPipe:close()
 			flagPipe:close()
-
+print(qtFlags)
+print(qtLibs)
 			configuration { _config }
 			buildoptions { qtFlags }
 			linkoptions { qtLibs }
