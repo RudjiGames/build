@@ -162,7 +162,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			defines { "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
 
-			local libsDirectory = QT_PATH .. "/lib"
+			local libsDirectory = QT_PATH .. "/lib/"
 
 			configuration { _config }
 			libdirs { libsDirectory }
@@ -182,7 +182,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			for _, lib in ipairs( _libsToLink ) do
 				local libDebug = libsDirectory .. QT_LIB_PREFIX .. lib .. "d" -- .. ".lib"
 				local libRelease = libsDirectory .. QT_LIB_PREFIX .. lib -- .. ".lib"
-
 				configuration { "debug", _config }
 					links( libDebug )
 
