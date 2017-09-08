@@ -27,6 +27,9 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 	if WITH_QT then
 		qtAddedFiles = qtConfigure({ _subConfig, _configuration }, project().name, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
+	if EXTRA_CONFIG then
+		EXTRA_CONFIG()
+	end
 end
 
 function setConfig(_configuration)
@@ -64,9 +67,6 @@ configuration { "retail" }
 setConfig("retail")
 
 configuration {}
- if EXTRA_CONFIG then
-	 EXTRA_CONFIG()
- end
 
 function vpathFilter(_string, _find)
 
