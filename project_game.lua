@@ -20,7 +20,7 @@ function addProject_game(_name, _extraConfig)
 		project().path = getProjectPath(_name, ProjectPath.Dir)
 
 		local srcFilesPath = project().path .. "src/"
-print(srcFilesPath)
+		
 		local	sourceFiles = mergeTables(	{ srcFilesPath .. "**.cpp" },
 											{ srcFilesPath .. "**.h" } )
 		files  { sourceFiles }
