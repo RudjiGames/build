@@ -13,6 +13,7 @@ end
 
 RTM_SCRIPTS_DIR			= script_dir()
 RTM_ROOT_DIR			= path.getabsolute(RTM_SCRIPTS_DIR .. "../") .. "/"		-- project root
+RTM_THIRD_PARTY_DIR		= path.getabsolute(RTM_SCRIPTS_DIR .. "../") .. "/3rd/"
 RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
 
 local RTM_PROJECT_DIRS_LIST = {
