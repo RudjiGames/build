@@ -547,11 +547,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		binDir = libDir
 	end
 
-for _,tt in ipairs(_filter) do
-print(tt)
-end
-
-print(binDir)
 	configuration { _filter }
 		targetdir (binDir)
 		objdir (objDir)
