@@ -165,6 +165,15 @@ function getTargetOS()
 	if	(_OPTIONS["vs"] == "winstore82") then
 		return "winstore82"
 	end
+
+	if  (_OPTIONS["vs"]  == "orbis") or
+		(_OPTIONS["gcc"] == "orbis") then
+		return "orbis"
+	end
+
+	if (_OPTIONS["vs"]  == "durango") then
+		return "durango"
+	end
 	
 	-- visual studio - windows
 	-- gmake - mingw
@@ -180,14 +189,6 @@ function getTargetOS()
 		(_OPTIONS["vs"]  == "vs2017-xp") or
 		(_ACTION ~= nil and _ACTION:find("vs")) then
 		return "windows"
-	end
-
-	if (_OPTIONS["vs"]  == "orbis") then
-		return "orbis"
-	end
-
-	if (_OPTIONS["vs"]  == "durango") then
-		return "durango"
 	end
 
 	return "unknown"
@@ -248,7 +249,7 @@ function getTargetCompiler()
 	if	(_OPTIONS["gcc"] == "mingw-gcc")	then	return "mingw-gcc"		end
 	if	(_OPTIONS["gcc"] == "mingw-clang")	then	return "mingw-clang"	end
 	if (_ACTION ~= nil and _ACTION:find("vs")) then	return _ACTION			end
-	
+
 	return "unknown"
 end
 
@@ -301,7 +302,6 @@ function toolchain(_buildDir)
 	if _ACTION == "clean" then
 		rmdir(_buildDir)
 	end
-
 
 	if _OPTIONS["with-android"] then
 		androidTarget = _OPTIONS["with-android"]
@@ -437,11 +437,11 @@ function toolchain(_buildDir)
 				print("Set SCE_ORBIS_SDK_DIR environment variable.")
 			end
 
-			orbisToolchain = "$(SCE_ORBIS_SDK_DIR)/host_tools/bin/orbis-"
+			orbisToolchain = "\"$(SCE_ORBIS_SDK_DIR)/host_tools/bin/orbis-"
 
-			premake.gcc.cc  = orbisToolchain .. "clang"
-			premake.gcc.cxx = orbisToolchain .. "clang++"
-			premake.gcc.ar  = orbisToolchain .. "ar"
+			premake.gcc.cc  = orbisToolchain .. "clang\""
+			premake.gcc.cxx = orbisToolchain .. "clang++\""
+			premake.gcc.ar  = orbisToolchain .. "ar\""
 
 		elseif "rpi" == _OPTIONS["gcc"] then
 		end
@@ -489,7 +489,8 @@ function toolchain(_buildDir)
 					print("Set SCE_ORBIS_SDK_DIR environment variable.")
 				end
 				platforms { "Orbis" }
- 
+	 			premake.vstudio.toolset = "Clang"
+
 			elseif ("vs2012-xp") == _OPTIONS["vs"] then
 				premake.vstudio.toolset = ("v110_xp")
 
@@ -546,6 +547,11 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 		binDir = libDir
 	end
 
+for _,tt in ipairs(_filter) do
+print(tt)
+end
+
+print(binDir)
 	configuration { _filter }
 		targetdir (binDir)
 		objdir (objDir)
@@ -588,13 +594,13 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 	configuration { "vs2008", _filter }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
 
-	configuration { "x32", "vs*", _filter }
+	configuration { "x32", "vs*", "not orbis", _filter }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
 
-	configuration { "x64", "vs*", _filter }
+	configuration { "x64", "vs*", "not orbis", _filter }
 		defines { "RTM_WIN64", "RTM_WINDOWS", "_WIN64" }
 
-	configuration { "ARM", "vs*", _filter }
+	configuration { "ARM", "vs*", "not orbis", _filter }
 
 	configuration { "vs*-clang", _filter }
 		buildoptions {
@@ -1196,7 +1202,7 @@ function rappUsed(_filter, _binDir)
 		configuration {}
 	end
 
-	configuration { "vs*", _filter }
+	configuration { "vs*", "not orbis", _filter }
 		linkoptions {
 			"/ignore:4199", -- LNK4199: /DELAYLOAD:*.dll ignored; no imports found from *.dll
 		}
@@ -1204,7 +1210,7 @@ function rappUsed(_filter, _binDir)
 			"DelayImp",
 		}
 
-	configuration { "vs201*", _filter }
+	configuration { "vs201*", "not orbis", _filter }
 		linkoptions { -- this is needed only for testing with GLES2/3 on Windows with VS201x
 			"/DELAYLOAD:\"libEGL.dll\"",
 			"/DELAYLOAD:\"libGLESv2.dll\"",
@@ -1213,7 +1219,7 @@ function rappUsed(_filter, _binDir)
 	configuration { "mingw*", _filter }
 		targetextension ".exe"
 
-	configuration { "vs20* or mingw*", _filter }
+	configuration { "vs20* or mingw*", "not orbis", _filter }
 		links {
 			"gdi32",
 			"psapi",
@@ -1232,19 +1238,6 @@ function rappUsed(_filter, _binDir)
 		linkoptions {
 			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
 		}
-
-	-- WinRT targets need their own output directories or build files stomp over each other
-	configuration { "x32", "winphone8* or winstore8*", _filter }
-		targetdir (path.join(BGFX_BUILD_DIR, "win32_" .. _ACTION, "bin", _name))
-		objdir (path.join(BGFX_BUILD_DIR, "win32_" .. _ACTION, "obj", _name))
-
-	configuration { "x64", "winphone8* or winstore8*", _filter }
-		targetdir (path.join(BGFX_BUILD_DIR, "win64_" .. _ACTION, "bin", _name))
-		objdir (path.join(BGFX_BUILD_DIR, "win64_" .. _ACTION, "obj", _name))
-
-	configuration { "ARM", "winphone8* or winstore8*", _filter }
-		targetdir (path.join(BGFX_BUILD_DIR, "arm_" .. _ACTION, "bin", _name))
-		objdir (path.join(BGFX_BUILD_DIR, "arm_" .. _ACTION, "obj", _name))
 
 	configuration { "mingw-clang", _filter }
 		kind "ConsoleApp"

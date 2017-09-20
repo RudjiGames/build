@@ -33,9 +33,10 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 end
 
 function setConfig(_configuration)
-	setSubConfig("x32",		_configuration, false)
-	setSubConfig("x64",		_configuration, true)
-	setSubConfig("native",	_configuration, true)
+	local currPlatforms = platforms {}
+	for _,platform in ipairs(currPlatforms) do
+		setSubConfig(platform, _configuration, false)
+	end
 end
 
 configuration {}
