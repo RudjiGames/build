@@ -1214,6 +1214,9 @@ function rappUsed(_filter, _binDir)
 	configuration { "mingw*", _filter }
 		targetextension ".exe"
 
+	configuration { "orbis", _filter }
+		targetextension ".elf"
+		
 	configuration { "vs20* or mingw*", "not orbis", _filter }
 		links {
 			"gdi32",
