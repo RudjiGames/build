@@ -60,8 +60,8 @@ Flags_Cmd			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings",
 Flags_QtTool		= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings" }
 
 ExtraFlags_Debug	= { "Symbols" }
-ExtraFlags_Release	= { "Symbols", "OptimizeSpeed" }
-ExtraFlags_Retail	= { "OptimizeSpeed" }
+ExtraFlags_Release	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck", "Symbols" }
+ExtraFlags_Retail	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck" }
 
 --------------------------------------------------------
 -- utility functions to check for target compiler
