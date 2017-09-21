@@ -1036,6 +1036,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 			"-std=c++11",
 		}
 
+	configuration { "durango", _filter }
+		links {
+			"kernelx",
+		}
+
+
 	configuration { "rpi", _filter }
 		defines { "RTM_RPI" }
 		defines {
@@ -1196,7 +1202,7 @@ function rappUsed(_filter, _binDir)
 		configuration {}
 	end
 
-	configuration { "vs*", "not orbis", _filter }
+	configuration { "vs*", "not orbis", "not durango", _filter }
 		linkoptions {
 			"/ignore:4199", -- LNK4199: /DELAYLOAD:*.dll ignored; no imports found from *.dll
 		}
@@ -1204,7 +1210,7 @@ function rappUsed(_filter, _binDir)
 			"DelayImp",
 		}
 
-	configuration { "vs201*", "not orbis", _filter }
+	configuration { "vs201*", "not orbis", "not durango", _filter }
 		linkoptions { -- this is needed only for testing with GLES2/3 on Windows with VS201x
 			"/DELAYLOAD:\"libEGL.dll\"",
 			"/DELAYLOAD:\"libGLESv2.dll\"",
@@ -1216,7 +1222,7 @@ function rappUsed(_filter, _binDir)
 	configuration { "orbis", _filter }
 		targetextension ".elf"
 		
-	configuration { "vs20* or mingw*", "not orbis", _filter }
+	configuration { "vs20* or mingw*", "not orbis", "not durango", _filter }
 		links {
 			"gdi32",
 			"psapi",
