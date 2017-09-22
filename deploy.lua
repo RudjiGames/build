@@ -28,15 +28,6 @@ Permissions = {
 	WriteStorage		= {},
 }
 
-function prepareProjectDeployment(_filter, _binDir)
-	
-	if getTargetOS() == "android" then
-		prepareDeploymentAndroid(_filer, _binDir)
-		return
-	end
-
-end
-
 function convertImage(_src, _dst, _width, _height)
 	mkdir(path.getdirectory(_dst))
 
@@ -70,7 +61,7 @@ function cloneDir(_copySrc, _copyDst)
 	end
 end
 
-function cloneDirWithSed(_copySrc, _copyDst, _sedCmd)
+function cloneDirWithSed(_copySrc, _copyDst, _sedCmd, _rename)
 	srcFiles = os.matchfiles(_copySrc .. "**.*")
 
 	for _,srcFile in ipairs(srcFiles) do
@@ -88,18 +79,6 @@ function cloneDirWithSed(_copySrc, _copyDst, _sedCmd)
 	end
 end
 
--- Xbox one logo/splash dims
--- 56 x 56
--- 100 x 100
--- 208 x 208
--- 480 x 480
--- 1920 x 1080
-
-function prepareDeploymentXb1(_filter, _binDir)
-end
-
-
-
 function sedGetBinary()
 	if os.is("windows") then
 		return path.getabsolute(script_dir() .. "/tools/windows/sed.exe")
@@ -109,11 +88,23 @@ end
 
 function sedAppendReplace(_str, _search, _replace, _last)
 	_last = _last or false
+	_replace = string.gsub(_replace, "/", "\\/")
 	_str = _str .. "s/" .. _search .. "/" .. _replace .. "/g"
 	if _last == false then
 		_str = _str .. ';'
 	end
 	return _str
+end
+
+function prepareProjectDeployment(_filter, _binDir)
+	
+	if getTargetOS() == "android" then
+		prepareDeploymentAndroid(_filer, _binDir)	return
+	end
+
+	if getTargetOS() == "durango" then
+		prepareDeploymentDurango(_filer, _binDir)	return
+	end
 end
 
 function prepareDeploymentAndroid(_filter, _binDir)
@@ -156,5 +147,52 @@ function prepareDeploymentAndroid(_filter, _binDir)
 	convertImage(logoSource, copyDst .. "res/drawable-xxxhdpi/icon.png",	192, 192)
 
 	-- dodati post build command prema filteru
+end
+
+-- Xbox one logo/splash dims
+-- 56 x 56
+-- 100 x 100
+-- 208 x 208
+-- 480 x 480
+-- 1920 x 1080
+
+function prepareDeploymentDurango(_filter, _binDir)
+	local copyDst = RTM_LOCATION_PATH .. "/" .. project().name .. "/"
+	local copySrc = script_dir() .. "deploy/durango/"
+
+	mkdir(copyDst)
+
+	local desc = getProjectDesc(project().name)
+	
+	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
+	desc.longname  = string.gsub(desc.longname, "_", "")
+
+	local logoWide   = path.getname(desc.logowide)
+	local logoSquare = path.getname(desc.logosquare)
+	
+	os.copyfile(desc.logowide,   copyDst .. logoWide)
+	os.copyfile(desc.logosquare, copyDst .. logoSquare)
+	
+	local sedCmd = sedGetBinary() .. " -e " .. '"'
+
+	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_COMPANY@@",	desc.publisher.company)
+	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_ORG@@",		desc.publisher.organization)
+	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_LOCATION@@",	desc.publisher.location)
+	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_STATE@@",	desc.publisher.state)
+	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_COUNTRY@@",	desc.publisher.country)
+	sedCmd = sedAppendReplace(sedCmd, "@@VERSION@@",			desc.version)
+	sedCmd = sedAppendReplace(sedCmd, "@@SHORT_NAME@@",			desc.shortname)
+	sedCmd = sedAppendReplace(sedCmd, "@@LONG_NAME@@",			desc.longname)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO@@",				logoWide)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_SQUARE@@",		logoSquare)
+	sedCmd = sedAppendReplace(sedCmd, "@@DESCRIPTION@@",		desc.description, true)
+
+	sedCmd = sedCmd .. '" '
+
+	cloneDirWithSed(copySrc, copyDst, sedCmd)
+	
+	files { copyDst .. "Appxmanifest.xml" }
+	files { copyDst .. "Package.appxmanifest" }
+
 end
 

@@ -14,6 +14,7 @@ end
 RTM_SCRIPTS_DIR			= script_dir()
 RTM_ROOT_DIR			= path.getabsolute(RTM_SCRIPTS_DIR .. "../") .. "/"		-- project root
 RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
+RTM_LOCATION_PATH		= ""													-- solution/makefile/etc.
 
 local RTM_PROJECT_DIRS_LIST = {
 	"",
@@ -184,9 +185,17 @@ function getProjectDesc(_name)
 	end
 	-- no project desc (sample, test, etc.); return default
 	return {
-		version		= "1.0",
+		version		= "1.0.0.0",	-- quad format for durango support
+		publisher	= {
+			company			= "RTM",
+			organization	= "RTM",
+			location		= "Belgrade",
+			state			= "Serbia",
+			country			= "Serbia",
+		},
 		shortname	= _name,
 		longname	= _name,
+		description	= _name .. " description",
 		logosquare	= RTM_SCRIPTS_DIR .. "deploy/res/logo_square.png",	-- should be no less than 480x480 (xb1)
 		logowide	= RTM_SCRIPTS_DIR .. "deploy/res/logo_wide.png"		-- should be no less than 1920x1080
 	}

@@ -296,6 +296,7 @@ function toolchain(_buildDir)
 
 	local fullLocation = getLocationDir(_buildDir)
 
+	RTM_LOCATION_PATH = fullLocation
 	location (fullLocation)
 	mkdir(fullLocation)
 
@@ -1038,9 +1039,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 
 	configuration { "durango", _filter }
 		links {
-			"kernelx",
+			"kernelx"
 		}
-
 
 	configuration { "rpi", _filter }
 		defines { "RTM_RPI" }
@@ -1312,8 +1312,6 @@ function rappUsed(_filter, _binDir)
 
 	if _OPTIONS["no-deploy"] == nil then
 		prepareProjectDeployment(_filter, _binDir)
-	end
-	
-	configuration {}
-
+	end		
 end
+
