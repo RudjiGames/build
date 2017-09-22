@@ -104,12 +104,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			table.insert(addedFiles, tsAbsolutePath)
 		end				
 
-		local pathAdd = ""
-		for _,dir in ipairs(_config) do
-			pathAdd = pathAdd .. "/" .. dir
-		end
-		local subDir = getTargetOS() .. "/" .. getTargetCompiler() .. pathAdd .. "/" 				
-		local binDir = RTM_BUILD_DIR .. subDir .. solution().name.. "/bin/"
+		local subDir = getLocationDir()
+		local binDir = getBuildDirRoot(_config)
 	
 		includedirs	{ QT_PATH .. "/include" }
 
@@ -120,12 +116,12 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			if _copyDynamicLibraries then
 
 				local destPath = binDir
-				destPath = string.gsub( destPath, "([/]+)", "\\" )
+				destPath = string.gsub( destPath, "([/]+)", "\\" ) .. '\\bin\\'
 
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
 					local source = QT_PATH .. '\\bin\\' .. libname
-					local dest = destPath .. libname
+					local dest = destPath .. "\\" .. libname
 
 					if not os.isdir(destPath) then
 						mkdir(destPath)

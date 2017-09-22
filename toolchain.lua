@@ -239,7 +239,7 @@ function getTargetCompiler()
 	if (_OPTIONS["vs"]  == "orbis")			then	return "orbis-clang"	end
 
 	-- visuul studio - durango
-	if (_OPTIONS["vs"]  == "durango")		then	return "durango"		end
+	if (_OPTIONS["vs"]  == "durango")		then	return _ACTION			end
 
 	-- visual studio - multi
 	if	(_OPTIONS["vs"] ~= nil)				then	return _OPTIONS["vs"]	end
@@ -284,24 +284,36 @@ function rmdir(_dirname)
 	end
 end
 
-function getLocationDir(_buildDir)
-	local locationDir = getTargetOS() .. "/" .. getTargetCompiler() .. "/projects/" .. solution().name .. "/"
-	return path.join(_buildDir, locationDir)
+function getSolutionBaseDir()
+	local locationDir = getTargetOS() .. "/" .. getTargetCompiler() .. "/" .. solution().name
+	return path.join(RTM_BUILD_DIR, locationDir)
 end
 
-function toolchain(_buildDir)
+function getLocationDir()
+	return getSolutionBaseDir() .. "/projects/"
+end
+
+function getBuildDirRoot(_filter)
+	local pathAdd = ""
+	for _,dir in ipairs(_filter) do
+		pathAdd = pathAdd .. "/" .. dir
+	end
+	return getSolutionBaseDir() .. "/" .. pathAdd .. "/"
+end
+
+function toolchain()
 
 	-- Avoid error when invoking genie --help.
 	if (_ACTION == nil) then return false end
 
-	local fullLocation = getLocationDir(_buildDir)
+	local fullLocation = getLocationDir()
 
 	RTM_LOCATION_PATH = fullLocation
 	location (fullLocation)
 	mkdir(fullLocation)
 
 	if _ACTION == "clean" then
-		rmdir(_buildDir)
+		rmdir(RTM_BUILD_DIR)
 	end
 
 	if _OPTIONS["with-android"] then
@@ -521,15 +533,6 @@ function toolchain(_buildDir)
 	configuration {} -- reset configuration
 
 	return true
-end
-
-function getBuildDirRoot(_filter)
-	local pathAdd = ""
-	for _,dir in ipairs(_filter) do
-		pathAdd = pathAdd .. "/" .. dir
-	end
-	local subDir = getTargetOS() .. "/" .. getTargetCompiler() .. pathAdd .. "/"
-	return RTM_BUILD_DIR .. subDir .. solution().name.. "/"
 end
 
 function commonConfig(_filter, _isLib, _isSharedLib, _executable)

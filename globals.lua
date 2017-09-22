@@ -91,7 +91,7 @@ function setPlatforms()
 
 	configuration {}
 
-	if not toolchain(RTM_BUILD_DIR) then
+	if not toolchain() then
 		return -- no action specified
 	end 
 
