@@ -66,11 +66,11 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
 																	_extraConfig, 
-																	false,	-- IS_LIBRARY
-																	false,	-- IS_SHARED_LIBRARY
-																	true,	-- COPY_QT_DLLS
-																	true,	-- WITH_QT
-																	false	-- WITH_RAPP
+																	false,					-- IS_LIBRARY
+																	false,					-- IS_SHARED_LIBRARY
+																	true,					-- COPY_QT_DLLS
+																	true,					-- WITH_QT
+																	_libProjNotExe == false -- EXECUTABLE
 																	)
 
 		configuration {"windows", "x32", "not gmake" }

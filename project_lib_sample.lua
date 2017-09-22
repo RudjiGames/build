@@ -46,7 +46,7 @@ function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
-																	true	-- WITH_RAPP
+																	true	-- EXECUTABLE
 																	)
 
 		addDependencies(_lib, { "rapp", _lib })		

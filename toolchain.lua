@@ -532,7 +532,7 @@ function getBuildDirRoot(_filter)
 	return RTM_BUILD_DIR .. subDir .. solution().name.. "/"
 end
 
-function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
+function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration {}
 	
@@ -1070,7 +1070,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _rappUsed)
 
 	configuration {}
 
-	if _rappUsed == true then
+	if _executable == true then
 		rappUsed(_filter, binDir)
 	end
 end

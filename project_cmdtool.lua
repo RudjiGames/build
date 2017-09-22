@@ -32,7 +32,7 @@ function addProject_cmd(_name, _extraConfig)
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
-																	true	-- WITH_RAPP
+																	true	-- EXECUTABLE
 																	)
 
 		addDependencies(_name)

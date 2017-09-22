@@ -82,7 +82,7 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 																	_shared,	-- IS_SHARED_LIBRARY
 																	false,		-- COPY_QT_DLLS
 																	false,		-- WITH_QT
-																	false		-- WITH_RAPP
+																	false		-- EXECUTABLE
 																	)
 
 		for _,cmd in ipairs( _prebuildcmds ) do

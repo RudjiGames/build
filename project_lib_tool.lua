@@ -30,7 +30,7 @@ function addProject_lib_tool(_lib, _name, _extraConfig)
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
-																	false	-- WITH_RAPP
+																	false	-- EXECUTABLE
 																	)
 
 		links { _lib }

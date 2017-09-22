@@ -11,14 +11,14 @@ local IS_LIBRARY		= params[3] or false
 local IS_SHARED_LIBRARY	= params[4] or false
 local COPY_QT_DLLS		= params[5] or false
 local WITH_QT			= params[6] or false
-local WITH_RAPP			= params[7] or false
+local EXECUTABLE		= params[7] or false
 
 dofile (RTM_SCRIPTS_DIR .. "embedded_files.lua")
 dofile (RTM_SCRIPTS_DIR .. "qtpresets5.lua")
 dofile (RTM_SCRIPTS_DIR .. "toolchain.lua")
 
 function setSubConfig(_subConfig, _configuration, _is64bit)
-	commonConfig({ _subConfig, _configuration }, IS_LIBRARY, IS_SHARED_LIBRARY, WITH_RAPP)
+	commonConfig({ _subConfig, _configuration }, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)
 	shaderConfigure({ _subConfig, _configuration }, project().name, shaderFiles)
 	local prefix = ""
 	if _configuration == "debug" then

@@ -32,6 +32,6 @@ function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _addi
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
-																	false	-- WITH_RAPP
+																	false	-- EXECUTABLE
 																	)
 end
