@@ -84,7 +84,9 @@ function setPlatforms()
 	if actionUsesXcode() then
 		platforms { "Universal" }
 	elseif actionUsesMSVC() then
-		platforms { "x32", "x64" }
+		if not getTargetOS() == "durango" and not getTargetOS() == "orbis" then -- durango and orbis add their own platforms
+			platforms { "x32", "x64" }
+		end
 	else
 		platforms { "x32", "x64", "native" }
 	end
