@@ -167,11 +167,17 @@ function prepareDeploymentDurango(_filter, _binDir)
 	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
 	desc.longname  = string.gsub(desc.longname, "_", "")
 
-	local logoWide   = path.getname(desc.logowide)
-	local logoSquare = path.getname(desc.logosquare)
-	
-	os.copyfile(desc.logowide,   copyDst .. logoWide)
-	os.copyfile(desc.logosquare, copyDst .. logoSquare)
+	local logoSquare_056	= path.getname(desc.logo_square_0056)
+	local logoSquare_100	= path.getname(desc.logo_square_0100)
+	local logoSquare_208	= path.getname(desc.logo_square_0208)
+	local logoSquare_480	= path.getname(desc.logo_square_0480)
+	local logoWide			= path.getname(desc.logo_wide_1920)
+
+	os.copyfile(desc.logo_wide_1920,   copyDst .. logoWide)
+	os.copyfile(desc.logo_square_0056, copyDst .. logoSquare_056)
+	os.copyfile(desc.logo_square_0100, copyDst .. logoSquare_100)
+	os.copyfile(desc.logo_square_0208, copyDst .. logoSquare_208)
+	os.copyfile(desc.logo_square_0480, copyDst .. logoSquare_480)
 	
 	local sedCmd = sedGetBinary() .. " -e " .. '"'
 
@@ -183,8 +189,11 @@ function prepareDeploymentDurango(_filter, _binDir)
 	sedCmd = sedAppendReplace(sedCmd, "@@VERSION@@",			desc.version)
 	sedCmd = sedAppendReplace(sedCmd, "@@SHORT_NAME@@",			desc.shortname)
 	sedCmd = sedAppendReplace(sedCmd, "@@LONG_NAME@@",			desc.longname)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO@@",				logoWide)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_SQUARE@@",		logoSquare)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_56@@",			logoSquare_056)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_100@@",			logoSquare_100)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_208@@",			logoSquare_208)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_480@@",			logoSquare_480)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_1920@@",			logoWide)
 	sedCmd = sedAppendReplace(sedCmd, "@@DESCRIPTION@@",		desc.description, true)
 
 	sedCmd = sedCmd .. '" '
