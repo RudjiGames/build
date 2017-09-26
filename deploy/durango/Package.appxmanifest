@@ -7,8 +7,8 @@
 
   <Properties>
     <DisplayName>@@LONG_NAME@@</DisplayName>
-    <PublisherDisplayName>@@PUBLISHER@@</PublisherDisplayName>
-    <Logo>@@LOGO@@</Logo>
+    <PublisherDisplayName>@@PUBLISHER_COMPANY@@</PublisherDisplayName>
+    <Logo>@@LOGO_208@@</Logo>
     <Description>@@DESCRIPTION@@</Description>
   </Properties>
   
@@ -32,12 +32,13 @@
             <!--- all fields except DisplayName not yet implemented -->
             <VisualElements
                 DisplayName="@@LONG_NAME@@"
-                Logo="@@LOGO@@"
-                SmallLogo="@@LOGO_SQUARE@@"
+                Logo="@@LOGO_208@@"
+                SmallLogo="@@LOGO_100@@"
                 Description="@@DESCRIPTION@@"
                 ForegroundText="dark"
                 BackgroundColor="#000040">
-                <SplashScreen Image="@@LOGO@@" />
+                <SplashScreen Image="@@LOGO_1920@@" />
+                <DefaultTile WideLogo="@@LOGO_480@@" />
             </VisualElements>
         </Application>
 
