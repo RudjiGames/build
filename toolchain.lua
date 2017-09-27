@@ -891,7 +891,13 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		includedirs {
 			path.join(getProjectPath("rbase"), "inc/compat/msvc"),
 		}
-		removeflags { "StaticRuntime" }
+		removeflags { 
+			"StaticRuntime", 
+			"NoExceptions" 
+		}
+		buildoptions { "/EHsc /await /std:c++latest" }
+		linkoptions { "/ignore:4264" }
+
 
 	configuration { "Xbox360", _filter }
 		defines { "RTM_XBOX360" }
@@ -1042,6 +1048,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "durango", _filter }
 		links {
+			"d3d11_x",
+			"d3d12_x",
+			"combase",
 			"kernelx"
 		}
 

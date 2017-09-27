@@ -26,7 +26,7 @@
         <!--- Debug config -->
         <!--- 'Id' is in the aumid returned from deploy  -->
         <!--- 'Executable' must match the .exe produced by the build  -->
-        <Application Id="@@SHORT_NAME@@Debug"
+        <Application Id="@@SHORT_NAME@@"
         Executable="$targetnametoken$.exe"
             EntryPoint="@@SHORT_NAME@@.App">
             <!--- all fields except DisplayName not yet implemented -->
@@ -45,7 +45,7 @@
         <!--- Release config -->
         <!--- 'Id' is in the aumid returned from deploy  -->
         <!--- 'Executable' must match the .exe produced by the build  -->
-        <Application Id="@@SHORT_NAME@@Release"
+        <Application Id="@@SHORT_NAME@@"
         Executable="$targetnametoken$.exe"
             EntryPoint="@@SHORT_NAME@@.App">
             <!--- all fields except DisplayName not yet implemented -->
@@ -64,7 +64,7 @@
         <!--- Retail config -->
         <!--- 'Id' is in the aumid returned from deploy  -->
         <!--- 'Executable' must match the .exe produced by the build  -->
-        <Application Id="@@SHORT_NAME@@Retail"
+        <Application Id="@@SHORT_NAME@@"
         Executable="$targetnametoken$.exe"
             EntryPoint="@@SHORT_NAME@@.App">
             <!--- all fields except DisplayName not yet implemented -->

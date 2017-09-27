@@ -49,6 +49,6 @@ function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
 																	true	-- EXECUTABLE
 																	)
 
-		addDependencies(_lib, { "rapp", _lib })		
+		addDependencies(_lib, { "rapp", _lib })
 end
 

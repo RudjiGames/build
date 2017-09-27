@@ -157,7 +157,7 @@ end
 -- 1920 x 1080
 
 function prepareDeploymentDurango(_filter, _binDir)
-	local copyDst = RTM_LOCATION_PATH .. "/" .. project().name .. "/"
+	local copyDst = RTM_LOCATION_PATH .. "/" .. project().name .. "/" .. "Image/Loose/"
 	local copySrc = script_dir() .. "deploy/durango/"
 
 	mkdir(copyDst)
@@ -165,7 +165,6 @@ function prepareDeploymentDurango(_filter, _binDir)
 	local desc = getProjectDesc(project().name)
 	
 	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
-	desc.longname  = string.gsub(desc.longname, "_", "")
 
 	local logoSquare_056	= path.getname(desc.logo_square_0056)
 	local logoSquare_100	= path.getname(desc.logo_square_0100)
