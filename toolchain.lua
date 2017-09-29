@@ -1047,6 +1047,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 
 	configuration { "durango", _filter }
+		defines { "NOMINMAX" }
 		links {
 			"d3d11_x",
 			"d3d12_x",
