@@ -1049,7 +1049,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"ScePosix_stub_weak",
 			"ScePad_stub_weak",
 			"SceMouse_stub_weak",
-			"SceSysmodule_stub_weak"
+			"SceSysmodule_stub_weak",
+			"SceUserService_stub_weak",
+			"SceIme_stub_weak"
 		}
 
 	configuration { "durango", _filter }
