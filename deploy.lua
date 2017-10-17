@@ -102,7 +102,11 @@ function prepareProjectDeployment(_filter, _binDir)
 		prepareDeploymentAndroid(_filer, _binDir)	return
 	end
 
-	if getTargetOS() == "durango" then
+	if  getTargetOS() == "durango"		or
+		getTargetOS() == "winphone8"	or
+		getTargetOS() == "winphone81"	or
+		getTargetOS() == "winstore81"	or
+		getTargetOS() == "winstore82"	then
 		prepareDeploymentDurango(_filer, _binDir)	return
 	end
 end
