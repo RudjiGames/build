@@ -33,13 +33,12 @@ function convertImage(_src, _dst, _width, _height)
 
 	local sss = path.getabsolute(script_dir() .. "/tools/")
 	if os.is("windows") then
-		sss = sss .. "windows/imageconv.exe"
+		sss = sss .. "/windows/imageconv.exe"
 	elseif os.is("linux") then
-		sss = sss .. "linux/imageconv"
+		sss = sss .. "/linux/imageconv"
 	elseif os.is("osx") then
-		sss = sss .. "darwin/imageconv"
+		sss = sss .. "/darwin/imageconv"
 	end
-
 	os.execute(sss .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
 end
 
@@ -161,7 +160,7 @@ end
 -- 1920 x 1080
 
 function prepareDeploymentWinRT(_filter, _binDir)
-	local copyDst = RTM_LOCATION_PATH .. "/" .. project().name .. "/" .. "Image/Loose/"
+	local copyDst = RTM_LOCATION_PATH .. project().name .. "/" .. "Image/Loose/"
 	local copySrc = script_dir() .. "deploy/durango/"
 
 	if	getTargetOS() == "winphone8"	or
@@ -175,17 +174,14 @@ function prepareDeploymentWinRT(_filter, _binDir)
 	
 	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
 
-	local logoSquare_056	= path.getname(desc.logo_square_0056)
-	local logoSquare_100	= path.getname(desc.logo_square_0100)
-	local logoSquare_208	= path.getname(desc.logo_square_0208)
-	local logoSquare_480	= path.getname(desc.logo_square_0480)
-	local logoWide			= path.getname(desc.logo_wide_1920)
-
-	os.copyfile(desc.logo_wide_1920,   copyDst .. logoWide)
-	os.copyfile(desc.logo_square_0056, copyDst .. logoSquare_056)
-	os.copyfile(desc.logo_square_0100, copyDst .. logoSquare_100)
-	os.copyfile(desc.logo_square_0208, copyDst .. logoSquare_208)
-	os.copyfile(desc.logo_square_0480, copyDst .. logoSquare_480)
+	local logoSquare	= copyDst .. path.getbasename(desc.logo_square)
+	local logoWide		= copyDst .. path.getbasename(desc.logo_wide)
+	
+	convertImage(desc.logo_wide,   logoWide   .. ".png",       1920, 1080)
+	convertImage(desc.logo_square, logoSquare .. "56.png",       56,   56)
+	convertImage(desc.logo_square, logoSquare .. "100.png",     100,  100)
+	convertImage(desc.logo_square, logoSquare .. "208.png",     208,  208)
+	convertImage(desc.logo_square, logoSquare .. "480.png",     480,  480)
 	
 	local sedCmd = sedGetBinary() .. " -e " .. '"'
 
@@ -197,10 +193,10 @@ function prepareDeploymentWinRT(_filter, _binDir)
 	sedCmd = sedAppendReplace(sedCmd, "@@VERSION@@",			desc.version)
 	sedCmd = sedAppendReplace(sedCmd, "@@SHORT_NAME@@",			desc.shortname)
 	sedCmd = sedAppendReplace(sedCmd, "@@LONG_NAME@@",			desc.longname)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_56@@",			logoSquare_056)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_100@@",			logoSquare_100)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_208@@",			logoSquare_208)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_480@@",			logoSquare_480)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_56@@",			logoSquare .. "56.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_100@@",			logoSquare .. "100.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_208@@",			logoSquare .. "208.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_480@@",			logoSquare .. "480.png")
 	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_1920@@",			logoWide)
 	sedCmd = sedAppendReplace(sedCmd, "@@DESCRIPTION@@",		desc.description, true)
 

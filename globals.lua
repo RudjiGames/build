@@ -204,12 +204,8 @@ function getProjectDesc(_name)
 		shortname			= _name,
 		longname			= _name,
 		description			= _name .. " description",
-		logo_square_0056	= RTM_SCRIPTS_DIR .. "deploy/res/logo_square_0056.png",
-		logo_square_0100	= RTM_SCRIPTS_DIR .. "deploy/res/logo_square_0100.png",
-		logo_square_0208	= RTM_SCRIPTS_DIR .. "deploy/res/logo_square_0208.png",
-		logo_square_0480	= RTM_SCRIPTS_DIR .. "deploy/res/logo_square_0480.png",
-		logo_square_1024	= RTM_SCRIPTS_DIR .. "deploy/res/logo_square_1024.png",
-		logo_wide_1920		= RTM_SCRIPTS_DIR .. "deploy/res/logo_wide_1920.png"
+		logo_square			= RTM_SCRIPTS_DIR .. "deploy/res/logo_square.png",
+		logo_wide			= RTM_SCRIPTS_DIR .. "deploy/res/logo_wide.png"
 	}
 end
 
