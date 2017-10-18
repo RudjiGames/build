@@ -88,8 +88,9 @@ function setPlatforms()
 			not (getTargetOS() == "orbis")		and
 			not (getTargetOS() == "winphone8")	and
 			not (getTargetOS() == "winphone81")	and
-			not (getTargetOS() == "winstore81")	and
-			not (getTargetOS() == "winstore82") then -- these platforms set their own platform config
+--			not (getTargetOS() == "winstore81")	and
+--			not (getTargetOS() == "winstore82") 
+			then -- these platforms set their own platform config
 			platforms { "x32", "x64" }
 		end
 	else
