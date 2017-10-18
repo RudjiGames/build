@@ -1243,7 +1243,7 @@ function rappUsed(_filter, _binDir)
 	configuration { "orbis", _filter }
 		targetextension ".elf"
 		
-	configuration { "vs20* or mingw*", "not orbis", "not durango", _filter }
+	configuration { "vs20* or mingw*", "not orbis", "not durango", "not winphone*", _filter }
 		links {
 			"gdi32",
 			"psapi",
