@@ -8,7 +8,7 @@
   <Properties>
     <DisplayName>@@LONG_NAME@@</DisplayName>
     <PublisherDisplayName>@@PUBLISHER_COMPANY@@</PublisherDisplayName>
-    <Logo>@@LOGO_208@@</Logo>
+    <Logo>@@LOGO_50@@</Logo>
     <Description>@@DESCRIPTION@@</Description>
   </Properties>
   
@@ -32,13 +32,13 @@
             <!--- all fields except DisplayName not yet implemented -->
             <VisualElements
                 DisplayName="@@LONG_NAME@@"
-                Logo="@@LOGO_208@@"
-                SmallLogo="@@LOGO_100@@"
+                Logo="@@LOGO_150@@"
+                SmallLogo="@@LOGO_44@@"
                 Description="@@DESCRIPTION@@"
                 ForegroundText="dark"
                 BackgroundColor="#000040">
-                <SplashScreen Image="@@LOGO_1920@@" />
-                <DefaultTile WideLogo="@@LOGO_480@@" />
+                <SplashScreen Image="@@LOGO_620@@" />
+                <DefaultTile WideLogo="@@LOGO_1920@@" />
             </VisualElements>
         </Application>
 
@@ -51,13 +51,13 @@
             <!--- all fields except DisplayName not yet implemented -->
             <VisualElements
                 DisplayName="@@LONG_NAME@@"
-                Logo="@@LOGO_208@@"
-                SmallLogo="@@LOGO_100@@"
+                Logo="@@LOGO_150@@"
+                SmallLogo="@@LOGO_44@@"
                 Description="@@DESCRIPTION@@"
                 ForegroundText="dark"
                 BackgroundColor="#000040">
-                <SplashScreen Image="@@LOGO_1920@@" />
-                <DefaultTile WideLogo="@@LOGO_480@@" />
+                <SplashScreen Image="@@LOGO_620@@" />
+                <DefaultTile WideLogo="@@LOGO_1920@@" />
             </VisualElements>
         </Application>
 
@@ -70,13 +70,13 @@
             <!--- all fields except DisplayName not yet implemented -->
             <VisualElements
                 DisplayName="@@LONG_NAME@@"
-                Logo="@@LOGO_208@@"
-                SmallLogo="@@LOGO_100@@"
+                Logo="@@LOGO_150@@"
+                SmallLogo="@@LOGO_44@@"
                 Description="@@DESCRIPTION@@"
                 ForegroundText="dark"
                 BackgroundColor="#000040">
-                <SplashScreen Image="@@LOGO_1920@@" />
-                <DefaultTile WideLogo="@@LOGO_480@@" />
+                <SplashScreen Image="@@LOGO_620@@" />
+                <DefaultTile WideLogo="@@LOGO_1920@@" />
             </VisualElements>
         </Application>
 

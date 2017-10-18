@@ -167,21 +167,21 @@ function prepareDeploymentWinRT(_filter, _binDir)
 		getTargetOS() == "winphone81"	then
 		copySrc = script_dir() .. "deploy/winphone/"
 	end
-
+	
 	mkdir(copyDst)
 
 	local desc = getProjectDesc(project().name)
 	
 	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
 
-	local logoSquare	= copyDst .. path.getbasename(desc.logo_square)
-	local logoWide		= copyDst .. path.getbasename(desc.logo_wide)
+	local logoSquare	= path.getbasename(desc.logo_square)
+	local logoWide		= path.getbasename(desc.logo_wide)
 	
-	convertImage(desc.logo_wide,   logoWide   .. ".png",       1920, 1080)
-	convertImage(desc.logo_square, logoSquare .. "56.png",       56,   56)
-	convertImage(desc.logo_square, logoSquare .. "100.png",     100,  100)
-	convertImage(desc.logo_square, logoSquare .. "208.png",     208,  208)
-	convertImage(desc.logo_square, logoSquare .. "480.png",     480,  480)
+	convertImage(desc.logo_wide,   copyDst .. logoWide   .. "1920.png",   1920, 1080)
+	convertImage(desc.logo_wide,   copyDst .. logoWide   .. "620.png",     620,  300)
+	convertImage(desc.logo_square, copyDst .. logoSquare .. "44.png",       44,   44)
+	convertImage(desc.logo_square, copyDst .. logoSquare .. "50.png",       50,   50)
+	convertImage(desc.logo_square, copyDst .. logoSquare .. "150.png",     150,  150)
 	
 	local sedCmd = sedGetBinary() .. " -e " .. '"'
 
@@ -193,11 +193,11 @@ function prepareDeploymentWinRT(_filter, _binDir)
 	sedCmd = sedAppendReplace(sedCmd, "@@VERSION@@",			desc.version)
 	sedCmd = sedAppendReplace(sedCmd, "@@SHORT_NAME@@",			desc.shortname)
 	sedCmd = sedAppendReplace(sedCmd, "@@LONG_NAME@@",			desc.longname)
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_56@@",			logoSquare .. "56.png")
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_100@@",			logoSquare .. "100.png")
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_208@@",			logoSquare .. "208.png")
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_480@@",			logoSquare .. "480.png")
-	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_1920@@",			logoWide)
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_44@@",			logoSquare .. "44.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_50@@",			logoSquare .. "50.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_150@@",			logoSquare .. "150.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_620@@",			logoWide .. "620.png")
+	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_1920@@",			logoWide .. "1920.png")
 	sedCmd = sedAppendReplace(sedCmd, "@@DESCRIPTION@@",		desc.description, true)
 
 	sedCmd = sedCmd .. '" '
