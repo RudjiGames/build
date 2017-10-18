@@ -87,7 +87,7 @@ function setPlatforms()
 		if  not (getTargetOS() == "durango")	and 
 			not (getTargetOS() == "orbis")		and
 			not (getTargetOS() == "winphone8")	and
-			not (getTargetOS() == "winphone81")	and
+			not (getTargetOS() == "winphone81")	
 --			not (getTargetOS() == "winstore81")	and
 --			not (getTargetOS() == "winstore82") 
 			then -- these platforms set their own platform config
