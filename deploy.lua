@@ -107,7 +107,7 @@ function prepareProjectDeployment(_filter, _binDir)
 		getTargetOS() == "winphone81"	or
 		getTargetOS() == "winstore81"	or
 		getTargetOS() == "winstore82"	then
-		prepareDeploymentDurango(_filer, _binDir)	return
+		prepareDeploymentWinRT(_filer, _binDir)	return
 	end
 end
 
@@ -160,9 +160,14 @@ end
 -- 480 x 480
 -- 1920 x 1080
 
-function prepareDeploymentDurango(_filter, _binDir)
+function prepareDeploymentWinRT(_filter, _binDir)
 	local copyDst = RTM_LOCATION_PATH .. "/" .. project().name .. "/" .. "Image/Loose/"
 	local copySrc = script_dir() .. "deploy/durango/"
+
+	if	getTargetOS() == "winphone8"	or
+		getTargetOS() == "winphone81"	then
+		copySrc = script_dir() .. "deploy/winphone/"
+	end
 
 	mkdir(copyDst)
 
