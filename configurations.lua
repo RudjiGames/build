@@ -12,6 +12,7 @@ local IS_SHARED_LIBRARY	= params[4] or false
 local COPY_QT_DLLS		= params[5] or false
 local WITH_QT			= params[6] or false
 local EXECUTABLE		= params[7] or false
+local PROJECT_NAME		= params[8] or project().name
 
 dofile (RTM_SCRIPTS_DIR .. "embedded_files.lua")
 dofile (RTM_SCRIPTS_DIR .. "qtpresets5.lua")
@@ -19,13 +20,13 @@ dofile (RTM_SCRIPTS_DIR .. "toolchain.lua")
 
 function setSubConfig(_subConfig, _configuration, _is64bit)
 	commonConfig({ _subConfig, _configuration }, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)
-	shaderConfigure({ _subConfig, _configuration }, project().name, shaderFiles)
+	shaderConfigure({ _subConfig, _configuration }, PROJECT_NAME, shaderFiles)
 	local prefix = ""
 	if _configuration == "debug" then
 		prefix = "d"
 	end
 	if WITH_QT then
-		qtAddedFiles = qtConfigure({ _subConfig, _configuration }, project().name, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
+		qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
 	if EXTRA_CONFIG then
 		EXTRA_CONFIG()
@@ -168,7 +169,7 @@ for _,srcFilePattern in ipairs(SOURCE_FILES) do
 			string.endswith(srcFile, ".cc")		or
 			string.endswith(srcFile, ".cpp")	then
 			if not filtered then
-				vpaths { [vpathFilter(srcFile, project().name)]		= srcFile }
+				vpaths { [vpathFilter(srcFile, PROJECT_NAME)]		= srcFile }
 			end
 		end
 	end

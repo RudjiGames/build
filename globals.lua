@@ -214,10 +214,36 @@ ProjectPath = {
 	Root	= {}
 }
 
+function istable(_var)
+	return type(_var) == "table"
+end
+
+function getProjectBaseName(_projectName)
+	if istable(_projectName) then
+		for _,name in ipairs(_projectName) do
+			return name
+		end
+	end
+	return _projectName
+end
+
+function getProjectFullName(_projectName)
+	if istable(_projectName) then
+		local ret = ""
+		for _,name in ipairs(_projectName) do
+			if ret == "" then ret = name else ret = ret .. "_" .. name end
+		end
+		return ret
+	else
+		return _projectName
+	end
+end
+
 function getProjectPath(_name, _pathType)
+	local name = getProjectBaseName(_name)
 	_pathType = _pathType or ProjectPath.Dir
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		libDir = dir .. _name
+		libDir = dir .. name
 		if os.isdir(libDir) then 
 			if _pathType == ProjectPath.Dir then
 				return libDir .. "/" 
@@ -243,21 +269,23 @@ function addIncludePath(_path)
 end
 
 function isGENieProject(_projectName)
+	local basename = getProjectBaseName(_projectName)
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
-	if os.isfile(projectParentDir .. _projectName .. ".lua") then return true end
-	if os.isfile(projectParentDir .. _projectName .. "/genie/genie.lua") then return true end
+	if os.isfile(projectParentDir .. basename .. ".lua") then return true end
+	if os.isfile(projectParentDir .. basename .. "/genie/genie.lua") then return true end
 	return false
 end
 
 function addInclude(_projectName)
-
+	local basename = getProjectBaseName(_projectName)
+	local fullname = getProjectFullName(_projectName)
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 
 	addIncludePath(projectParentDir)
-	addIncludePath(projectParentDir .. _projectName .. "/include")
-	addIncludePath(projectParentDir .. _projectName .. "/inc")
+	addIncludePath(projectParentDir .. basename .. "/include")
+	addIncludePath(projectParentDir .. basename .. "/inc")
 
-	local linkFn = _G["projectLink_" .. _projectName]
+	local linkFn = _G["projectLink_" .. fullname]
 	if linkFn then
 		linkFn()
 		return false
@@ -270,33 +298,40 @@ function addProject(_name)
 	for _,dep in ipairs(deps) do
 		addProject(dep)
 	end
-	if g_projectIsLoaded[_name] == nil then
-		g_projectIsLoaded[_name] = true
-		if _G["projectAdd_" .. _name] ~= nil then -- prebuilt libs have no projects
-			_G["projectAdd_" .. _name]()
+
+	local name = getProjectFullName(_name)
+	
+	if g_projectIsLoaded[name] == nil then
+		g_projectIsLoaded[name] = true
+		if _G["projectAdd_" .. name] ~= nil then -- prebuilt libs have no projects
+			_G["projectAdd_" .. name]()
 		end
 	end
 end
 
 function loadProject(_projectName, _load)
+	local name = getProjectBaseName(_projectName)
+
 	local prjFile = ""
 	for _,path in ipairs(RTM_PROJECT_DIRS) do
-		prjFile = path .. _projectName .. ".lua"
+		prjFile = path .. name .. ".lua"
 		if os.isfile(prjFile) then dofile(prjFile) break end
-		prjFile = path .. _projectName .. "/genie/" .. _projectName .. ".lua"
+		prjFile = path .. name .. "/genie/" .. name .. ".lua"
 		if os.isfile(prjFile) then dofile(prjFile) break end
 	end
 
 	_load = _load or ProjectLoad.LoadAndAdd
 	if _load == ProjectLoad.LoadAndAdd then
-		addProject(path.getbasename(prjFile))
+		addProject(_projectName)
 	end
 end
 
 function getProjectDependencies(_name, _additionalDeps)
+	local fullName = getProjectFullName(_name)
+
 	local dep = {}
-	if _G["projectDependencies_" .. _name] then
-		dep = _G["projectDependencies_" .. _name]()
+	if _G["projectDependencies_" .. fullName] then
+		dep = _G["projectDependencies_" .. fullName]()
 	end
 	
 	_additionalDeps = _additionalDeps or {}
@@ -344,7 +379,10 @@ function addDependencies(_name, _additionalDeps)
 end
 
 function addLibProjects(_name)
+
 	loadProject(_name)
+
+	if istable(_name) then return end	-- TODO: samples to link against the right library version
 
 	local projectDir = getProjectPath(_name)
 

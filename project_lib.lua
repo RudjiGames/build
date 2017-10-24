@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _extraFiles, _extraIncludes, _extraDefines)
+function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _extraFiles, _extraIncludes, _extraDefines, _nameAppend)
 
 	if _libType == Lib.Tool then
 		group ("toollibs")
@@ -13,8 +13,9 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 		group ("libs")
 	end
 
+	_nameAppend = _nameAppend or ""
 
-	project (_name)
+	project (_name .. _nameAppend)
 
 		_libType		= _libType or Lib.Runtime
 		_shared			= _shared or false
@@ -57,7 +58,7 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 		excludes { projectPath .. "/samples/**.*" }
 
 		if _extraFiles == nil then
-			addPCH( srcFilesPath, project().name )
+			addPCH( srcFilesPath, _name )
 		end
 
 		shaderFiles	= os.matchfiles( srcFilesPath .. "**.sc" )
@@ -82,13 +83,14 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 																	_shared,	-- IS_SHARED_LIBRARY
 																	false,		-- COPY_QT_DLLS
 																	false,		-- WITH_QT
-																	false		-- EXECUTABLE
+																	false,		-- EXECUTABLE
+																	_name
 																	)
 
 		for _,cmd in ipairs( _prebuildcmds ) do
 			prebuildcommands {cmd}
 		end
 
-		addDependencies(_name)
+		addDependencies(project().name)
 end
 

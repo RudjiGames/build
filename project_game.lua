@@ -40,6 +40,6 @@ function addProject_game(_name, _extraConfig)
 																	true	-- EXECUTABLE
 																	)
 
-		addDependencies(_name, { "rapp" })
+		addDependencies(_name, { {"rapp", "bgfx"} })
 end
 
