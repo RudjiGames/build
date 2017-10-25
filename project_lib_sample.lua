@@ -4,7 +4,7 @@
 --
 
 function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
-
+	
 	group ("samples")
 	project (_lib .. "_sample_" ..  _name)
 
@@ -49,6 +49,7 @@ function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
 																	true	-- EXECUTABLE
 																	)
 
-		addDependencies(_lib, { "rapp", _lib })
+																			
+		addDependencies(_name, { "rapp", _lib })
 end
 

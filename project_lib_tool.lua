@@ -35,6 +35,6 @@ function addProject_lib_tool(_lib, _name, _extraConfig)
 
 		links { _lib }
 
-		addDependencies(_lib)
+		addDependencies(project().name, { _lib } )
 end
 

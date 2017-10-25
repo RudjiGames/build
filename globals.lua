@@ -309,6 +309,14 @@ function addProject(_name)
 	end
 end
 
+function configDependency(_name, dependency)
+	local name = getProjectFullName(_name)
+	if _G["projectDependencyConfig_" .. name] ~= nil then -- prebuilt libs have no projects
+		return _G["projectDependencyConfig_" .. name](dependency)
+	end
+	return dependency
+end
+
 function loadProject(_projectName, _load)
 	local name = getProjectBaseName(_projectName)
 
@@ -337,20 +345,26 @@ function getProjectDependencies(_name, _additionalDeps)
 	_additionalDeps = _additionalDeps or {}
 	dep = mergeTables(dep, _additionalDeps)
 
+	local finalDep = {}
 	for _,dependency in ipairs(dep) do
+		table.insert(finalDep, configDependency(_name, dependency))
+	end
+
+	for _,dependency in ipairs(finalDep) do
 		loadProject(dependency, ProjectLoad.LoadOnly)
 	end
 
 	local depNest = {}
-	for _,d in ipairs(dep) do
+	for _,d in ipairs(finalDep) do
 		depNest = mergeTables(depNest, getProjectDependencies(d))
 	end
 
-	return mergeTables(dep, depNest)
+	return mergeTables(finalDep, depNest)
 end
 
 -- can be called only ONCE from one project, merge dependencies before calling!!!
 function addDependencies(_name, _additionalDeps)
+	
 	_dependencies = getProjectDependencies(_name, _additionalDeps)
 
 	for _,dependency in ipairs(_dependencies) do
@@ -366,7 +380,7 @@ function addDependencies(_name, _additionalDeps)
 			end
 
 			if shouldLink == true and isGENieProject(dependency) then
-				links { dependency }
+				links { getProjectFullName(dependency) }
 			end
 		end
 	end
