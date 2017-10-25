@@ -167,6 +167,11 @@ function prepareDeploymentWinRT(_filter, _binDir)
 		getTargetOS() == "winphone81"	then
 		copySrc = script_dir() .. "deploy/winphone/"
 	end
+
+	if	getTargetOS() == "winstore81"	or
+		getTargetOS() == "winstore82"	then
+		copySrc = script_dir() .. "deploy/winstore/"
+	end
 	
 	mkdir(copyDst)
 
