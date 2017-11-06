@@ -18,6 +18,7 @@ RTM_LOCATION_PATH		= ""													-- solution/makefile/etc.
 
 local RTM_PROJECT_DIRS_LIST = {
 	"",
+	"build/3rd/",
 	"3rd/",
 	"src/libs/",
 	"src/game/games/",
@@ -232,8 +233,8 @@ end
 function isGENieProject(_projectName)
 	local basename = getProjectBaseName(_projectName)
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
-	if os.isfile(projectParentDir .. basename .. ".lua") then return true end
 	if os.isfile(projectParentDir .. basename .. "/genie/genie.lua") then return true end
+	if os.isfile(RTM_SCRIPTS_DIR .. "3rd/" .. basename .. ".lua") then return true end
 	return false
 end
 
@@ -335,7 +336,7 @@ function addProject(_name)
 	end
 
 	local name = getProjectFullName(_name)
-	
+
 	if g_projectIsLoaded[name] == nil then
 		g_projectIsLoaded[name] = true
 		if _G["projectAdd_" .. name] ~= nil then -- prebuilt libs have no projects
@@ -354,7 +355,6 @@ end
 
 function loadProject(_projectName, _load)
 	local name = getProjectBaseName(_projectName)
-
 	local prjFile = ""
 	for _,path in ipairs(RTM_PROJECT_DIRS) do
 		prjFile = path .. name .. ".lua"
