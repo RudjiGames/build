@@ -283,14 +283,16 @@ function getProjectPath(_name, _pathType)
 		end
 	end
 
-	local trdParty = find3rdPartyProject(_name)
+	local projectPath = find3rdPartyProject(_name)
+	if projectPath == nil then return "" end
+
 	if _pathType == ProjectPath.Root then
-		return path.getabsolute(trdParty .. "../") .. "/"
+		return path.getabsolute(projectPath .. "../") .. "/"
 	else
-		return trdParty
+		return projectPath
 	end
 
-	return nil
+	return ""
 end
 
 function getProjectGenieScriptPath(_name)
@@ -312,6 +314,7 @@ function addInclude(_baseDir, _projectName)
 	local fullname = getProjectFullName(_projectName)
 
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
+	if projectParentDir == nil then return false end
 
 	addIncludePath(projectParentDir)
 	addIncludePath(projectParentDir .. basename .. "/include")
