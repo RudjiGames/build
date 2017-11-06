@@ -264,7 +264,7 @@ function find3rdPartyProject(_name)
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		local libDir = dir .. name
 		if os.isdir(libDir) then 
-			return libDir
+			return libDir .. "/"
 		end
 	end
 	return nil	
