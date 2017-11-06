@@ -162,10 +162,21 @@ dofile (RTM_SCRIPTS_DIR .. "project_qt.lua")
 function mergeTwoTables(_table1, _table2)
 	table1 = table1 or {}
 	table2 = table2 or {}
-	local retTable = {}
-	for _,v1 in ipairs(_table1) do table.insert(retTable, v1) end
-	for _,v2 in ipairs(_table2) do table.insert(retTable, v2) end
-	return retTable
+	local mergedTable = {}
+	local hash = {}
+	for _,v1 in ipairs(_table1) do 
+		if (not hash[v1]) then
+			table.insert(mergedTable, v1)
+			hash[v1] = true
+		end
+	end
+	for _,v2 in ipairs(_table2) do 
+		if (not hash[v2]) then
+			table.insert(mergedTable, v2)
+			hash[v2] = true
+		end
+	end
+	return mergedTable
 end
 
 function mergeTables(_table1, _table2, _table3, _table4, _table5, _table6)
@@ -218,6 +229,14 @@ function istable(_var)
 	return type(_var) == "table"
 end
 
+function isGENieProject(_projectName)
+	local basename = getProjectBaseName(_projectName)
+	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
+	if os.isfile(projectParentDir .. basename .. ".lua") then return true end
+	if os.isfile(projectParentDir .. basename .. "/genie/genie.lua") then return true end
+	return false
+end
+
 function getProjectBaseName(_projectName)
 	if istable(_projectName) then
 		for _,name in ipairs(_projectName) do
@@ -239,11 +258,22 @@ function getProjectFullName(_projectName)
 	end
 end
 
+function find3rdPartyProject(_name)
+	local name = getProjectBaseName(_name)
+	for _,dir in ipairs(RTM_PROJECT_DIRS) do
+		local libDir = dir .. name
+		if os.isdir(libDir) then 
+			return libDir
+		end
+	end
+	return nil	
+end
+
 function getProjectPath(_name, _pathType)
 	local name = getProjectBaseName(_name)
 	_pathType = _pathType or ProjectPath.Dir
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		libDir = dir .. name
+		local libDir = dir .. name
 		if os.isdir(libDir) then 
 			if _pathType == ProjectPath.Dir then
 				return libDir .. "/" 
@@ -252,7 +282,15 @@ function getProjectPath(_name, _pathType)
 			end
 		end
 	end
-	return ""
+
+	local trdParty = find3rdPartyProject(_name)
+	if _pathType == ProjectPath.Root then
+		return path.getabsolute(trdParty .. "../") .. "/"
+	else
+		return trdParty
+	end
+
+	return nil
 end
 
 function getProjectGenieScriptPath(_name)
@@ -264,21 +302,15 @@ function getProjectGenieScriptPath(_name)
 end
 
 function addIncludePath(_path)
+	assert(_path ~= nil)
 	if string.len(_path) == 0 then return end
 	if os.isdir(_path) then includedirs { _path } end
 end
 
-function isGENieProject(_projectName)
-	local basename = getProjectBaseName(_projectName)
-	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
-	if os.isfile(projectParentDir .. basename .. ".lua") then return true end
-	if os.isfile(projectParentDir .. basename .. "/genie/genie.lua") then return true end
-	return false
-end
-
-function addInclude(_projectName)
+function addInclude(_baseDir, _projectName)
 	local basename = getProjectBaseName(_projectName)
 	local fullname = getProjectFullName(_projectName)
+
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 
 	addIncludePath(projectParentDir)
@@ -323,7 +355,7 @@ function loadProject(_projectName, _load)
 	local prjFile = ""
 	for _,path in ipairs(RTM_PROJECT_DIRS) do
 		prjFile = path .. name .. ".lua"
-		if os.isfile(prjFile) then dofile(prjFile) break end
+		if os.isfile(prjFile) then assert(loadfile(prjFile))(find3rdPartyProject(name)) break end
 		prjFile = path .. name .. "/genie/" .. name .. ".lua"
 		if os.isfile(prjFile) then dofile(prjFile) break end
 	end
@@ -359,17 +391,14 @@ function getProjectDependencies(_name, _additionalDeps)
 		depNest = mergeTables(depNest, getProjectDependencies(d))
 	end
 
-	return mergeTables(finalDep, depNest)
+	finalDep = mergeTables(finalDep, depNest)
+
+	return finalDep
 end
 
 -- can be called only ONCE from one project, merge dependencies before calling!!!
 function addDependencies(_name, _additionalDeps)
-	
 	_dependencies = getProjectDependencies(_name, _additionalDeps)
-
-	for _,dependency in ipairs(_dependencies) do
-		addInclude(dependency)
-	end
 	
 	if _dependencies ~= nil then
 		for _,dependency in ipairs(_dependencies) do
@@ -452,11 +481,5 @@ end
 function recreateDir(_path)
 	rmdir(_path)
 	mkdir(_path)
-end
-
-function tablelength(T)
-  local count = 0
-  for _ in pairs(T) do count = count + 1 end
-  return count
 end
 

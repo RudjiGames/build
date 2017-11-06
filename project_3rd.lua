@@ -7,7 +7,6 @@ function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _addi
 
 	group ("3rd")
 	project ( _name )
-
 		_exceptions			= _exceptions or false
 		_includes			= _includes or {}
 		_additionalDefines	= _additionalDefines or {}
