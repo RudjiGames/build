@@ -17,7 +17,7 @@ RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
 RTM_LOCATION_PATH		= ""													-- solution/makefile/etc.
 
 local RTM_PROJECT_DIRS_LIST = {
-	"",
+	"/",
 	"build/3rd/",
 	"3rd/",
 	"src/libs/",
