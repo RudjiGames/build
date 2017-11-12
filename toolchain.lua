@@ -728,7 +728,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		links {
 			"rt",
 			"dl",
-		}
+			"Xrandr",
+			"Xinerama",
+			"Xi",
+			"Xxf86vm",
+			"Xcursor",
+		} 
 		linkoptions {
 			"-Wl,--gc-sections",
 			"-Wl,--as-needed",
@@ -1283,7 +1288,7 @@ function rappUsed(_filter, _binDir)
 
 	configuration { "linux-* or freebsd", _filter }
 		links {
---			"X11",
+			"X11",
 --			"GL",
 			"pthread",
 		}
