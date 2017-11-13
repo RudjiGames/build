@@ -421,7 +421,8 @@ function addDependencies(_name, _additionalDeps)
 				shouldLink = shouldLink and addInclude(dir, dependency)
 			end
 
-			if shouldLink == true and isGENieProject(dependency) then
+--			if shouldLink == true and isGENieProject(dependency) then
+			if shouldLink == true then
 				links { getProjectFullName(dependency) }
 			end
 		end

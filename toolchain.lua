@@ -1153,21 +1153,7 @@ end
 
 function rappUsed(_filter, _binDir)
 
-	if _OPTIONS["with-sdl"] then
-		defines { "ENTRY_CONFIG_USE_SDL=1" }
-		links   { "SDL2" }
-
-		configuration { "x32", "windows", _filter }
-			libdirs { "$(SDL2_DIR)/lib/x86" }
-
-		configuration { "x64", "windows", _filter }
-			libdirs { "$(SDL2_DIR)/lib/x64" }
-
-		configuration {}
-	end
-
 	if _OPTIONS["with-glfw"] then
-		defines { "ENTRY_CONFIG_USE_GLFW=1" }
 		links   {
 			"glfw3"
 		}

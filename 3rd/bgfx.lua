@@ -21,10 +21,18 @@ local BFGX_FILES = {
 }
 
 function projectDependencies_bgfx()
-	return { "bx", "bimg" }
+	local dependencies = { "bx", "bimg" }
+	if (getTargetOS() == "linux" or getTargetOS() == "freebsd") and _OPTIONS["with-glfw"] then
+		table.insert(dependencies, "GL")
+	end
+	return dependencies
 end 
 
 function projectAdd_bgfx()
-	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE)
+	local BGFX_DEFINES = {}
+	if _OPTIONS["with-glfw"] then
+		BGFX_DEFINES = { "BGFX_CONFIG_MULTITHREADED=0" }		
+	end	
+	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES)
 end
 
