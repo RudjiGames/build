@@ -94,6 +94,11 @@ newoption {
 	description = "Set tvOS target version (default: 9.0).",
 }
 
+newoption {
+	trigger     = "with-glfw",
+	description = "Links glfw libraries.",
+}
+
 function getTargetOS()
 
 	-- gmake - android
