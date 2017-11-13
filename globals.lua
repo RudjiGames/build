@@ -369,6 +369,12 @@ function loadProject(_projectName, _load)
 	end
 end
 
+function sortDependencies(a,b)
+	local depsA = getProjectDependencies(a)
+	local depsB = getProjectDependencies(b)
+	return #depsA > #depsB
+end
+
 function getProjectDependencies(_name, _additionalDeps)
 	local fullName = getProjectFullName(_name)
 
@@ -395,6 +401,10 @@ function getProjectDependencies(_name, _additionalDeps)
 	end
 
 	finalDep = mergeTables(finalDep, depNest)
+
+	if _ACTION == "gmake" then
+		table.sort(finalDep, sortDependencies)
+	end
 
 	return finalDep
 end
