@@ -18,6 +18,11 @@
 --		getProjectDesc(_name).logosquare
 --		getProjectDesc(_name).logowide
 
+newoption {
+	trigger     = "no-deploy",
+	description = "Skip deployment setup.",
+}
+
 function script_dir()
 	return path.getdirectory(debug.getinfo(2, "S").source:sub(2)) .. "/"
 end
@@ -96,6 +101,9 @@ function sedAppendReplace(_str, _search, _replace, _last)
 end
 
 function prepareProjectDeployment(_filter, _binDir)
+	if _OPTIONS["no-deploy"] then
+		return
+	end
 	
 	if getTargetOS() == "android" then
 		prepareDeploymentAndroid(_filer, _binDir)	return

@@ -14,7 +14,7 @@ dofile (RTM_SCRIPTS_DIR .. "deploy.lua")
 local iosPlatform      = ""
 local tvosPlatform     = ""
 
-androidTarget          = "14"
+androidTarget          = "24"
 local androidPlatform  = "android-" .. androidTarget
 
 newoption {
@@ -79,7 +79,7 @@ newoption {
 newoption {
 	trigger     = "with-android",
 	value       = "#",
-	description = "Set Android platform version (default: android-14).",
+	description = "Set Android platform version (default: android-24).",
 }
 
 newoption {
@@ -760,47 +760,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "android-*", "debug", _filter }
 		defines { "NDK_DEBUG=1" }
 
-	configuration { "android-*", _filter }
-		defines { "RTM_ANDROID" }
-		flags {
-			"NoImportLib",
-		}
-		includedirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include",
-			"$(ANDROID_NDK_ROOT)/sources/android/native_app_glue",
-		}
-		linkoptions {
-			"-nostdlib"
-		}
-		links {
-			"c",
-			"dl",
-			"m",
-			"android",
-			"log",
-			"c++",
-			"gcc",
-		}
-		buildoptions {
-			"-fPIC",
-			"-no-canonical-prefixes",
-			"-Wa,--noexecstack",
-			"-fstack-protector-strong",
-			"-ffunction-sections",
-			"-Wunused-value",
-			"-Wundef",
-		}
-		buildoptions_cpp {
-			"-std=c++11",
-		}
-		linkoptions {
-			"-no-canonical-prefixes",
-			"-Wl,--no-undefined",
-			"-Wl,-z,noexecstack",
-			"-Wl,-z,relro",
-			"-Wl,-z,now",
-		}
-
 	configuration { "android-arm", _filter }
 		libdirs {
 			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a"
@@ -881,6 +840,47 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-target i686-none-linux-android"
 		}
 
+	configuration { "android-*", _filter }
+		defines { "RTM_ANDROID" }
+		flags {
+			"NoImportLib",
+		}
+		includedirs {
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include",
+			"$(ANDROID_NDK_ROOT)/sources/android/native_app_glue",
+		}
+		linkoptions {
+			"-nostdlib"
+		}
+		links {
+			"c",
+			"dl",
+			"m",
+			"android",
+			"log",
+			"c++",
+			"gcc",
+		}
+		buildoptions {
+			"-fPIC",
+			"-no-canonical-prefixes",
+			"-Wa,--noexecstack",
+			"-fstack-protector-strong",
+			"-ffunction-sections",
+			"-Wunused-value",
+			"-Wundef",
+		}
+		buildoptions_cpp {
+			"-std=c++11",
+		}
+		linkoptions {
+			"-no-canonical-prefixes",
+			"-Wl,--no-undefined",
+			"-Wl,-z,noexecstack",
+			"-Wl,-z,relro",
+			"-Wl,-z,now",
+		}
+		
 	configuration { "asmjs", _filter }
 		defines { "RTM_ASMJS" }
 		buildoptions {
