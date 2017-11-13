@@ -284,6 +284,14 @@ function rmdir(_dirname)
 	end
 end
 
+function executable(_path)
+	if os.is("windows") then
+		return _path .. ".exe"
+	else
+		return _path
+	end
+end
+
 function getSolutionBaseDir()
 	local locationDir = getTargetOS() .. "/" .. getTargetCompiler() .. "/" .. solution().name
 	return path.join(RTM_BUILD_DIR, locationDir)
@@ -338,9 +346,9 @@ function toolchain()
 				print("Set ANDROID_NDK_ARM, ANDROID_NDK_CLANG, and ANDROID_NDK_ROOT environment variables.")
 			end 
 
-			premake.gcc.cc   = "$(ANDROID_NDK_CLANG)/bin/clang"
-			premake.gcc.cxx  = "$(ANDROID_NDK_CLANG)/bin/clang++"
-			premake.gcc.ar   = "$(ANDROID_NDK_ARM)/bin/arm-linux-androideabi-ar"
+			premake.gcc.cc   = executable("$(ANDROID_NDK_CLANG)/bin/clang")
+			premake.gcc.cxx  = executable("$(ANDROID_NDK_CLANG)/bin/clang++")
+			premake.gcc.ar   = executable("$(ANDROID_NDK_ARM)/bin/arm-linux-androideabi-ar")
 			premake.gcc.llvm = true
 
 		elseif "android-mips" == _OPTIONS["gcc"] then
@@ -349,9 +357,9 @@ function toolchain()
 				print("Set ANDROID_NDK_MIPS, ANDROID_NDK_CLANG, and ANDROID_NDK_ROOT environment variables.")
 			end 
 
-			premake.gcc.cc   = "$(ANDROID_NDK_CLANG)/bin/clang"
-			premake.gcc.cxx  = "$(ANDROID_NDK_CLANG)/bin/clang++"
-			premake.gcc.ar   = "$(ANDROID_NDK_MIPS)/bin/mipsel-linux-android-ar"
+			premake.gcc.cc   = executable("$(ANDROID_NDK_CLANG)/bin/clang")
+			premake.gcc.cxx  = executable("$(ANDROID_NDK_CLANG)/bin/clang++")
+			premake.gcc.ar   = executable("$(ANDROID_NDK_MIPS)/bin/mipsel-linux-android-ar")
 			premake.gcc.llvm = true
 
 		elseif "android-x86" == _OPTIONS["gcc"] then
@@ -360,9 +368,9 @@ function toolchain()
 				print("Set ANDROID_NDK_X86, ANDROID_NDK_CLANG, and ANDROID_NDK_ROOT environment variables.")
 			end 
 
-			premake.gcc.cc   = "$(ANDROID_NDK_CLANG)/bin/clang"
-			premake.gcc.cxx  = "$(ANDROID_NDK_CLANG)/bin/clang++"
-			premake.gcc.ar   = "$(ANDROID_NDK_X86)/bin/i686-linux-android-ar"
+			premake.gcc.cc   = executable("$(ANDROID_NDK_CLANG)/bin/clang")
+			premake.gcc.cxx  = executable("$(ANDROID_NDK_CLANG)/bin/clang++")
+			premake.gcc.ar   = executable("$(ANDROID_NDK_X86)/bin/i686-linux-android-ar")
 			premake.gcc.llvm = true
 
 		elseif "asmjs" == _OPTIONS["gcc"] then

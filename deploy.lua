@@ -137,9 +137,9 @@ function prepareDeploymentAndroid(_filter, _binDir)
 
 	cloneDirWithSed(copySrc, copyDst, sedCmd)
 
-	local logoSource = project().path .. desc.logosquare
-	if os.isfile(desc.logosquare) == true then
-		logoSource = desc.logosquare
+	local logoSource = project().path .. desc.logo_square
+	if os.isfile(desc.logo_square) == true then
+		logoSource = desc.logo_square
 	end
 
 	convertImage(logoSource, copyDst .. "res/drawable-ldpi/icon.png",		32, 32)
