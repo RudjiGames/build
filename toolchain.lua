@@ -736,11 +736,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		links {
 			"rt",
 			"dl",
-			"Xrandr",
-			"Xinerama",
-			"Xi",
-			"Xxf86vm",
-			"Xcursor",
 		} 
 		linkoptions {
 			"-Wl,--gc-sections",
