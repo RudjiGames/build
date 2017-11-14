@@ -79,7 +79,7 @@ else
 	UNIT_TEST_FILES_ALL = mergeTwoTables(UNIT_TEST_FILES_COMMON, UNITTEST_FILES_POSIX);
 end
 
-function projectAdd_unittest()
-	addProject_3rdParty_lib("unittest", UNIT_TEST_FILES_ALL, true, { UNIT_TEST_ROOT .. "UnitTest++" } )
+function projectAdd_unittest_cpp()
+	addProject_3rdParty_lib("unittest-cpp", UNIT_TEST_FILES_ALL, true, { UNIT_TEST_ROOT .. "UnitTest++" } )
 end
 

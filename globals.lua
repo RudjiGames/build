@@ -338,9 +338,10 @@ function addProject(_name)
 	local name = getProjectFullName(_name)
 
 	if g_projectIsLoaded[name] == nil then
-		g_projectIsLoaded[name] = true
-		if _G["projectAdd_" .. name] ~= nil then -- prebuilt libs have no projects
-			_G["projectAdd_" .. name]()
+		local nameWithUnderscore = string.gsub(name, "-", "_")
+		if _G["projectAdd_" .. nameWithUnderscore] ~= nil then -- prebuilt libs have no projects
+			_G["projectAdd_" .. nameWithUnderscore]()
+			g_projectIsLoaded[name] = true
 		end
 	end
 end
