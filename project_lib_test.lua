@@ -14,6 +14,8 @@ function addProject_lib_test(_libName, _extraConfig)
 
 		project().path = getProjectPath(_libName, ProjectPath.Dir) .. "/test/"
 
+		includedirs { project().path }
+
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )
 		files  { sourceFiles }

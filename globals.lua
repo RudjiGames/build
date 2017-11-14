@@ -310,16 +310,24 @@ function addIncludePath(_path)
 	if os.isdir(_path) then includedirs { _path } end
 end
 
-function addInclude(_baseDir, _projectName)
+function addInclude(_projectName)
 	local basename = getProjectBaseName(_projectName)
 	local fullname = getProjectFullName(_projectName)
 
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 	if projectParentDir == nil then return false end
 
-	addIncludePath(projectParentDir)
-	addIncludePath(projectParentDir .. basename .. "/include")
-	addIncludePath(projectParentDir .. basename .. "/inc")
+	local nameWithUnderscore = string.gsub(basename, "-", "_")
+
+	local includeFn = _G["projectInclude_" .. nameWithUnderscore]
+	if includeFn then
+		includedirs { includeFn() }
+	else
+		-- search for it..
+		addIncludePath(projectParentDir)
+		addIncludePath(projectParentDir .. basename .. "/include")
+		addIncludePath(projectParentDir .. basename .. "/inc")
+	end	
 
 	local linkFn = _G["projectLink_" .. fullname]
 	if linkFn then
@@ -416,11 +424,7 @@ function addDependencies(_name, _additionalDeps)
 	
 	if _dependencies ~= nil then
 		for _,dependency in ipairs(_dependencies) do
-			local shouldLink = true
-
-			for _,dir in ipairs(RTM_PROJECT_DIRS) do
-				shouldLink = shouldLink and addInclude(dir, dependency)
-			end
+			local shouldLink = addInclude(dependency)
 
 --			if shouldLink == true and isGENieProject(dependency) then
 			if shouldLink == true then
