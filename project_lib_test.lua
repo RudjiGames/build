@@ -31,6 +31,6 @@ function addProject_lib_test(_libName, _extraConfig)
 																	true	-- EXECUTABLE
 																	)
 
-		addDependencies(project().name, { "rapp", "unittest", _libName })
+		addDependencies(project().name, { "rapp", "unittest-cpp", _libName })
 end
 
