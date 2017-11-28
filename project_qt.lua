@@ -72,14 +72,6 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 																	true,					-- WITH_QT
 																	_libProjNotExe == false -- EXECUTABLE
 																	)
-
-		configuration {"windows", "x32", "not gmake" }
-			libdirs { getProjectPath("DIA", ProjectPath.Root) .. "DIA/lib/x32/" }
-		configuration {"windows", "x64", "not gmake" }
-			libdirs { getProjectPath("DIA", ProjectPath.Root) .. "DIA/lib/x64/" }
-
-		configuration {}
-
 		for _,cmd in ipairs( _prebuildcmds ) do
 			prebuildcommands {cmd}
 		end
