@@ -33,9 +33,9 @@ local TBB_DEFINES = {
 
 function tbb_extraConfig()
 	forcedincludes {"algorithm"}	-- min/max
+	includedirs { TBB_ROOT .. "build/vs2013/" }
 	if getTargetOS() == "windows" then
 		defines { "USE_WINTHREAD=1" }
-		includedirs { TBB_ROOT .. "build/vs2013/" }
 	else
 		defines { "USE_PTHREAD=1" }
 	end
