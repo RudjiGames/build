@@ -14,7 +14,10 @@ function addProject_cmd(_name, _extraConfig)
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(_name) ..  "src/"
+		local path = getProjectPath(_name)
+		project().path = path ..  "src/"
+
+		table.insert(RTM_PROJECT_PATHS, path)
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )

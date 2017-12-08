@@ -19,6 +19,8 @@ function addProject_game(_name, _extraConfig)
 
 		project().path = getProjectPath(_name, ProjectPath.Dir)
 
+		table.insert(RTM_PROJECT_PATHS, project().path)
+
 		local srcFilesPath = project().path .. "src/"
 		
 		local	sourceFiles = mergeTables(	{ srcFilesPath .. "**.cpp" },

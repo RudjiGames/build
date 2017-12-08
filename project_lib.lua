@@ -17,6 +17,8 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 
 	project (_name .. _nameAppend)
 
+		LastLibLoaded = project().name
+
 		_libType		= _libType or Lib.Runtime
 		_shared			= _shared or false
 		_prebuildcmds	= _prebuildcmds or {}
@@ -33,6 +35,9 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 		local libsPath = getProjectPath(_name, ProjectPath.Root)
 
 		local projectPath = libsPath .. _name
+
+		table.insert(RTM_PROJECT_PATHS, projectPath)
+
 		local srcFilesPath = projectPath .. "/src/"
 		local incFilesPath = projectPath .. "/inc/"
 

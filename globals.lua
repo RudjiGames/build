@@ -29,6 +29,7 @@ local RTM_PROJECT_DIRS_LIST = {
 }
 
 RTM_PROJECT_DIRS = {}
+RTM_PROJECT_PATHS = {}
 
 for _,path in ipairs(RTM_PROJECT_DIRS_LIST) do
 	if os.isdir(RTM_ROOT_DIR .. path) then
@@ -267,6 +268,12 @@ function find3rdPartyProject(_name)
 			return libDir .. "/"
 		end
 	end
+	for _,dir in ipairs(RTM_PROJECT_PATHS) do
+		local dir_path = dir .. "/3rd/" .. _name
+		if os.isdir(dir_path) then 
+			return dir_path
+		end
+	end  	
 	return nil	
 end
 
