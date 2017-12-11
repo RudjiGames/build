@@ -28,7 +28,7 @@ local RTM_PROJECT_DIRS_LIST = {
 	"src/tools/qt/"
 }
 
-RTM_PROJECT_DIRS = {}
+RTM_PROJECT_DIRS  = {}
 RTM_PROJECT_PATHS = {}
 
 for _,path in ipairs(RTM_PROJECT_DIRS_LIST) do
@@ -334,6 +334,7 @@ function addInclude(_projectName)
 		addIncludePath(projectParentDir)
 		addIncludePath(projectParentDir .. basename .. "/include")
 		addIncludePath(projectParentDir .. basename .. "/inc")
+		addIncludePath(projectParentDir .. basename .. "/3rdparty")	-- TODO: remove special case (bgfx/imgui)
 	end	
 
 	local linkFn = _G["projectLink_" .. fullname]
