@@ -16,8 +16,6 @@ RTM_QT_FILES_PATH_TS	= "../.qt/qt_qm"
 
 QT_LIB_PREFIX		= "Qt" .. qt.version
 
-
-
 function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
 		
 		local sourcePath			= getProjectPath(_projectName) .. "src/"
@@ -116,7 +114,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			if _copyDynamicLibraries then
 
 				local destPath = binDir
-				destPath = string.gsub( destPath, "([/]+)", "\\" ) .. '\\bin\\'
+				destPath = string.gsub( destPath, "([/]+)", "\\" ) .. 'bin\\'
 
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
@@ -153,6 +151,18 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 						mkdir(path.getdirectory(dest))
 						os.copyfile( source, dest )
 					end
+				end
+
+				-- optional OpenSSL
+				if os.isdir(RTM_ROOT_DIR .. "3rd\\openssl") then
+					local winVer = "win32"
+					if _is64bit then
+						winVer = "win64"
+					end
+					local src1 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl\\" .. winVer .. "\\libeay32.dll", "([/]+)", "\\" )
+					local src2 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl\\" .. winVer .. "\\ssleay32.dll", "([/]+)", "\\" )
+					os.copyfile( src1, destPath .. "libeay32.dll" )
+					os.copyfile( src2, destPath .. "ssleay32.dll" )
 				end
 			end
 

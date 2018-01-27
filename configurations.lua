@@ -37,6 +37,7 @@ function setConfig(_configuration)
 	local currPlatforms = platforms {}
 	for _,platform in ipairs(currPlatforms) do
 		setSubConfig(platform, _configuration, false)
+		setSubConfig(platform, _configuration, true)
 	end
 end
 
