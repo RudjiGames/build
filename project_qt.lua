@@ -43,7 +43,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 		qrcFiles	= 	{ os.matchfiles( project().path .. "src/**.qrc") }
 		tsFiles		= 	{ os.matchfiles( project().path .. "src/**.ts") }
 
-		libsToLink	=	{ "Core", "Gui", "Widgets", "Network" }
+		libsToLink	=	{ "Core", "Gui", "Widgets", "Network", "WebSockets" }
 
 		addPCH( project().path .. "src/", project().name )
 
