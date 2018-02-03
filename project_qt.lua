@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraConfig)
+function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraConfig, _extraQtModules)
 
 	_libProjNotExe	= _libProjNotExe or false
 	_includes		= _includes or {}
@@ -43,7 +43,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 		qrcFiles	= 	{ os.matchfiles( project().path .. "src/**.qrc") }
 		tsFiles		= 	{ os.matchfiles( project().path .. "src/**.ts") }
 
-		libsToLink	=	{ "Core", "Gui", "Widgets", "Network", "WebSockets" }
+		libsToLink	=	mergeTables({ "Core", "Gui", "Widgets"}, _extraQtModules)
 
 		addPCH( project().path .. "src/", project().name )
 
