@@ -154,13 +154,13 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 				end
 
 				-- optional OpenSSL
-				if os.isdir(RTM_ROOT_DIR .. "3rd\\openssl") then
+				if os.isdir(RTM_ROOT_DIR .. "3rd\\openssl_winbinaries") then
 					local winVer = "win32"
 					if _is64bit then
 						winVer = "win64"
 					end
-					local src1 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl\\" .. winVer .. "\\libeay32.dll", "([/]+)", "\\" )
-					local src2 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl\\" .. winVer .. "\\ssleay32.dll", "([/]+)", "\\" )
+					local src1 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl_winbinaries\\" .. winVer .. "\\libeay32.dll", "([/]+)", "\\" )
+					local src2 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl_winbinaries\\" .. winVer .. "\\ssleay32.dll", "([/]+)", "\\" )
 					os.copyfile( src1, destPath .. "libeay32.dll" )
 					os.copyfile( src2, destPath .. "ssleay32.dll" )
 				end
