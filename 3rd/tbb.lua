@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/01org/tbb
+
 local params		= { ... }
 local TBB_ROOT		= params[1]
 

@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/bkaradzic/bgfx
+
 local params		= { ... }
 local BGFX_ROOT		= params[1]
 

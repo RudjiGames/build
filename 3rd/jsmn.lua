@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/zserge/jsmn
+
 local params		= { ... }
 local JSMN_ROOT		= params[1]
 

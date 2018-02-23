@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/lsalzman/enet
+
 local params	= { ... }
 local ENET_ROOT	= params[1]
 local ENET_INC	= ENET_ROOT .. "include/"

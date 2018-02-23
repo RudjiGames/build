@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/assimp/assimp
+
 local params		= { ... }
 local ASSIMP_ROOT	= params[1]
 

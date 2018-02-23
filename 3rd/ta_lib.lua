@@ -15,7 +15,12 @@ local TA_LIB_FILES = {
 	TA_LIB_ROOT .. "src/ta_func/**.c",
 }
 
+local TA_LIB_INCLUDES = { 
+	TA_LIB_ROOT .. "include/",
+	TA_LIB_ROOT .. "src/ta_common/" 
+}
+
 function projectAdd_ta_lib()
-	addProject_3rdParty_lib("ta_lib", TA_LIB_FILES, false, { TA_LIB_ROOT .. "include/", TA_LIB_ROOT .. "src/ta_common/" })
+	addProject_3rdParty_lib("ta_lib", TA_LIB_FILES, false, TA_LIB_INCLUDES)
 end
 

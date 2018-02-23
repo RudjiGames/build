@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/bkaradzic/bimg
+
 local params		= { ... }
 local BIMG_ROOT		= params[1]
 

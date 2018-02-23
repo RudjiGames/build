@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/erincatto/Box2D
+
 local params		= { ... }
 local BOX2D_ROOT	= params[1]
 

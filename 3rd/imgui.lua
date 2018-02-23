@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/ocornut/imgui
+
 local params		= { ... }
 local IMGUI_ROOT	= params[1]
 

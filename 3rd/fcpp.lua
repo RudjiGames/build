@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/bagder/fcpp
+
 local params	= { ... } 
 local FCPP_ROOT = params[1]
 

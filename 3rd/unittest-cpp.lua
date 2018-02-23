@@ -3,6 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/unittest-cpp/unittest-cpp
 
 local params		= { ... }
 local UNIT_TEST_ROOT = params[1]

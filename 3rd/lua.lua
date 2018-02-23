@@ -3,6 +3,8 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+-- https://github.com/lua/lua
+
 local params	= { ... }
 local LUA_ROOT	= params[1]
 
