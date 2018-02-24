@@ -4,6 +4,7 @@
 --
 
 -- TA-Lib : Technical Analysis Library
+-- https://github.com/milostosic/ta-lib
 
 local params		= { ... }
 local TA_LIB_ROOT	= params[1]

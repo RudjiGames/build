@@ -683,6 +683,11 @@ if os.is("windows") then
 	})
 end
 
+function projectInclude_openssl()
+	return OSSL_ROOT .. "include/"
+end
+
 function projectAdd_openssl()
 	addProject_3rdParty_lib("openssl", OSSL_FILES, false, OSSL_INCLUDES, OSSL_DEFINES)
 end
+

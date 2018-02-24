@@ -33,4 +33,5 @@ function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _addi
 																	false,	-- WITH_QT
 																	false	-- EXECUTABLE
 																	)
+		addDependencies(project().name)															
 end

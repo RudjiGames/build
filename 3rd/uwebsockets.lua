@@ -13,6 +13,10 @@ local UWS_FILES = {
 	UWS_ROOT .. "src/**.h"
 }
 
+function projectDependencies_uwebsockets()
+	return { "openssl", "libuv" }
+end 
+
 function projectAdd_uwebsockets()
 	addProject_3rdParty_lib("uwebsockets", UWS_FILES)
 end
