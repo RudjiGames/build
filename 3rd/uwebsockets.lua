@@ -14,7 +14,7 @@ local UWS_FILES = {
 }
 
 function projectDependencies_uwebsockets()
-	return { "openssl", "libuv" }
+	return { "openssl", "libuv", "zlib" }
 end 
 
 function projectAdd_uwebsockets()
