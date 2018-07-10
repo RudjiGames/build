@@ -334,7 +334,6 @@ function addInclude(_projectName)
 		addIncludePath(projectParentDir)
 		addIncludePath(projectParentDir .. basename .. "/include")
 		addIncludePath(projectParentDir .. basename .. "/inc")
-		addIncludePath(projectParentDir .. basename .. "/3rdparty")	-- TODO: remove special case (bgfx/imgui)
 	end	
 
 	local linkFn = _G["projectLink_" .. fullname]

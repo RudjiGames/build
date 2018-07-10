@@ -22,6 +22,11 @@ local BFGX_FILES = {
 	BGFX_ROOT .. "include/**.h"
 }
 
+function projectInclude_bgfx()
+	return { BGFX_ROOT .. "include/",
+			 BGFX_ROOT .. "3rdparty/" }
+end
+
 function projectDependencies_bgfx()
 	local dependencies = { "bx", "bimg" }
 	if (getTargetOS() == "linux" or getTargetOS() == "freebsd") and _OPTIONS["with-glfw"] then
