@@ -17,6 +17,10 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 	
 	project (_name)
 
+		if getTargetOS() == "windows" then	-- Qt 32bit is deprecated
+			removeplatforms("x32")
+		end
+
 		local projKind = "WindowedApp"
 		if _libProjNotExe == true then
 			projKind = "StaticLib"
