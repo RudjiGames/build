@@ -55,7 +55,7 @@ end
 -- compiler flags
 --------------------------------------------------------
 
-Flags_ThirdParty	= { "StaticRuntime", "NoEditAndContinue", "NoPCH" }
+Flags_ThirdParty	= { "StaticRuntime", "NoEditAndContinue", "NoPCH",  "MinimumWarnings" }
 Flags_Libraries		= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings", "NoExceptions" }
 Flags_Tests			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings" }
 Flags_Cmd			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings", "NoExceptions" }
