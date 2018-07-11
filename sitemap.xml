@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://milostosic.github.com/build/overview/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/getting_started/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
