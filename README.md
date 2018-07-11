@@ -2,8 +2,17 @@
 
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/rmem/blob/master/LICENSE)
 
-A set of build system scripts based on [GENie](https://github.com/bkaradzic/GENie) and other tools.  
-Scripts allow rellocating projects supporting modular physical code design.
+build is a set of scripts for a build system based on [GENie](https://github.com/bkaradzic/GENie) and other tools.  
+Goal of build is to minimize efforts that go into maintaining project configurations and their physical organization on disk.  
+Some highlight features of build:  
+ * Centralized location to control configrations of projects/solutions (VS lingo)
+ * Ability to add projects/solutions with just a few lines of Lua script
+ * Dependencies added hierarchically - dependencies of dependencies added automatically
+ * Per project custom settings (dependencies, include paths, etc.)
+ * Support for Qt based projects
+ * Shipping with a number of scripts to build 3rd party libraries
+ * Predefined project types (library, samples, tools, executable, etc.)
+ * Platform specific deployment (WIP)
 
 Source Code
 ======
