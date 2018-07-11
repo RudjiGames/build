@@ -1,4 +1,4 @@
-![MTuner logo](https://raw.githubusercontent.com/milostosic/milostosic.github.io/master/build/static/images/build_logo.png?token=ABk-f39T0TV4lOhPcsqBge8QYIhXOAn9ks5bTqxiwA%3D%3D)
+![build logo](https://raw.githubusercontent.com/milostosic/build/gh-pages/images/build_logo.png)
 
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/rmem/blob/master/LICENSE)
 
