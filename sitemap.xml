@@ -3,6 +3,10 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://milostosic.github.com/build/overview/introduction/</loc>
+  </url>
+  
+  <url>
     <loc>http://milostosic.github.com/build/overview/</loc>
   </url>
   
@@ -11,17 +15,33 @@
   </url>
   
   <url>
+    <loc>http://milostosic.github.com/build/overview/why/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/overview/requirements/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/overview/how/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/overview/compilers/</loc>
+  </url>
+  
+  <url>
     <loc>http://milostosic.github.com/build/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/</loc>
+    <loc>http://milostosic.github.com/build/tags/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/tags/</loc>
-    <priority>0</priority>
+    <loc>http://milostosic.github.com/build/</loc>
   </url>
   
 </urlset>
