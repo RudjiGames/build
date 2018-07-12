@@ -26,6 +26,11 @@ Dependencies
 
 **build** requires Lua to be installed for Qt based projects as it's used for MOC-ing and similar tasks.
 
+Documentation
+======
+
+**build**  documentation can be found [here](https://milostosic.github.io/build/).  
+
 Author
 ======
 
