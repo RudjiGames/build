@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="http://mtuner.net/logo32.ico" />
 
 
-    <title>build documentation :: build Documentation</title>
+    <title>3rd :: build Documentation</title>
     
     
     <link href="/build/css/nucleus.css?1531374861" rel="stylesheet">
@@ -38,7 +38,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>	
   </head>
-  <body class="" data-url="/build/">
+  <body class="" data-url="/build/code_structure/3rd/">
     <nav id="sidebar" class="">
 
 
@@ -105,7 +105,7 @@
   
     
     <li data-nav-id="/build/code_structure/" title="Code structure" class="dd-item 
-        
+        parent
         
         
         ">
@@ -156,8 +156,8 @@
   
     
     <li data-nav-id="/build/code_structure/3rd/" title="3rd" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/build/code_structure/3rd/">
@@ -355,63 +355,95 @@
         <div id="overlay"></div>
         <div class="padding highlightable sticky-parent">
               
+              <div class="sticky-spacer">
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fa fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/build/'>build documentation</a> > <a href='/build/code_structure/'>Code structure</a> > 3rd
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
 
         
         <div id="body-inner">
           
+            <h1>3rd</h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
 
- 
+<p>This directory contains scripts that are made to build 3rd party libraries without extra effort. 3rd party libraries often require some extra workcompared to propriatery code that tends to follow one set of guidelines. By providing these scripts, users can build those libraries without spending time on project specifics.</p>
 
-
-<h3 id="build-documentation">build documentation</h3>
-
-<hr />
-
-<p><strong>build</strong> is a set of build system scripts and related tools, built around <a href="https://github.com/bkaradzic/GENie">GENie</a> project generator tool.</p>
-
-<p><strong>build</strong> dramatically simplifies creating and maintaining projects and solutions.<br />
-Here is a list of main design goals for <strong>build</strong>:</p>
+<p>Here is a list of projects that are currently supported out of the box:</p>
 
 <ul>
-<li>Minimize work needed to add/remove projects</li>
-<li>Centralized configuration maintenance (compiler/linker switches and flags, etc.)</li>
-<li>Extensible with per project customizations and dependencies</li>
-<li>Hierarchical dependency tracking</li>
-<li>Out of the box support for popular 3rd party libraries - biased towards my needs :)</li>
+<li><a href="https://github.com/assimp/assimp"><strong>Open Asset Import Library (assimp)</strong></a><br /></li>
+<li><a href="https://github.com/bkaradzic/bgfx"><strong>bgfx</strong></a><br /></li>
+<li><a href="https://github.com/bkaradzic/bimg"><strong>bimg</strong></a><br /></li>
+<li><a href="https://github.com/erincatto/Box2D"><strong>Box2D</strong></a><br /></li>
+<li><a href="https://github.com/bkaradzic/bx"><strong>bx</strong></a><br /></li>
+<li><a href="https://github.com/lsalzman/enet"><strong>ENet</strong></a><br /></li>
+<li><a href="https://github.com/bagder/fcpp"><strong>Frexx C preprocessor (fcpp)</strong></a><br /></li>
+<li><a href="https://github.com/ocornut/imgui"><strong>Dear ImGui</strong></a><br /></li>
+<li><a href="https://github.com/zserge/jsmn"><strong>jsmn</strong></a><br /></li>
+<li><a href="https://github.com/libuv/libuv"><strong>libuv</strong></a><br /></li>
+<li><a href="https://github.com/lua/lua"><strong>Lua</strong></a><br /></li>
+<li><a href="https://github.com/memononen/nanovg"><strong>NanoVG</strong></a><br /></li>
+<li><a href="https://github.com/turbulenz/NvTriStrip"><strong>NvTriStrip</strong></a><br /></li>
+<li><a href="https://github.com/milostosic/openssl"><strong>OpenSSL</strong></a><br /></li>
+<li><a href="https://github.com/Cavewhere/squish.git"><strong>Squish texture compression</strong></a><br /></li>
+<li><a href="https://github.com/milostosic/ta-lib"><strong>TA-Lib : Technical Analysis Library</strong></a><br /></li>
+<li><a href="https://github.com/01org/tbb"><strong>TBB</strong></a><br /></li>
+<li><a href="https://github.com/unittest-cpp/unittest-cpp"><strong>UnitTest++</strong></a><br /></li>
+<li><a href="https://github.com/uNetworking/uWebSockets"><strong>uWebSockets</strong></a><br /></li>
+<li><a href="https://github.com/madler/zlib"><strong>zlib</strong></a><br /></li>
 </ul>
 
-<h3 id="overview">Overview</h3>
+<p>Contributions are more than welcome!</p>
 
-<hr />
 
-<p><strong>build</strong> is written in Lua and is highly extensible.</p>
-
-<p>Major motivation for creating <strong>build</strong> comes from years of maintenance hell for variety of projects, their configurations and dependencies. Even with project generator tools there&rsquo;s often a fair amount of repetitive work per project and <strong>build</strong> strives to remove this extra work while providing additional convenience.</p>
-
-<p>Here is an example of adding a static library project to a solution:
-<pre><code class="C++">
-addProject_lib(&ldquo;myLibrary&rdquo;)
-</code></pre></p>
-
-<p>This function call with do the following:</p>
-
-<ul>
-<li>Search for directory named &lsquo;myLibrary&rsquo;</li>
-<li>Create project named &lsquo;myLibrary&rsquo; and add it to active solution</li>
-<li>Add source files (C++) found in &lsquo;myLibrary&rsquo; directory to the project</li>
-<li>Setup compiler and linker switches and flags</li>
-<li>Setup precompiled header files</li>
-</ul>
-
-<p>But why stop there? <strong>build</strong> also tracks dependencies and include paths, allows additional configurations per-project and allows physical code design to be very modular.</p>
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
       </div>
@@ -460,6 +492,7 @@ addProject_lib(&ldquo;myLibrary&rdquo;)
             
                 
                     
+                    
                 
                 
 
@@ -474,6 +507,9 @@ addProject_lib(&ldquo;myLibrary&rdquo;)
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -491,21 +527,6 @@ addProject_lib(&ldquo;myLibrary&rdquo;)
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -523,21 +544,8 @@ addProject_lib(&ldquo;myLibrary&rdquo;)
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
+                        
                     
                 
                 
@@ -546,9 +554,6 @@ addProject_lib(&ldquo;myLibrary&rdquo;)
                     
                     
 
-                    
-            
-        
                     
             
         
@@ -587,13 +592,50 @@ addProject_lib(&ldquo;myLibrary&rdquo;)
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
         
         
 
 
         
+            <a class="nav nav-prev" href="/build/code_structure/build/" title="build"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/build/getting_started/" title="Getting started" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/build/code_structure/data/" title="data" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

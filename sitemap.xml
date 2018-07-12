@@ -3,31 +3,39 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://milostosic.github.com/build/overview/introduction/</loc>
-  </url>
-  
-  <url>
-    <loc>http://milostosic.github.com/build/overview/</loc>
-  </url>
-  
-  <url>
     <loc>http://milostosic.github.com/build/getting_started/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/overview/why/</loc>
+    <loc>http://milostosic.github.com/build/code_structure/build/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/overview/requirements/</loc>
+    <loc>http://milostosic.github.com/build/code_structure/3rd/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/overview/how/</loc>
+    <loc>http://milostosic.github.com/build/code_structure/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/overview/compilers/</loc>
+    <loc>http://milostosic.github.com/build/project_types/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/code_structure/data/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/use_case/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/code_structure/deploy/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/code_structure/tools/</loc>
   </url>
   
   <url>
