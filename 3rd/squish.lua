@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
--- https://github.com/LuaDist/squish
+-- https://github.com/Cavewhere/squish.git
 
 local params		= { ... }
 local SQUISH_ROOT = params[1]
