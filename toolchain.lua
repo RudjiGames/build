@@ -1281,7 +1281,7 @@ function rappUsed(_filter, _binDir)
 
 	configuration { "linux-* or freebsd", _filter }
 		links {
-			"X11",
+--			"X11",
 --			"GL",
 			"pthread",
 		}
