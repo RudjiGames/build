@@ -633,7 +633,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "*-gcc* or osx", _filter }
 		buildoptions {
 			"-Wshadow",
-			"-fopenmp",
 		}
 		links {
 			"gomp", 
