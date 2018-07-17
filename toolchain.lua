@@ -1281,15 +1281,11 @@ function rappUsed(_filter, _binDir)
 
 	configuration { "linux-* or freebsd", _filter }
 		links {
---			"X11",
---			"GL",
 			"pthread",
 		}
 
 	configuration { "rpi", _filter }
 		links {
---			"X11",
---			"GLESv2",
 --			"EGL",
 			"bcm_host",
 			"vcos",
@@ -1298,9 +1294,6 @@ function rappUsed(_filter, _binDir)
 		}
 
 	configuration { "osx", _filter }
--- 		files {
--- 			path.join(BGFX_DIR, "examples/common/**.mm"),
--- 		}
 		links {
 			"Cocoa.framework",
 			"OpenGL.framework",
@@ -1308,9 +1301,6 @@ function rappUsed(_filter, _binDir)
 
 	configuration { "ios*", _filter }
 		kind "ConsoleApp"
---		files {
---			path.join(BGFX_DIR, "examples/common/**.mm"),
---		}
 		linkoptions {
 			"-framework CoreFoundation",
 			"-framework Foundation",
@@ -1322,9 +1312,6 @@ function rappUsed(_filter, _binDir)
 	configuration { "xcode4", "ios", _filter }
 		if getTargetOS() == "ios" then
 			kind "WindowedApp"
---			files {
---				path.join(BGFX_DIR, "examples/runtime/iOS-Info.plist"),
---			}
 		end
 
 	configuration {}
