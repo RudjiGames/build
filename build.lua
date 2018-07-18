@@ -478,6 +478,18 @@ function stripExtension( _path )
 	return path.getdirectory(pathFS) .. "/" .. path.getbasename(pathFS)
 end
 
+function getToolForHost(_name)
+	local toolPath = path.getabsolute(script_dir() .. "/tools/")
+	if os.is("windows") then
+		toolPath = toolPath .. "/windows/" .. _name .. ".exe"
+	elseif os.is("linux") then
+		toolPath = toolPath .. "/linux/" .. _name
+	elseif os.is("osx") then
+		toolPath = toolPath .. "/darwin/" .. _name
+	end
+	return toolPath
+end
+
 function flatten(t)
 	t = t or {}
 	local tmp = {}

@@ -35,16 +35,8 @@ Permissions = {
 
 function convertImage(_src, _dst, _width, _height)
 	mkdir(path.getdirectory(_dst))
-
-	local sss = path.getabsolute(script_dir() .. "/tools/")
-	if os.is("windows") then
-		sss = sss .. "/windows/imageconv.exe"
-	elseif os.is("linux") then
-		sss = sss .. "/linux/imageconv"
-	elseif os.is("osx") then
-		sss = sss .. "/darwin/imageconv"
-	end
-	os.execute(sss .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
+	local imageConv = getToolForHost("imageconv")
+	os.execute(imageConv .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
 end
 
 function cloneDir(_copySrc, _copyDst)
@@ -85,7 +77,7 @@ end
 
 function sedGetBinary()
 	if os.is("windows") then
-		return path.getabsolute(script_dir() .. "/tools/windows/sed.exe")
+		return getToolForHost("sed")
 	end
 	return "sed"
 end
