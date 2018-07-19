@@ -361,8 +361,10 @@ function addProject(_name)
 	end
 
 	if g_projectIsLoaded[name] == nil then
-		print('ERROR: Dependency project not found - ' .. name)
-		os.exit()
+		if find3rdPartyProject(name) == nil then
+			print('ERROR: Dependency project not found - ' .. name)
+			os.exit()
+		end
 	end
 end
 
