@@ -359,6 +359,11 @@ function addProject(_name)
 			g_projectIsLoaded[name] = true
 		end
 	end
+
+	if g_projectIsLoaded[name] == nil then
+		print('ERROR: Dependency project not found - ' .. name)
+		os.exit()
+	end
 end
 
 function configDependency(_name, dependency)

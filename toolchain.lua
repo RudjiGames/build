@@ -341,7 +341,7 @@ function toolchain()
 	if _ACTION == "gmake" then
 
 		if nil == _OPTIONS["gcc"] then
-			print("GCC flavor must be specified!")
+			print("ERROR: GCC flavor must be specified!")
 			os.exit(1)
 		end
 
