@@ -362,8 +362,9 @@ function addProject(_name)
 
 	if g_projectIsLoaded[name] == nil then
 		if find3rdPartyProject(name) == nil then
-			print('ERROR: Dependency project not found - ' .. name)
-			os.exit()
+			g_projectIsLoaded[name] = true
+			-- some 'missing' dependencies are actually system libraries, for example X11, GL, etc.
+			print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
 		end
 	end
 end
