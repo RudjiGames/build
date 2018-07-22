@@ -60,12 +60,10 @@ function projectExtraConfig_bgfx()
 	end
 
 	if getTargetOS() == "osx" then
-		linkoptions {
-			"-framework Cocoa",
-			"-framework QuartzCore",
-			"-framework OpenGL",
-			"-weak_framework Metal",
-			"-weak_framework MetalKit",
+		links {
+			"QuartzCore.framework",
+			"Metal.weak_framework",
+			"MetalKit.weak_framework"
 		}
 	end
  end
