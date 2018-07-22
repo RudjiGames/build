@@ -203,6 +203,10 @@ function isAppleTarget()
 	return getTargetOS() == "ios" or getTargetOS() == "tvos" or getTargetOS() == "osx"
 end
 
+function isWinStoreTarget()
+	return getTargetOS() == "winstore81" or getTargetOS() == "winstore82"
+end
+
 function getTargetCompiler()
 
 	-- gmake - android
@@ -236,7 +240,7 @@ function getTargetCompiler()
 
 	-- gmake - osx
 	-- xcode - osx
-	if (_OPTIONS["gcc"] == "osx")			then	return "gcc"			end
+	if (_OPTIONS["gcc"] == "osx")			then	return "clang"			end
 	if (_OPTIONS["xcode"] == "osx")			then	return "xcode"			end
 
 	-- gmake - rpi

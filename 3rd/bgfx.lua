@@ -38,6 +38,38 @@ function projectDependencies_bgfx()
 	return dependencies
 end 
 
+function projectExtraConfig_bgfx()
+	if getTargetOS() == "android" then
+		links {
+			"EGL",
+			"GLESv2",
+		}
+	end
+
+	if isWinStoreTarget() then
+		linkoptions {
+			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
+		}
+	end
+
+	if getTargetCompiler() == "clang" then
+		buildoptions {
+			"-Wno-microsoft-enum-value", -- enumerator value is not representable in the underlying type 'int'
+			"-Wno-microsoft-const-init", -- default initialization of an object of const type '' without a user-provided default constructor is a Microsoft extension
+		}
+	end
+
+	if getTargetOS() == "osx" then
+		linkoptions {
+			"-framework Cocoa",
+			"-framework QuartzCore",
+			"-framework OpenGL",
+			"-weak_framework Metal",
+			"-weak_framework MetalKit",
+		}
+	end
+ end
+
 function projectAdd_bgfx()
 	local BGFX_DEFINES = {}
 	if _OPTIONS["with-glfw"] then
@@ -48,6 +80,6 @@ function projectAdd_bgfx()
 		table.insert(BFGX_FILES, BGFX_ROOT .. "src/amalgamated.mm")
 	end
 	
-	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES)
+	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES, projectExtraConfig_bgfx)
 end
 
