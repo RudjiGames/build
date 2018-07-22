@@ -31,9 +31,9 @@ function projectDependencies_bgfx()
 	local dependencies = { "bx", "bimg" }
 	if (getTargetOS() == "linux" or getTargetOS() == "freebsd") then
 		table.insert(dependencies, "X11")
-		if _OPTIONS["with-glfw"] then
-			table.insert(dependencies, "GL")
-		end
+	end
+	if _OPTIONS["with-glfw"] then
+		table.insert(dependencies, "GL")
 	end
 	return dependencies
 end 
