@@ -638,9 +638,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		buildoptions {
 			"-Wshadow",
 		}
-		links {
-			"gomp", 
-		}
 
 	configuration { "mingw-*", _filter }
 		defines { "WIN32" }
