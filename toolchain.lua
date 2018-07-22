@@ -262,11 +262,13 @@ function mkdir(_dirname)
 	local dir = _dirname
 	if os.is("windows") then
 		dir = string.gsub( _dirname, "([/]+)", "\\" )
+	else
+		dir = string.gsub( _dirname, "\\\\", "\\" )
 	end
 
 	if not os.isdir(dir) then
 		if not os.is("windows") then
-			os.execute("mkdir " .. dir .. " -p")
+			os.execute("mkdir -p " .. dir)
 		else
 			os.execute("mkdir " .. dir)
 		end
@@ -277,6 +279,8 @@ function rmdir(_dirname)
 	local dir = _dirname
 	if os.is("windows") then
 		dir = string.gsub( _dirname, "([/]+)", "\\" )
+	else
+		dir = string.gsub( _dirname, "\\\\", "\\" )
 	end
 
 	if os.isdir(dir) then
