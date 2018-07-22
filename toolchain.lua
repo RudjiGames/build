@@ -199,6 +199,10 @@ function getTargetOS()
 	return "unknown"
 end
 
+function isAppleTarget()
+	return getTargetOS() == "ios" or getTargetOS() == "tvos" or getTargetOS() == "osx"
+end
+
 function getTargetCompiler()
 
 	-- gmake - android

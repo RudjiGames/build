@@ -22,6 +22,10 @@ local BFGX_FILES = {
 	BGFX_ROOT .. "include/**.h"
 }
 
+local BFGX_FILES_APPLE = {
+	BGFX_ROOT .. "src/amalgamated.mm"
+}
+
 function projectInclude_bgfx()
 	return { BGFX_ROOT .. "include/",
 			 BGFX_ROOT .. "3rdparty/" }
@@ -42,7 +46,13 @@ function projectAdd_bgfx()
 	local BGFX_DEFINES = {}
 	if _OPTIONS["with-glfw"] then
 		BGFX_DEFINES = { "BGFX_CONFIG_MULTITHREADED=0" }		
-	end	
-	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES)
+	end
+
+	local BGFX_FILES_MERGED = {}
+	if isAppleTarget() then
+		BGFX_FILES_MERGED = mergeTables(BFGX_FILES, BFGX_FILES_APPLE)
+	end
+	
+	addProject_3rdParty_lib("bgfx", BFGX_FILES_MERGED, false, BGFX_INCLUDE, BGFX_DEFINES)
 end
 
