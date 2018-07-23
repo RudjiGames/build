@@ -107,6 +107,7 @@ function projectExtraConfig_bgfx()
 
 	configuration { "osx" }
 		linkoptions {
+			"-framework CoreFoundation",
 			"-framework Cocoa",
 			"-framework QuartzCore",
 			"-framework OpenGL",
