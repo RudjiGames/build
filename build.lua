@@ -432,17 +432,23 @@ function getProjectDependencies(_name, _additionalDeps)
 	return finalDep
 end
 
+function addExtraSettingsForExecutable(_name)
+	if _G["projectExtraConfigExecutable_" .. _name] then
+		dep = _G["projectExtraConfigExecutable_" .. _name]()
+	end
+end
+
 -- can be called only ONCE from one project, merge dependencies before calling!!!
 function addDependencies(_name, _additionalDeps)
 	_dependencies = getProjectDependencies(_name, _additionalDeps)
+
+	addExtraSettingsForExecutable(_name)
 
 	if _dependencies ~= nil then
 		for _,dependency in ipairs(_dependencies) do
 			local dependencyFullName = getProjectFullName(dependency)
 
-			if _G["projectExtraConfigExecutable_" .. dependencyFullName] then
-				dep = _G["projectExtraConfigExecutable_" .. dependencyFullName]()
-			end
+			addExtraSettingsForExecutable(dependencyFullName)
 
 			local shouldLink = addInclude(_name, dependency)
 
