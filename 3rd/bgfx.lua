@@ -39,33 +39,97 @@ function projectDependencies_bgfx()
 end 
 
 function projectExtraConfig_bgfx()
-	if getTargetOS() == "android" then
+	if _OPTIONS["with-glfw"] then
+		links   {
+			"glfw3"
+		}
+
+		configuration { "linux or freebsd" }
+			links {
+				"Xrandr",
+				"Xinerama",
+				"Xi",
+				"Xxf86vm",
+				"Xcursor",
+			}
+
+		configuration { "osx" }
+			linkoptions {
+				"-framework CoreVideo",
+				"-framework IOKit",
+			}
+
+		configuration {}
+	end
+	
+	configuration { "vs20* or mingw*", "not orbis", "not durango", "not winphone*", "not winstore*" }
+		links {
+			"gdi32",
+			"psapi",
+		}
+
+	configuration { "winphone8* or winstore8*" }
+		removelinks {
+			"DelayImp",
+			"gdi32",
+			"psapi"
+		}
+		links {
+			"d3d11",
+			"dxgi"
+		}
+		linkoptions {
+			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
+		}
+
+	configuration { "android*" }
+		linkoptions {
+			"-shared",
+		}
 		links {
 			"EGL",
 			"GLESv2",
 		}
-	end
 
-	if isWinStoreTarget() then
-		linkoptions {
-			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
-		}
-	end
-
-	if getTargetCompiler() == "clang" then
-		buildoptions {
-			"-Wno-microsoft-enum-value", -- enumerator value is not representable in the underlying type 'int'
-			"-Wno-microsoft-const-init", -- default initialization of an object of const type '' without a user-provided default constructor is a Microsoft extension
-		}
-	end
-
-	if getTargetOS() == "osx" then
+	configuration { "linux-* or freebsd" }
 		links {
-			"QuartzCore.framework",
-			"Metal.weak_framework",
-			"MetalKit.weak_framework"
+			"pthread",
 		}
+
+	configuration { "rpi" }
+		links {
+--			"EGL",
+			"bcm_host",
+			"vcos",
+			"vchiq_arm",
+			"pthread",
+		}
+
+	configuration { "osx" }
+		linkoptions {
+			"-framework Cocoa",
+			"-framework QuartzCore",
+			"-framework OpenGL",
+			"-weak_framework Metal",
+			"-weak_framework MetalKit",
+		}
+			
+	configuration { "ios*" }
+		kind "ConsoleApp"
+		linkoptions {
+			"-framework CoreFoundation",
+			"-framework Foundation",
+			"-framework OpenGLES",
+			"-framework UIKit",
+			"-framework QuartzCore",
+		}
+
+	if getTargetOS() == "ios" then
+		configuration { "xcode4", "ios" }
+			kind "WindowedApp"
 	end
+
+	configuration {}
  end
 
 function projectAdd_bgfx()
@@ -78,6 +142,6 @@ function projectAdd_bgfx()
 		table.insert(BFGX_FILES, BGFX_ROOT .. "src/amalgamated.mm")
 	end
 	
-	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES, projectExtraConfig_bgfx)
+	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES)
 end
 

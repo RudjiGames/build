@@ -196,8 +196,7 @@ ProjectLoad = {
 	LoadAndAdd	= {}
 }
 
-g_projectIsLoaded		= {}
-g_projectDependencies	= {}
+g_projectIsLoaded = {}
 
 function getProjectDesc(_name)
 	local descFn = _G["projectDescription_" .. _name]
@@ -311,16 +310,16 @@ function getProjectGenieScriptPath(_name)
 	return ""
 end
 
-function addIncludePath(_path)
+function addIncludePath(_name, _path)
 	assert(_path ~= nil)
 	if string.len(_path) == 0 then return end
 	if os.isdir(_path) then includedirs { _path } end
 end
 
-function addInclude(_projectName)
+function addInclude(_name, _projectName)
 	local basename = getProjectBaseName(_projectName)
 	local fullname = getProjectFullName(_projectName)
-
+	
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 	if projectParentDir == nil then return false end
 
@@ -331,9 +330,9 @@ function addInclude(_projectName)
 		includedirs { includeFn() }
 	else
 		-- search for it..
-		addIncludePath(projectParentDir)
-		addIncludePath(projectParentDir .. basename .. "/include")
-		addIncludePath(projectParentDir .. basename .. "/inc")
+		addIncludePath(_name, projectParentDir)
+		addIncludePath(_name, projectParentDir .. basename .. "/include")
+		addIncludePath(_name, projectParentDir .. basename .. "/inc")
 	end	
 
 	local linkFn = _G["projectLink_" .. fullname]
@@ -406,7 +405,7 @@ function getProjectDependencies(_name, _additionalDeps)
 	if _G["projectDependencies_" .. fullName] then
 		dep = _G["projectDependencies_" .. fullName]()
 	end
-	
+
 	_additionalDeps = _additionalDeps or {}
 	dep = mergeTables(dep, _additionalDeps)
 
@@ -436,14 +435,20 @@ end
 -- can be called only ONCE from one project, merge dependencies before calling!!!
 function addDependencies(_name, _additionalDeps)
 	_dependencies = getProjectDependencies(_name, _additionalDeps)
-	
+
 	if _dependencies ~= nil then
 		for _,dependency in ipairs(_dependencies) do
-			local shouldLink = addInclude(dependency)
+			local dependencyFullName = getProjectFullName(dependency)
+
+			if _G["projectExtraConfig_" .. dependencyFullName] then
+				dep = _G["projectExtraConfig_" .. dependencyFullName]()
+			end
+
+			local shouldLink = addInclude(_name, dependency)
 
 --			if shouldLink == true and isGENieProject(dependency) then
 			if shouldLink == true then
-				links { getProjectFullName(dependency) }
+				links { getProjectFullName(dependencyFullName) }
 			end
 		end
 	end

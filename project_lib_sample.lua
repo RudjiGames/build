@@ -48,8 +48,6 @@ function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
 																	false,	-- WITH_QT
 																	true	-- EXECUTABLE
 																	)
-
-																			
 		addDependencies(_name, { "rapp", _lib })
 end
 

@@ -75,7 +75,7 @@ function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _
 			srcFilesPath			
 		}
 
-		addIncludePath(projectPath .. "/3rd/")
+		addIncludePath(_name, projectPath .. "/3rd/")
 
 		if _extraIncludes ~= nil then
 			includedirs { _extraIncludes }
