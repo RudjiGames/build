@@ -440,8 +440,8 @@ function addDependencies(_name, _additionalDeps)
 		for _,dependency in ipairs(_dependencies) do
 			local dependencyFullName = getProjectFullName(dependency)
 
-			if _G["projectExtraConfig_" .. dependencyFullName] then
-				dep = _G["projectExtraConfig_" .. dependencyFullName]()
+			if _G["projectExtraConfigExecutable_" .. dependencyFullName] then
+				dep = _G["projectExtraConfigExecutable_" .. dependencyFullName]()
 			end
 
 			local shouldLink = addInclude(_name, dependency)

@@ -38,7 +38,7 @@ function projectDependencies_bgfx()
 	return dependencies
 end 
 
-function projectExtraConfig_bgfx()
+function projectExtraConfigExecutable_bgfx()
 	if _OPTIONS["with-glfw"] then
 		links   {
 			"glfw3"

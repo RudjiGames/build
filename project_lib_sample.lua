@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
+function addProject_lib_sample(_lib, _name, _toolLibSample)
 	
 	group ("samples")
 	project (_lib .. "_sample_" ..  _name)
@@ -41,7 +41,6 @@ function addProject_lib_sample(_lib, _name, _toolLibSample, _extraConfig)
 		flags { Flags_Libraries }
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
-																	_extraConfig,
 																	false,	-- IS_LIBRARY
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS

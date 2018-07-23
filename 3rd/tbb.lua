@@ -33,7 +33,7 @@ local TBB_DEFINES = {
 	"TBB_PREVIEW_GLOBAL_CONTROL=1"
 }
 
-function tbb_extraConfig()
+function projectExtraConfig_tbb()
 	forcedincludes {"algorithm"}	-- min/max
 	includedirs { TBB_ROOT .. "build/vs2013/" }
 	if getTargetOS() == "windows" then
@@ -44,6 +44,6 @@ function tbb_extraConfig()
 end 
 
 function projectAdd_tbb()
-	addProject_3rdParty_lib("tbb", TBB_FILES, true, TBB_INCLUDES, TBB_DEFINES, tbb_extraConfig)
+	addProject_3rdParty_lib("tbb", TBB_FILES, true, TBB_INCLUDES, TBB_DEFINES)
 end
 

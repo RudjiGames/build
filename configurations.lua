@@ -6,13 +6,12 @@
 local params = { ... }
 
 local SOURCE_FILES		= params[1] or false
-local EXTRA_CONFIG		= params[2] or nil
-local IS_LIBRARY		= params[3] or false
-local IS_SHARED_LIBRARY	= params[4] or false
-local COPY_QT_DLLS		= params[5] or false
-local WITH_QT			= params[6] or false
-local EXECUTABLE		= params[7] or false
-local PROJECT_NAME		= params[8] or project().name
+local IS_LIBRARY		= params[2] or false
+local IS_SHARED_LIBRARY	= params[3] or false
+local COPY_QT_DLLS		= params[4] or false
+local WITH_QT			= params[5] or false
+local EXECUTABLE		= params[6] or false
+local PROJECT_NAME		= params[7] or project().name
 
 dofile (RTM_SCRIPTS_DIR .. "embedded_files.lua")
 dofile (RTM_SCRIPTS_DIR .. "qtpresets5.lua")
@@ -28,8 +27,9 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 	if WITH_QT then
 		qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
-	if EXTRA_CONFIG then
-		EXTRA_CONFIG()
+
+	if _G["projectExtraConfig_" .. project().name] then
+		_G["projectExtraConfig_" .. project().name]()
 	end
 end
 

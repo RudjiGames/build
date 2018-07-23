@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraConfig, _extraFiles, _extraIncludes, _extraDefines, _nameAppend)
+function addProject_lib(_name, _libType, _shared, _prebuildcmds, _extraFiles, _extraIncludes, _extraDefines, _nameAppend)
 
 	if _libType == Lib.Tool then
 		group ("toollibs")

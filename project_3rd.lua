@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _additionalDefines, _extraConfig)
+function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _additionalDefines)
 
 	group ("3rd")
 	project ( _name )
@@ -26,7 +26,6 @@ function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _addi
 		end
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	_libFiles,
-																	_extraConfig,
 																	true,	-- IS_LIBRARY
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS

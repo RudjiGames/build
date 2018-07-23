@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraConfig, _extraQtModules)
+function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQtModules)
 
 	_libProjNotExe	= _libProjNotExe or false
 	_includes		= _includes or {}
@@ -71,7 +71,6 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraCo
 		end
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
-																	_extraConfig, 
 																	false,					-- IS_LIBRARY
 																	false,					-- IS_SHARED_LIBRARY
 																	true,					-- COPY_QT_DLLS

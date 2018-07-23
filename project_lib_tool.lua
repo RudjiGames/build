@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib_tool(_lib, _name, _extraConfig)
+function addProject_lib_tool(_lib, _name)
 
 	group ("libs_tools")
 	project (_lib .. "_tool_" ..  _name)
@@ -25,7 +25,6 @@ function addProject_lib_tool(_lib, _name, _extraConfig)
 		flags { Flags_Libraries }
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
-																	_extraConfig,
 																	true,	-- IS_LIBRARY
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS

@@ -44,8 +44,7 @@ if os.is("windows") then
 	sedCommand = getProjectPath("build") .. "tools\\windows\\sed.exe"
 end
 
-function assimp_extraConfig()
-	configuration {}
+function projectExtraConfig_assimp()
 	if os.is("windows") then
 		prebuildcommands(string.gsub("copy " .. ASSIMP_ROOT .. "include/assimp/config.h.in " .. ASSIMP_ROOT .. "include/assimp/config.h", "/", "\\"))
 		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/" .. '"cmakedefine ASSIMP_DOUBLE_PRECISION"' .. "/" .. '"define ASSIMP_FUCK_DOUBLE_PRECISION"' .. "/g " .. string.gsub(ASSIMP_ROOT .. "include/assimp/config.h", "/", "\\"))
@@ -63,10 +62,11 @@ function assimp_extraConfig()
 
 		prebuildcommands("cp " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h")
 	end
+	configuration {}
 end 
 
 -- disable IFC importer as it fails to compile with TDM-GCC 4.8.1
 function projectAdd_assimp()
-	addProject_3rdParty_lib("assimp", ASSIMP_FILES, true, ASSIMP_INCLUDES, {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER" }, assimp_extraConfig)
+	addProject_3rdParty_lib("assimp", ASSIMP_FILES, true, ASSIMP_INCLUDES, {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER" })
 end
 

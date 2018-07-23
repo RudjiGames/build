@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_game(_name, _extraConfig)
+function addProject_game(_name)
 
 	group ("games")
 	project (_name)
@@ -34,7 +34,6 @@ function addProject_game(_name, _extraConfig)
 		flags { Flags_Cmd }
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
-																	_extraConfig,
 																	false,	-- IS_LIBRARY
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
