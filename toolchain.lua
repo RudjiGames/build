@@ -1110,11 +1110,30 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,--gc-sections",
 		}
 
+	if _executable then
+		configuration { "mingw-clang", _filter }
+			kind "ConsoleApp"
+
+		configuration { "asmjs", _filter }
+			kind "ConsoleApp"
+			targetextension ".bc"
+
+		configuration { "mingw*", _filter }
+			targetextension ".exe"
+
+		configuration { "orbis", _filter }
+			targetextension ".elf"
+
+		configuration { "android*", _filter }
+			kind "ConsoleApp"
+			targetextension ".so"
+	end
+
 	configuration {}
 
-	if _executable == true then
-		rappUsed(_filter, binDir)
-	end
+	if _OPTIONS["no-deploy"] == nil then
+		prepareProjectDeployment(_filter, _binDir)
+	end		
 end
 
 function strip()
@@ -1157,176 +1176,5 @@ function strip()
 		}
 
 	configuration {} -- reset configuration
-end
-
-function rappUsed(_filter, _binDir)
-
-	if _OPTIONS["with-glfw"] then
-		links   {
-			"glfw3"
-		}
-
-		configuration { "linux or freebsd", _filter }
-			links {
-				"Xrandr",
-				"Xinerama",
-				"Xi",
-				"Xxf86vm",
-				"Xcursor",
-			}
-
-		configuration { "osx", _filter }
-			linkoptions {
-				"-framework CoreVideo",
-				"-framework IOKit",
-			}
-
-		configuration {}
-	end
-
-	if _OPTIONS["with-ovr"] then
-		links   {
-			"winmm",
-			"ws2_32",
-		}
-
-		-- Check for LibOVR 5.0+
-		if os.isdir(path.join(os.getenv("OVR_DIR"), "LibOVR/Lib/Windows/Win32/Debug/VS2012")) then
-
-			configuration { "x32", "Debug", _filter }
-				libdirs { path.join("$(OVR_DIR)/LibOVR/Lib/Windows/Win32/Debug", _ACTION) }
-
-			configuration { "x32", "Release", _filter }
-				libdirs { path.join("$(OVR_DIR)/LibOVR/Lib/Windows/Win32/Release", _ACTION) }
-
-			configuration { "x64", "Debug", _filter }
-				libdirs { path.join("$(OVR_DIR)/LibOVR/Lib/Windows/x64/Debug", _ACTION) }
-
-			configuration { "x64", "Release", _filter }
-				libdirs { path.join("$(OVR_DIR)/LibOVR/Lib/Windows/x64/Release", _ACTION) }
-
-			configuration { "x32 or x64", _filter }
-				links { "libovr" }
-		else
-			configuration { "x32", _filter }
-				libdirs { path.join("$(OVR_DIR)/LibOVR/Lib/Win32", _ACTION) }
-
-			configuration { "x64", _filter }
-				libdirs { path.join("$(OVR_DIR)/LibOVR/Lib/x64", _ACTION) }
-
-			configuration { "x32", "Debug", _filter }
-				links { "libovrd" }
-
-			configuration { "x32", "Release", _filter }
-				links { "libovr" }
-
-			configuration { "x64", "Debug", _filter }
-				links { "libovr64d" }
-
-			configuration { "x64", "Release", _filter }
-				links { "libovr64" }
-		end
-
-		configuration {}
-	end
-
-	configuration { "vs*", "not orbis", "not durango", _filter }
-		linkoptions {
-			"/ignore:4199", -- LNK4199: /DELAYLOAD:*.dll ignored; no imports found from *.dll
-		}
-		links { -- this is needed only for testing with GLES2/3 on Windows with VS2008
-			"DelayImp",
-		}
-
-	configuration { "vs201*", "not orbis", "not durango", _filter }
-		linkoptions { -- this is needed only for testing with GLES2/3 on Windows with VS201x
-			"/DELAYLOAD:\"libEGL.dll\"",
-			"/DELAYLOAD:\"libGLESv2.dll\"",
-		}
-
-	configuration { "mingw*", _filter }
-		targetextension ".exe"
-
-	configuration { "orbis", _filter }
-		targetextension ".elf"
-		
-	configuration { "vs20* or mingw*", "not orbis", "not durango", "not winphone*", "not winstore*", _filter }
-		links {
-			"gdi32",
-			"psapi",
-		}
-
-	configuration { "winphone8* or winstore8*", _filter }
-		removelinks {
-			"DelayImp",
-			"gdi32",
-			"psapi"
-		}
-		links {
-			"d3d11",
-			"dxgi"
-		}
-		linkoptions {
-			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
-		}
-
-	configuration { "mingw-clang", _filter }
-		kind "ConsoleApp"
-
-	configuration { "android*", _filter }
-		kind "ConsoleApp"
-		targetextension ".so"
-		linkoptions {
-			"-shared",
-		}
-		links {
-			"EGL",
-			"GLESv2",
-		}
-
-	configuration { "asmjs", _filter }
-		kind "ConsoleApp"
-		targetextension ".bc"
-
-	configuration { "linux-* or freebsd", _filter }
-		links {
-			"pthread",
-		}
-
-	configuration { "rpi", _filter }
-		links {
---			"EGL",
-			"bcm_host",
-			"vcos",
-			"vchiq_arm",
-			"pthread",
-		}
-
-	configuration { "osx", _filter }
-		links {
-			"Cocoa.framework",
-			"OpenGL.framework",
-		}
-
-	configuration { "ios*", _filter }
-		kind "ConsoleApp"
-		linkoptions {
-			"-framework CoreFoundation",
-			"-framework Foundation",
-			"-framework OpenGLES",
-			"-framework UIKit",
-			"-framework QuartzCore",
-		}
-
-	configuration { "xcode4", "ios", _filter }
-		if getTargetOS() == "ios" then
-			kind "WindowedApp"
-		end
-
-	configuration {}
-
-	if _OPTIONS["no-deploy"] == nil then
-		prepareProjectDeployment(_filter, _binDir)
-	end		
 end
 
