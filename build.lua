@@ -498,7 +498,12 @@ function stripExtension( _path )
 end
 
 function getToolForHost(_name)
-	local toolPath = path.getabsolute(script_dir() .. "/tools/")
+	-- sed is special case
+	if _name == "sed" and os.is("windows") then
+		return getProjectPath("build") .. "tools\\bin\\windows\\sed.exe"
+	end
+
+	local toolPath = path.getabsolute(script_dir() .. "/tools/bin/")
 	if os.is("windows") then
 		toolPath = toolPath .. "/windows/" .. _name .. ".exe"
 	elseif os.is("linux") then

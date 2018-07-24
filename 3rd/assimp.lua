@@ -38,11 +38,7 @@ local ASSIMP_INCLUDES = {
 	ASSIMP_ROOT .. "code/BoostWorkaround/"
 }
 
-local sedCommand = "sed"
-
-if os.is("windows") then
-	sedCommand = getProjectPath("build") .. "tools\\windows\\sed.exe"
-end
+local sedCommand = getToolForHost("sed")
 
 function projectExtraConfig_assimp()
 	if os.is("windows") then
