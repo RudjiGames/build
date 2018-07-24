@@ -38,11 +38,11 @@ function addProject_lib_sample(_name, _sampleName, _toolLibSample)
 			incFilesPath,
 		}
 		
-		flags { Flags_nameraries }
+		flags { Flags_Libraries }
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
-																	false,	-- IS_nameRARY
-																	false,	-- IS_SHARED_nameRARY
+																	false,	-- IS_LIBRARY
+																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
 																	true	-- EXECUTABLE
