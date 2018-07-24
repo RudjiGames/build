@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_name_sample(_name, _sampleName, _toolLibSample)
+function addProject_lib_sample(_name, _sampleName, _toolLibSample)
 	
 	group ("samples")
 	project (_name .. "_sample_" ..  _sampleName)
