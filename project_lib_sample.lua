@@ -3,12 +3,10 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib_sample(_name, _sampleName, _toolLibSample)
+function addProject_lib_sample(_name, _sampleName)
 	
 	group ("samples")
 	project (_name .. "_sample_" ..  _sampleName)
-
-		_toolLibSample = _toolLibSample or false
 
 		language	"C++"
 		kind		"ConsoleApp"

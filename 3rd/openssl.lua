@@ -687,7 +687,12 @@ function projectInclude_openssl()
 	return OSSL_ROOT .. "include/"
 end
 
+function projectExtraConfig_openssl()
+	includedirs { OSSL_INCLUDES }
+	defines { OSSL_DEFINES }
+end
+
 function projectAdd_openssl()
-	addProject_3rdParty_lib("openssl", OSSL_FILES, false, OSSL_INCLUDES, OSSL_DEFINES)
+	addProject_3rdParty_lib("openssl", OSSL_FILES)
 end
 

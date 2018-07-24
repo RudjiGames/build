@@ -22,11 +22,12 @@ if getTargetOS() == "android" then
 	}
 end
 
-function projectInclude_zlib()
-	return ZLIB_ROOT
+function projectExtraConfig_zlib()
+	includedirs { ZLIB_ROOT }
+	defines { ZLIB_DEFINES }
 end
 
 function projectAdd_zlib()
-	addProject_3rdParty_lib("zlib", ZLIB_FILES, false, {}, ZLIB_DEFINES)
+	addProject_3rdParty_lib("zlib", ZLIB_FILES)
 end
 

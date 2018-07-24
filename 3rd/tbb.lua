@@ -41,9 +41,11 @@ function projectExtraConfig_tbb()
 	else
 		defines { "USE_PTHREAD=1" }
 	end
+	defines { TBB_DEFINES }
+	includedirs { TBB_INCLUDES }
 end 
 
 function projectAdd_tbb()
-	addProject_3rdParty_lib("tbb", TBB_FILES, true, TBB_INCLUDES, TBB_DEFINES)
+	addProject_3rdParty_lib("tbb", TBB_FILES)
 end
 

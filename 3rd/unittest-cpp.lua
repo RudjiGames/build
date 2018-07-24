@@ -80,8 +80,12 @@ else
 	UNIT_TEST_FILES_ALL = mergeTwoTables(UNIT_TEST_FILES_COMMON, UNITTEST_FILES_POSIX);
 end
 
+function projectExtraConfig_unittest_cpp()
+	includedirs { UNIT_TEST_ROOT .. "UnitTest++" }
+end
+
 function projectAdd_unittest_cpp()
-	addProject_3rdParty_lib("unittest-cpp", UNIT_TEST_FILES_ALL, true, { UNIT_TEST_ROOT .. "UnitTest++" } )
+	addProject_3rdParty_lib("unittest-cpp", UNIT_TEST_FILES_ALL, true)
 end
 
 function projectInclude_unittest_cpp()

@@ -25,6 +25,6 @@ local FCPP_FILES = {
 }
 
 function projectAdd_fcpp()
-	addProject_3rdParty_lib("fcpp", FCPP_FILES, false)
+	addProject_3rdParty_lib("fcpp", FCPP_FILES)
 end
 

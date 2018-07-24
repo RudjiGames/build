@@ -21,7 +21,11 @@ local TA_LIB_INCLUDES = {
 	TA_LIB_ROOT .. "src/ta_common/" 
 }
 
+function projectExtraConfig_ta_lib()
+	includedirs { TA_LIB_INCLUDES }
+end
+
 function projectAdd_ta_lib()
-	addProject_3rdParty_lib("ta_lib", TA_LIB_FILES, false, TA_LIB_INCLUDES)
+	addProject_3rdParty_lib("ta_lib", TA_LIB_FILES)
 end
 

@@ -130,6 +130,9 @@ function projectExtraConfigExecutable_bgfx()
 			kind "WindowedApp"
 	end
 
+	includedirs { BGFX_INCLUDE }
+	defines { BGFX_DEFINES }
+
 	configuration {}
  end
 
@@ -143,6 +146,6 @@ function projectAdd_bgfx()
 		table.insert(BFGX_FILES, BGFX_ROOT .. "src/amalgamated.mm")
 	end
 	
-	addProject_3rdParty_lib("bgfx", BFGX_FILES, false, BGFX_INCLUDE, BGFX_DEFINES)
+	addProject_3rdParty_lib("bgfx", BFGX_FILES)
 end
 

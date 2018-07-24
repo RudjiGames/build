@@ -3,7 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _additionalDefines)
+function addProject_3rdParty_lib(_name, _libFiles, _exceptions)
 
 	group ("3rd")
 	project ( _name )
@@ -17,9 +17,6 @@ function addProject_3rdParty_lib(_name, _libFiles, _exceptions, _includes, _addi
 
 		files 		{ _libFiles }
 
-		includedirs { _includes }
-		defines { _additionalDefines }
-		
 		flags { Flags_ThirdParty }
 		if _exceptions == false then
 			flags { "NoExceptions" }

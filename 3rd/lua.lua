@@ -18,7 +18,11 @@ if getTargetOS() == "android" then
 	lua_defines = { "l_getlocaledecpoint()='.'" }
 end
 
+function projectExtraConfig_lua()
+	defines { LUA_DEFINES }
+end
+
 function projectAdd_lua()
-	addProject_3rdParty_lib("lua", LUA_FILES, false, {}, LUA_DEFINES)
+	addProject_3rdParty_lib("lua", LUA_FILES)
 end
 

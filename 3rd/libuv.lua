@@ -34,7 +34,11 @@ local LUV_INCLUDES	= {
 	LUV_ROOT .. "src/"
 }
 
+function projectExtraConfig_libuv()
+	includedirs { LUV_INCLUDES }
+end
+
 function projectAdd_libuv()
-	addProject_3rdParty_lib("libuv", LUV_FILES, false, LUV_INCLUDES)
+	addProject_3rdParty_lib("libuv", LUV_FILES)
 end
 

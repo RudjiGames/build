@@ -58,11 +58,15 @@ function projectExtraConfig_assimp()
 
 		prebuildcommands("cp " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h")
 	end
+
+	includedirs { ASSIMP_INCLUDES }
+	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER" }
+
 	configuration {}
 end 
 
 -- disable IFC importer as it fails to compile with TDM-GCC 4.8.1
 function projectAdd_assimp()
-	addProject_3rdParty_lib("assimp", ASSIMP_FILES, true, ASSIMP_INCLUDES, {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER" })
+	addProject_3rdParty_lib("assimp", ASSIMP_FILES, true)
 end
 

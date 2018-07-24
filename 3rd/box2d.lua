@@ -15,7 +15,11 @@ local BOX2D_FILES = {
 	BOX2D_INC .. "**.c"
 }
 
+function projectExtraConfig_box2d()
+	includedirs { BOX2D_INC }
+end
+
 function projectAdd_box2d()
-	addProject_3rdParty_lib("box2D", BOX2D_FILES, false, BOX2D_INC)
+	addProject_3rdParty_lib("box2D", BOX2D_FILES)
 end
 

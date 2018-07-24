@@ -19,7 +19,11 @@ local IMGUI_FILES = {
 	IMGUI_ROOT .. "/stb_truetype.h",
 }
 
+function projectExtraConfig_imgui()
+	includedirs { IMGUI_ROOT }
+end
+
 function projectAdd_imgui()
-	addProject_3rdParty_lib("imgui", IMGUI_FILES, false, IMGUI_ROOT)
+	addProject_3rdParty_lib("imgui", IMGUI_FILES)
 end
 

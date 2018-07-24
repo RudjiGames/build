@@ -14,6 +14,6 @@ local JSMN_FILES = {
 }
 
 function projectAdd_jsmn()
-	addProject_3rdParty_lib("jsmn", JSMN_FILES, false)
+	addProject_3rdParty_lib("jsmn", JSMN_FILES)
 end
 

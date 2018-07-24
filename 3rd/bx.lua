@@ -19,7 +19,11 @@ local BX_FILES = {
 	BX_ROOT .. "src/amalgamated.cpp",
 }
 
+function projectExtraConfig_bx()
+	includedirs { BX_INCLUDE }
+end
+
 function projectAdd_bx()
-	addProject_3rdParty_lib("bx", BX_FILES, false, BX_INCLUDE)
+	addProject_3rdParty_lib("bx", BX_FILES)
 end
 

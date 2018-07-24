@@ -7,7 +7,6 @@
 
 local params			= { ... }
 local NVTRISTRIP_ROOT	= params[1]
-local NVTRISTRIP_INC	= { NVTRISTRIP_ROOT .. "NvTriStrip/include" }
 
 local NVTRISTRIP_FILES = {
 	NVTRISTRIP_ROOT .. "NvTriStrip/src/NvTriStrip.cpp",
@@ -16,7 +15,11 @@ local NVTRISTRIP_FILES = {
 	NVTRISTRIP_ROOT .. "NvTriStrip/src/VertexCache.h"
 }
 
+function projectExtraConfig_NvTriStrip()
+	includedirs { NVTRISTRIP_ROOT .. "NvTriStrip/include" }
+end
+
 function projectAdd_NvTriStrip()
-	addProject_3rdParty_lib("NvTriStrip", NVTRISTRIP_FILES, false, NVTRISTRIP_INC)
+	addProject_3rdParty_lib("NvTriStrip", NVTRISTRIP_FILES)
 end
 

@@ -13,7 +13,11 @@ local SQUISH_FILES = {
 	SQUISH_ROOT .. "*.h"
 }
 
+function projectExtraConfig_squish()
+	includedirs { SQUISH_ROOT }
+end
+
 function projectAdd_squish()
-	addProject_3rdParty_lib("squish", SQUISH_FILES, false, SQUISH_ROOT)
+	addProject_3rdParty_lib("squish", SQUISH_FILES)
 end
 

@@ -25,7 +25,11 @@ function projectDependencies_bimg()
 	return { "bx" }
 end 
 
+function projectExtraConfig_bimg()
+	includedirs { BIMG_INCLUDE }
+end
+
 function projectAdd_bimg()
-	addProject_3rdParty_lib("bimg", BIMG_FILES, false, BIMG_INCLUDE)
+	addProject_3rdParty_lib("bimg", BIMG_FILES)
 end
 
