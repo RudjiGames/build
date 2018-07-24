@@ -3,16 +3,16 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib_test(_libName)
+function addProject_lib_test(_name)
 
 	group ("tests")
-	project (_libName .. "_test")
+	project (_name .. "_test")
 
 		language	"C++"
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(_libName, ProjectPath.Dir) .. "/test/"
+		project().path = getProjectPath(_name, ProjectPath.Dir) .. "/test/"
 
 		includedirs { project().path }
 
@@ -32,6 +32,6 @@ function addProject_lib_test(_libName)
 																	true	-- EXECUTABLE
 																	)
 
-		addDependencies(project().name, { "rapp", "unittest-cpp", _libName })
+		addDependencies(project().name, { "rapp", "unittest-cpp", _name })
 end
 
