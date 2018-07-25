@@ -307,18 +307,11 @@ function addInclude(_name, _projectName)
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 	if projectParentDir == nil then return false end
 
-	local nameWithUnderscore = string.gsub(basename, "-", "_")
-
-	local includeFn = _G["projectInclude_" .. nameWithUnderscore]
-	if includeFn then
-		includedirs { includeFn() }
-	else
-		-- search for it..
-		addIncludePath(_name, projectParentDir)
-		addIncludePath(_name, projectParentDir .. basename .. "/include")
-		addIncludePath(_name, projectParentDir .. basename .. "/inc")
-		addIncludePath(_name, projectParentDir .. basename)
-	end	
+	-- search for it..
+	addIncludePath(_name, projectParentDir)
+	addIncludePath(_name, projectParentDir .. basename .. "/include")
+	addIncludePath(_name, projectParentDir .. basename .. "/inc")
+	addIncludePath(_name, projectParentDir .. basename)
 end
 
 function addProject(_name)
