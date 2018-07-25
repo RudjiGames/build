@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="generator" content="Hugo 0.43" />
+    <meta name="description" content="">
+
+
+    <link rel="shortcut icon" href="http://mtuner.net/logo32.ico" />
+
+
+    <title>data :: build Documentation</title>
+    
+    
+    <link href="/build/css/nucleus.css?1532488410" rel="stylesheet">
+    <link href="/build/css/font-awesome.min.css?1532488410" rel="stylesheet">
+    <link href="/build/css/hybrid.css?1532488410" rel="stylesheet">
+    <link href="/build/css/featherlight.min.css?1532488410" rel="stylesheet">
+    <link href="/build/css/perfect-scrollbar.min.css?1532488410" rel="stylesheet">
+    <link href="/build/css/horsey.css?1532488410" rel="stylesheet">
+    <link href="/build/css/theme.css?1532488410" rel="stylesheet">
+    <link href="/build/css/hugo-theme.css?1532488410" rel="stylesheet">
+    
+      <link href="/build/css/theme-blue.css?1532488410" rel="stylesheet">
+    
+
+    <script src="/build/js/jquery-2.x.min.js?1532488410"></script>
+    
+    <style type="text/css">
+      :root #header + #content > #left > #rlblock_left{ 
+          display:none !important;
+      }
+      
+    </style>
+    
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>	
+  </head>
+  <body class="" data-url="/build/project_structure/data/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="http://milostosic.github.com/build/">
+<img src="https://github.com/milostosic/build/raw/gh-pages/images/build_logo.gif" width=200/>
+<p><a href="https://github.com/bkaradzic/GENie">GENie</a> <font color="#ffffff">build system scripts</font></p>
+</a>
+
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fa fa-search"></i></label>
+    <input data-search-input id="search-by" type="text" placeholder="Search...">
+    <span data-search-clear=""><i class="fa fa-close"></i></span>
+</div>
+
+<script type="text/javascript" src="/build/js/lunr.min.js?1532488410"></script>
+<script type="text/javascript" src="/build/js/horsey.js?1532488410"></script>
+<script type="text/javascript">
+    
+        var baseurl = "http:\/\/milostosic.github.com\/build\/";
+    
+</script>
+<script type="text/javascript" src="/build/js/search.js?1532488410"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/build/getting_started/" title="Getting started" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/getting_started/">
+          Getting started
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_structure/" title="Project structure" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/build/project_structure/">
+          Project structure
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_structure/build/" title="build" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/project_structure/build/">
+          build
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_structure/3rd/" title="3rd" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/project_structure/3rd/">
+          3rd
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_structure/data/" title="data" class="dd-item 
+        parent
+        active
+        
+        ">
+      <a href="/build/project_structure/data/">
+          data
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_structure/deploy/" title="deploy" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/project_structure/deploy/">
+          deploy
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_structure/tools/" title="tools" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/project_structure/tools/">
+          tools
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/build/project_types/" title="Project types" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/project_types/">
+          Project types
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/build/use_case/" title="Sample use case" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/use_case/">
+          Sample use case
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/build/customizing/" title="Custom configurations" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/build/customizing/">
+          Custom configurations
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li class="" role=""> 
+                  <a class="padding" href="mailto:milostosic77@gmail.com"><i class='fa fa-envelope-o'></i> Mail</a>
+              </li>
+          
+              <li class="" role=""> 
+                  <a class="padding" href="https://twitter.com/milostosic"><i class='fa fa-twitter'></i> Twitter</a>
+              </li>
+          
+              <li class="" role=""> 
+                  <a class="padding" href="https://www.linkedin.com/in/milostosic/"><i class='fa fa-linkedin'></i> LinkedIn</a>
+              </li>
+          
+              <li class="" role=""> 
+                  <a class="padding" href="https://www.paypal.me/MTuner"><i class='fa fa-paypal'></i> Support developement</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="footer">
+      <center>
+    
+    <a class="github-button" href="https://github.com/milostosic/build/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download milostosic/build on GitHub">Download</a>
+
+    
+    <a class="github-button" href="https://github.com/milostosic/build" data-icon="octicon-star" data-show-count="true" aria-label="Star milostosic/build on GitHub">Star</a>
+
+    
+    <a class="github-button" href="https://github.com/milostosic/build/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork milostosic/build on GitHub">Fork</a>
+	
+    <p>Built with <a href="http://gohugo.io/">Hugo</a></p>
+</center>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable sticky-parent">
+              
+              <div class="sticky-spacer">
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fa fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/build/'>build documentation</a> > <a href='/build/project_structure/'>Project structure</a> > data
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+
+        
+        <div id="body-inner">
+          
+            <h1>data</h1>
+          
+
+        
+
+
+<p><strong>WIP</strong></p>
+
+<p>This directory will contain scripts for the asset build system (WIP).</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+        
+            <a class="nav nav-prev" href="/build/project_structure/3rd/" title="3rd"> <i class="fa fa-chevron-left"></i></a>
+        
+        
+            <a class="nav nav-next" href="/build/project_structure/deploy/" title="deploy" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/build/js/clipboard.min.js?1532488410"></script>
+    <script src="/build/js/perfect-scrollbar.min.js?1532488410"></script>
+    <script src="/build/js/perfect-scrollbar.jquery.min.js?1532488410"></script>
+    <script src="/build/js/jquery.sticky-kit.min.js?1532488410"></script>
+    <script src="/build/js/featherlight.min.js?1532488410"></script>
+    <script src="/build/js/html5shiv-printshiv.min.js?1532488410"></script>
+    <script src="/build/js/highlight.pack.js?1532488410"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/build/js/modernizr.custom.71422.js?1532488410"></script>
+    <script src="/build/js/learn.js?1532488410"></script>
+    <script src="/build/js/hugo-learn.js?1532488410"></script>
+
+    <link href="/build/mermaid/mermaid.css?1532488410" type="text/css" rel="stylesheet" />
+    <script src="/build/mermaid/mermaid.js?1532488410"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
