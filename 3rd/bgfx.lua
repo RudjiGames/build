@@ -130,11 +130,13 @@ function projectExtraConfigExecutable_bgfx()
 			kind "WindowedApp"
 	end
 
-	includedirs { BGFX_INCLUDE }
-	defines { BGFX_DEFINES }
-
 	configuration {}
  end
+
+function projectExtraConfig_bgfx()
+ 	includedirs { BGFX_INCLUDE }
+	defines { BGFX_DEFINES }
+end
 
 function projectAdd_bgfx()
 	local BGFX_DEFINES = {}
