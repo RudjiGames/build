@@ -7,15 +7,15 @@
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/code_structure/build/</loc>
+    <loc>http://milostosic.github.com/build/project_structure/build/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/code_structure/3rd/</loc>
+    <loc>http://milostosic.github.com/build/project_structure/3rd/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/code_structure/</loc>
+    <loc>http://milostosic.github.com/build/project_structure/</loc>
   </url>
   
   <url>
@@ -23,7 +23,7 @@
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/code_structure/data/</loc>
+    <loc>http://milostosic.github.com/build/project_structure/data/</loc>
   </url>
   
   <url>
@@ -31,11 +31,15 @@
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/code_structure/deploy/</loc>
+    <loc>http://milostosic.github.com/build/project_structure/deploy/</loc>
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/code_structure/tools/</loc>
+    <loc>http://milostosic.github.com/build/customizing/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/project_structure/tools/</loc>
   </url>
   
   <url>
