@@ -230,14 +230,6 @@ function istable(_var)
 	return type(_var) == "table"
 end
 
-function isGENieProject(_projectName)
-	local basename = getProjectBaseName(_projectName)
-	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
-	if os.isfile(projectParentDir .. basename .. "/genie/genie.lua") then return true end
-	if os.isfile(RTM_SCRIPTS_DIR .. "3rd/" .. basename .. ".lua") then return true end
-	return false
-end
-
 function getProjectBaseName(_projectName)
 	if istable(_projectName) then
 		for _,name in ipairs(_projectName) do
@@ -334,13 +326,6 @@ function addInclude(_name, _projectName)
 		addIncludePath(_name, projectParentDir .. basename .. "/include")
 		addIncludePath(_name, projectParentDir .. basename .. "/inc")
 	end	
-
-	local linkFn = _G["projectLink_" .. fullname]
-	if linkFn then
-		linkFn()
-		return false
-	end	
-	return true
 end
 
 function addProject(_name)
@@ -450,12 +435,8 @@ function addDependencies(_name, _additionalDeps)
 
 			addExtraSettingsForExecutable(dependencyFullName)
 
-			local shouldLink = addInclude(_name, dependency)
-
---			if shouldLink == true and isGENieProject(dependency) then
-			if shouldLink == true then
-				links { getProjectFullName(dependencyFullName) }
-			end
+			addInclude(_name, dependency)
+			links { getProjectFullName(dependencyFullName) }
 		end
 	end
 	
