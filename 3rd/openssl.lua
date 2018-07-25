@@ -683,10 +683,6 @@ if os.is("windows") then
 	})
 end
 
-function projectInclude_openssl()
-	return OSSL_ROOT .. "include/"
-end
-
 function projectExtraConfig_openssl()
 	includedirs { OSSL_INCLUDES }
 	defines { OSSL_DEFINES }

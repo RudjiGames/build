@@ -294,14 +294,6 @@ function getProjectPath(_name, _pathType)
 	return ""
 end
 
-function getProjectGenieScriptPath(_name)
-	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		libScript = dir .. _name .. "/genie/" .. _name .. ".lua"
-		if os.isfile(libScript) then return libScript end
-	end
-	return ""
-end
-
 function addIncludePath(_name, _path)
 	assert(_path ~= nil)
 	if string.len(_path) == 0 then return end
@@ -325,6 +317,7 @@ function addInclude(_name, _projectName)
 		addIncludePath(_name, projectParentDir)
 		addIncludePath(_name, projectParentDir .. basename .. "/include")
 		addIncludePath(_name, projectParentDir .. basename .. "/inc")
+		addIncludePath(_name, projectParentDir .. basename)
 	end	
 end
 

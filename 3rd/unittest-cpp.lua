@@ -88,7 +88,3 @@ function projectAdd_unittest_cpp()
 	addProject_3rdParty_lib("unittest-cpp", UNIT_TEST_FILES_ALL, true)
 end
 
-function projectInclude_unittest_cpp()
-	return UNIT_TEST_ROOT .. "UnitTest++"
-end
-
