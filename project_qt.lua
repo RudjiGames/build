@@ -17,7 +17,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQt
 	
 	project (_name)
 
-		if getTargetOS() == "windows" then	-- Qt 32bit is deprecated
+		if getTargetOS() == "windows" then	-- Qt 32bit is deprecated on Windows
 			removeplatforms("x32")
 		end
 
