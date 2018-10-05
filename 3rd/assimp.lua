@@ -24,8 +24,8 @@ local ASSIMP_FILES = {
 	ASSIMP_ROOT .. "contrib/poly2tri/poly2tri/**.cc",
 	ASSIMP_ROOT .. "contrib/unzip/**.h",
 	ASSIMP_ROOT .. "contrib/unzip/**.c",
-	ASSIMP_ROOT .. "contrib/zlib/**.h",
-	ASSIMP_ROOT .. "contrib/zlib/**.c",	
+	ASSIMP_ROOT .. "contrib/zlib/*.h",
+	ASSIMP_ROOT .. "contrib/zlib/*.c",	
 }
 
 local ASSIMP_INCLUDES = {
@@ -35,6 +35,7 @@ local ASSIMP_INCLUDES = {
 	ASSIMP_ROOT .. "contrib/irrXML/",
 	ASSIMP_ROOT .. "contrib/openddlparser/include/",
 	ASSIMP_ROOT .. "contrib/zlib/",
+	ASSIMP_ROOT .. "contrib/zlib/contrib/minizip",
 	ASSIMP_ROOT .. "code/BoostWorkaround/"
 }
 
