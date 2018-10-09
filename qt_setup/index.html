@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="http://mtuner.net/logo32.ico" />
 
 
-    <title>Tags :: build Documentation</title>
+    <title>Setting up for Qt :: build Documentation</title>
     
     
     <link href="/build/css/nucleus.css?1539068805" rel="stylesheet">
@@ -38,7 +38,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>	
   </head>
-  <body class="" data-url="/build/tags/">
+  <body class="" data-url="/build/qt_setup/">
     <nav id="sidebar" class="">
 
 
@@ -303,8 +303,8 @@
   
     
     <li data-nav-id="/build/qt_setup/" title="Setting up for Qt" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/build/qt_setup/">
@@ -416,7 +416,13 @@
                     
           
           
-            Tags
+            
+            
+          
+          
+            <a href='/build/'>build documentation</a> > Setting up for Qt
+          
+         
           
            
                   </span>
@@ -436,12 +442,51 @@
         
         <div id="body-inner">
           
-            <h1>Tags</h1>
+            <h1>Setting up for Qt</h1>
           
 
         
 
 
+<p><strong>General requirements</strong></p>
+
+<p>Compiling Qt based applications and libraries involves steps that are executed before the build. Namely, <a href="https://doc.qt.io/qt-5/metaobjects.html">MOS</a>, UI, resource and translation compilers have to be run in order to generate files that are used during the build process. These processes are added to a pre-build step for every Qt based project and use Lua to call the respective compilers. So having Lua installed is a common dependency, regardless of the host platform.</p>
+
+<p><strong>Qt configuration on Windows</strong></p>
+
+<p>Here are the steps needed to use <strong>build</strong> with <a href="https://www.qt.io/"><strong>Qt</strong></a> on Windows:</p>
+
+<ul>
+<li><p>Install <a href="https://www.qt.io/download"><strong>Qt</strong></a> using the online installer<br />
+Alternatively, Qt can be built from source.</p></li>
+
+<li><p>Install <a href="https://github.com/rjpcomputing/luaforwindows/releases"><strong>Lua for Windows</strong></a></p></li>
+
+<li><p>Set environment variable that points to the installation of <a href="https://www.qt.io/"><strong>Qt</strong></a><br />
+The variable looks like this: <strong>QTDIR_VS2017_x64</strong><br />
+Middle part represents <a href="https://github.com/bkaradzic/GENie"><strong>GENie</strong></a> action and suffix represents architecture (x86 or x64)<br />
+It shoud be set to point to a root directory of specific <a href="https://www.qt.io/"><strong>Qt</strong></a> version, for example: <em>C:\Qt\5.11.2\msvc2017_64</em></p></li>
+</ul>
+
+<p><strong>Qt configuration on Linux</strong></p>
+
+<p>Linux setup is similar to Windows:</p>
+
+<ul>
+<li><p>Install <a href="https://www.qt.io/download"><strong>Qt</strong></a> using the online installer</p></li>
+
+<li><p>Install Lua and lfs:<br />
+<em>sudo apt-get install luarocks</em><br />
+<em>sudo luarocks install luafilesystem</em></p></li>
+
+<li><p>Add <a href="https://www.qt.io/download"><strong>Qt</strong></a> PKG_CONFIG path to ~/.bashrc<br />
+<em>export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/USER/Qt/5.11.2/gcc_64/lib/pkgconfig</em></p></li>
+
+<li><p>Install qt5-default<br />
+<em>sudo apt-get install qt5-default</em></p></li>
+</ul>
+
+<p>That&rsquo;s all!</p>
 
 
 <footer class=" footline" >
@@ -626,6 +671,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -642,6 +688,9 @@
             
                 
                     
+                        
+                        
+                    
                 
                 
 
@@ -660,8 +709,10 @@
 
 
         
+            <a class="nav nav-prev" href="/build/use_case/" title="Sample use case"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/build/getting_started/" title="Getting started" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/build/customizing/" title="Custom configurations" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

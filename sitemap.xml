@@ -35,11 +35,15 @@
   </url>
   
   <url>
-    <loc>http://milostosic.github.com/build/customizing/</loc>
+    <loc>http://milostosic.github.com/build/qt_setup/</loc>
   </url>
   
   <url>
     <loc>http://milostosic.github.com/build/project_structure/tools/</loc>
+  </url>
+  
+  <url>
+    <loc>http://milostosic.github.com/build/customizing/</loc>
   </url>
   
   <url>
