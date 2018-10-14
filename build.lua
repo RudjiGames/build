@@ -19,6 +19,7 @@ RTM_LOCATION_PATH		= ""													-- solution/makefile/etc.
 local RTM_PROJECT_DIRS_LIST = {
 	"",
 	"build/3rd/",
+	"build/tools/src/",
 	"3rd/",
 	"src/libs/",
 	"src/game/games/",
