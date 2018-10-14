@@ -16,35 +16,38 @@ RTM_ROOT_DIR			= path.getabsolute(RTM_SCRIPTS_DIR .. "../") .. "/"		-- project r
 RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
 RTM_LOCATION_PATH		= ""													-- solution/makefile/etc.
 
-local RTM_PROJECT_DIRS_LIST = {
-	"",
-	"build/3rd/",
-	"build/tools/src/",
-	"3rd/",
-	"src/libs/",
-	"src/game/games/",
-	"src/game/libs/",
-	"src/tools/libs/",
-	"src/tools/cmdline/",
-	"src/tools/qt/"
-}
-
 RTM_PROJECT_DIRS  = {}
 RTM_PROJECT_PATHS = {}
 
-for _,path in ipairs(RTM_PROJECT_DIRS_LIST) do
-	if os.isdir(RTM_ROOT_DIR .. path) then
-		table.insert(RTM_PROJECT_DIRS, RTM_ROOT_DIR .. path) 
-	end
+newoption {
+	trigger = "project-dirs",
+	description = "Specify file with project search paths table (has to be named RTM_PROJECT_DIR_PATHS)"
+}
+
+local customProjectDirs = _OPTIONS["project-dirs"]
+if (customProjectDirs == nil) then
+    customProjectDirs = script_dir() .. "rtm_paths.lua"
+end
+
+-- could be a relative path
+if (not os.isfile(customProjectDirs)) then                  
+    customProjectDirs = _WORKING_DIR .. '/' .. customProjectDirs
+end
+
+if (os.isfile(customProjectDirs)) then
+    dofile (customProjectDirs)
+    for _,path in ipairs(RTM_PROJECT_DIR_PATHS) do
+        if os.isdir(path) then
+            table.insert(RTM_PROJECT_DIRS, path) 
+        end
+    end
+else
+    print("ERROR: Custom project directories script not found at " .. customProjectDirs)
+    os.exit()
+    return
 end
 
 dofile (RTM_SCRIPTS_DIR .. "toolchain.lua")
-
-if _ACTION == nil then
-	print ("No action specified!")
-	os.exit()
-	return
-end
 
 if _ACTION == "clean" then
 	rmdir(RTM_BUILD_DIR)
