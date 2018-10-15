@@ -36,7 +36,12 @@ end
 
 if (os.isfile(customProjectDirs)) then
     dofile (customProjectDirs)
-    for _,path in ipairs(RTM_PROJECT_DIR_PATHS) do
+    for _,pathTable in ipairs(RTM_PROJECT_DIR_PATHS) do
+		local relative	= pathTable[1]
+		local path		= pathTable[2]
+		if relative then
+			path = RTM_ROOT_DIR .. path
+		end
         if os.isdir(path) then
             table.insert(RTM_PROJECT_DIRS, path) 
         end

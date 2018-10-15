@@ -1,12 +1,12 @@
 RTM_PROJECT_DIR_PATHS = {
-   "",
-   "build/3rd/",
-   "build/tools/src/",
-   "3rd/",
-   "src/libs/",
-   "src/game/games/",
-   "src/game/libs/",
-   "src/tools/libs/",
-   "src/tools/cmdline/",
-   "src/tools/qt/"
+   { true, "" },
+   { true, "build/3rd/" },
+   { true, "build/tools/src/" },
+   { true, "3rd/" },
+   { true, "src/libs/" },
+   { true, "src/game/games/" },
+   { true, "src/game/libs/" },
+   { true, "src/tools/libs/" },
+   { true, "src/tools/cmdline/" },
+   { true, "src/tools/qt/" }
 }
