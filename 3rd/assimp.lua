@@ -63,6 +63,9 @@ function projectExtraConfig_assimp()
 	includedirs { ASSIMP_INCLUDES }
 	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER" }
 
+	configuration { "vs20*", "not orbis", "not durango", "not winphone*", "not winstore*" }
+		buildoptions { "/bigobj" }
+	
 	configuration {}
 end 
 
