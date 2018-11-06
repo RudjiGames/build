@@ -39,8 +39,11 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQt
 											{ project().path .. "src/**.h" },
 											{ project().path .. "src/**.ui" },
 											{ project().path .. "src/**.qrc" },
-											{ project().path .. "src/**.ts" },
-											{ project().path .. "src/**.rc" } )
+											{ project().path .. "src/**.ts" } )
+
+		if getTargetOS() == "windows" then
+			sourceFiles = mergeTables(sourceFiles, { project().path .. "src/**.rc" })
+		end
 
 		files  { sourceFiles }
 
