@@ -190,14 +190,16 @@ function mergeTwoTables(_table1, _table2)
 	return mergedTable
 end
 
-function mergeTables(_table1, _table2, _table3, _table4, _table5, _table6)
+function mergeTables(_table1, _table2, _table3, _table4, _table5, _table6, _table7, _table8)
 	_table1 = _table1 or {}		_table2 = _table2 or {}
 	_table3 = _table3 or {}		_table4 = _table4 or {}
 	_table5 = _table5 or {}		_table6 = _table6 or {}
+	_table7 = _table7 or {}		_table8 = _table8 or {}
 	local t1 = mergeTwoTables(_table1, _table2)
 	local t2 = mergeTwoTables(_table3, _table4)
-	local t3 = mergeTwoTables(_table5, _table6)	
-	return mergeTwoTables(t1, mergeTwoTables(t2, t3))
+	local t3 = mergeTwoTables(_table5, _table6)
+	local t4 = mergeTwoTables(_table7, _table8)
+	return mergeTwoTables(mergeTwoTables(t1, t2), mergeTwoTables(t3, t4))
 end
 
 ProjectLoad = {
