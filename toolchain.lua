@@ -1132,7 +1132,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration {}
 
 	if _OPTIONS["no-deploy"] == nil then
-		prepareProjectDeployment(_filter, _binDir)
+		prepareProjectDeployment(_filter, binDir)
 	end		
 end
 
