@@ -774,6 +774,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		includedirs {
 			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/include",
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libcxx/include",
 			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include"
 		}
 		buildoptions {
@@ -799,7 +800,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "android-mips", _filter }
 		libdirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/mips"
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/mips",
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libcxx/include",
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include"
 		}
 		includedirs {
 			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/mips/include"
@@ -826,7 +829,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/x86"
 		}
 		includedirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/x86/include"
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/x86/include",
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libcxx/include",
+			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include"
 		}
 		buildoptions {
 			"-gcc-toolchain $(ANDROID_NDK_X86)",
