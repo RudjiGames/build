@@ -9,6 +9,9 @@ function script_dir()
 	return path.getdirectory(debug.getinfo(2, "S").source:sub(2)) .. "/"
 end
 
+local params = { ... }
+local EXECUTABLE = params[1]
+
 dofile (RTM_SCRIPTS_DIR .. "deploy.lua")
 
 local iosPlatform      = ""

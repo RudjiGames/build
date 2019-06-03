@@ -15,7 +15,7 @@ local PROJECT_NAME		= params[7] or project().name
 
 dofile (RTM_SCRIPTS_DIR .. "embedded_files.lua")
 dofile (RTM_SCRIPTS_DIR .. "qtpresets5.lua")
-dofile (RTM_SCRIPTS_DIR .. "toolchain.lua")
+assert(loadfile(RTM_SCRIPTS_DIR .. "toolchain.lua"))( EXECUTABLE )
 
 function setSubConfig(_subConfig, _configuration, _is64bit)
 	commonConfig({ _subConfig, _configuration }, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)
