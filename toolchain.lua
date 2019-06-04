@@ -880,7 +880,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		buildoptions {
 			"-fPIC",
 			"-no-canonical-prefixes",
-			"-Wa,--noexecstack",
 			"-fstack-protector-strong",
 			"-ffunction-sections",
 			"-Wunused-value",
@@ -892,10 +891,17 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		linkoptions {
 			"-no-canonical-prefixes",
 			"-Wl,--no-undefined",
-			"-Wl,-z,noexecstack",
 			"-Wl,-z,relro",
 			"-Wl,-z,now",
 		}
+		if EXECUTABLE then
+		buildoptions {
+			"-Wa,--noexecstack"
+		}
+		linkoptions {
+			"-Wl,-z,noexecstack" 
+		}
+		end
 		
 	configuration { "asmjs", _filter }
 		defines { "RTM_ASMJS" }
