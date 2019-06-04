@@ -12,7 +12,7 @@ end
 local params = { ... }
 local EXECUTABLE = params[1]
 
-dofile (RTM_SCRIPTS_DIR .. "deploy.lua")
+dofile(RTM_SCRIPTS_DIR .. "deploy.lua")
 
 local iosPlatform      = ""
 local tvosPlatform     = ""
@@ -1144,8 +1144,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	end
 
 	configuration {}
-
-	if _OPTIONS["no-deploy"] == nil then
+	
+	if _OPTIONS["no-deploy"] == nil and EXECUTABLE then
 		prepareProjectDeployment(_filter, binDir)
 	end		
 end

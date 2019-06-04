@@ -15,8 +15,8 @@ goto done
 echo Error - missing argument!
 echo Usage: set_env_android.bat [path to NDK]
 echo Example:
-echo    set_env_android d:/android-ndk-r10d
-echo NB: forward slash!
+echo    set_env_android d:/android-ndk-r12b
+echo NB: use forward slash!
 
 :done
 

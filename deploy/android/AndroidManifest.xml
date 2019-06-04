@@ -23,7 +23,7 @@ READ_CONTACTS
 <uses-feature
 	android:glEsVersion="0x00020000"
 	android:required="true">
-</uses-feature>	
+</uses-feature>
 
 
 <application

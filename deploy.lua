@@ -93,12 +93,13 @@ function sedAppendReplace(_str, _search, _replace, _last)
 end
 
 function prepareProjectDeployment(_filter, _binDir)
+	
 	if _OPTIONS["no-deploy"] then
 		return
 	end
 	
 	if getTargetOS() == "android" then
-		prepareDeploymentAndroid(_filer, _binDir)	return
+		prepareDeploymentAndroid(_filter, _binDir)	return
 	end
 
 	if  getTargetOS() == "durango"		or
@@ -113,7 +114,7 @@ end
 function prepareDeploymentAndroid(_filter, _binDir)
 	local copyDst = _binDir .. "deploy/" .. project().name .. "/"
 	local copySrc = script_dir() .. "deploy/android/"
-
+	
 	local desc = getProjectDesc(project().name)
 
 	local str_arch = "armeabi-v7a"
@@ -125,11 +126,12 @@ function prepareDeploymentAndroid(_filter, _binDir)
 
 	local sedCmd = sedGetBinary() .. " -e " .. '"'
 
-	sedCmd = sedAppendReplace(sedCmd, "@@ARCH@@",			str_arch)
-	sedCmd = sedAppendReplace(sedCmd, "@@ANDROID_VER@@",	androidTarget)
-	sedCmd = sedAppendReplace(sedCmd, "@@VERSION@@",		desc.version)
-	sedCmd = sedAppendReplace(sedCmd, "@@SHORT_NAME@@",		desc.shortname)
-	sedCmd = sedAppendReplace(sedCmd, "@@LONG_NAME@@",		desc.longname, true)
+	sedCmd = sedAppendReplace(sedCmd, "@@BUILD_CONFIGURATION@@",	_filter[2])
+	sedCmd = sedAppendReplace(sedCmd, "@@ARCH@@",					str_arch)
+	sedCmd = sedAppendReplace(sedCmd, "@@ANDROID_VER@@",			androidTarget)
+	sedCmd = sedAppendReplace(sedCmd, "@@VERSION@@",				desc.version)
+	sedCmd = sedAppendReplace(sedCmd, "@@SHORT_NAME@@",				desc.shortname)
+	sedCmd = sedAppendReplace(sedCmd, "@@LONG_NAME@@",				desc.longname, true)
 
 	sedCmd = sedCmd .. '" '
 
