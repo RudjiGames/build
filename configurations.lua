@@ -25,9 +25,7 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 		prefix = "d"
 	end
 	if WITH_QT then
-	    if getTargetOS() ~= "windows" or _is64bit then -- Qt 32bit is deprecated on Windows
-    		qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
-        end
+    	qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
 
 	if _G["projectExtraConfig_" .. project().name] then
