@@ -5,6 +5,8 @@
 
 function addProject_lib_sample(_name, _sampleName)
 	
+	if _ACTION == nil then return end
+
 	group ("samples")
 	project (_name .. "_sample_" ..  _sampleName)
 

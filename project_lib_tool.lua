@@ -5,6 +5,8 @@
 
 function addProject_lib_tool(_name, _toolNname)
 
+	if _ACTION == nil then return end
+
 	group ("libs_tools")
 	project (_name .. "_tool_" ..  _toolNname)
 

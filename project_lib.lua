@@ -5,6 +5,8 @@
 
 function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 
+	if _ACTION == nil then return end
+
 	if _libType == Lib.Tool then
 		group ("toollibs")
 	elseif _libType == Lib.Game then

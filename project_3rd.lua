@@ -5,6 +5,8 @@
 
 function addProject_3rdParty_lib(_name, _libFiles, _exceptions)
 
+	if _ACTION == nil then return end
+
 	group ("3rd")
 	project ( _name )
 		_exceptions			= _exceptions or false

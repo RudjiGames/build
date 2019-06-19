@@ -5,6 +5,8 @@
 
 function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQtModules)
 
+	if _ACTION == nil then return end
+
 	_libProjNotExe	= _libProjNotExe or false
 	_includes		= _includes or {}
 	_prebuildcmds	= _prebuildcmds or {}

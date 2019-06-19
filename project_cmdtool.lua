@@ -5,6 +5,8 @@
 
 function addProject_cmd(_name)
 
+	if _ACTION == nil then return end
+
 	group ("tools_cmd")
 	project (_name)
 	

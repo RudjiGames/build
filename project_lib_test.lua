@@ -5,6 +5,8 @@
 
 function addProject_lib_test(_name)
 
+	if _ACTION == nil then return end
+
 	group ("tests")
 	project (_name .. "_test")
 

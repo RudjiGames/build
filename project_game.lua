@@ -5,6 +5,8 @@
 
 function addProject_game(_name)
 
+	if _ACTION == nil then return end
+
 	group ("games")
 	project (_name)
 
