@@ -102,14 +102,9 @@ newoption {
 	description = "Links glfw libraries.",
 }
 
+getTargetOSWP = false
 function getTargetOS()
 
-	if	(_ACTION == "ninja") and (_OPTIONS["os"] == nil) then
-		print("ERROR: Ninja action must specify target os and compiler")		
-		print("example: genie --cc=gcc --os=windows ninja")
-		os.exit(1)
-	end
-	
 	-- gmake - android
 	if  (_OPTIONS["gcc"] == "android-arm") or
 		(_OPTIONS["gcc"] == "android-mips") or
@@ -209,7 +204,16 @@ function getTargetOS()
 		return "windows"
 	end
 
-	return "unknown"
+	-- we didn't deduce the target OS, assume host
+	if (os.get() == "bsd")		then return "bsd" end
+	if (os.get() == "linux")	then return "linux" end
+	if (os.get() == "macosx")	then return "osx" end
+	if (os.get() == "windows")	then return "windows" end
+
+	print("ERROR: build does not support current host OS " .. os.get())
+	os.exit(1)
+
+	return ""
 end
 
 function isAppleTarget()
@@ -284,7 +288,9 @@ function getTargetCompiler()
 	if	(_OPTIONS["gcc"] == "mingw-clang")	then	return "mingw-clang"	end
 	if (_ACTION ~= nil and _ACTION:find("vs")) then	return _ACTION			end
 
-	return "unknown"
+	print("ERROR: Target compiler could not be deduced from command line arguments")
+	os.exit(1)
+	return ""
 end
 
 function mkdir(_dirname)
