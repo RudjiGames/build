@@ -104,6 +104,12 @@ newoption {
 
 function getTargetOS()
 
+	if	(_ACTION == "ninja") and (_OPTIONS["os"] == nil) then
+		print("ERROR: Ninja action must specify target os and compiler")		
+		print("example: genie --cc=gcc --os=windows ninja")
+		os.exit(1)
+	end
+	
 	-- gmake - android
 	if  (_OPTIONS["gcc"] == "android-arm") or
 		(_OPTIONS["gcc"] == "android-mips") or
@@ -117,14 +123,16 @@ function getTargetOS()
 	end
 
 	-- gmake - freebsd
-	if _OPTIONS["gcc"] == "freebsd" then
-		return "freebsd"
+	if  (_OPTIONS["gcc"] == "freebsd") or 
+		(_OPTIONS["os"]  == "bsd") then
+		return "bsd"
 	end
 
 	-- gmake - linux
 	if	(_OPTIONS["gcc"] == "linux-gcc") or
 		(_OPTIONS["gcc"] == "linux-gcc-6") or
-		(_OPTIONS["gcc"] == "linux-clang") then
+		(_OPTIONS["gcc"] == "linux-clang") or
+		(_OPTIONS["os"]  == "linux") then
 		return "linux"
 	end
 
@@ -148,7 +156,8 @@ function getTargetOS()
 	-- gmake - osx
 	-- xcode - osx
 	if	(_OPTIONS["xcode"] == "osx") or
-		(_OPTIONS["gcc"]   == "osx") then
+		(_OPTIONS["gcc"]   == "osx") or
+		(_OPTIONS["os"]    == "macosx") then
 		return "osx"
 	end
 
@@ -195,6 +204,7 @@ function getTargetOS()
 		(_OPTIONS["vs"]  == "vs2013-xp") or
 		(_OPTIONS["vs"]  == "vs2015-xp") or
 		(_OPTIONS["vs"]  == "vs2017-xp") or
+		(_OPTIONS["os"]  == "windows") or
 		(_ACTION ~= nil and _ACTION:find("vs")) then
 		return "windows"
 	end
@@ -211,6 +221,14 @@ function isWinStoreTarget()
 end
 
 function getTargetCompiler()
+
+	-- ninja
+	if	(_OPTIONS["cc"] == "gcc")			then	return "gcc"			end
+	if	(_ACTION == "ninja") and (_OPTIONS["cc"] == nil) then
+		print("ERROR: Ninja action must specify target os and compiler")
+		print("example: genie --cc=gcc --os=windows ninja")
+		os.exit(1)
+	end
 
 	-- gmake - android
 	if  (_OPTIONS["gcc"] == "android-arm")  then	return "gcc-arm"		end
