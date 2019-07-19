@@ -46,6 +46,7 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 
 		local	sourceFiles = mergeTables(	{ srcFilesPath .. "**.cpp" },
 											{ srcFilesPath .. "**.cxx" },
+											{ srcFilesPath .. "**.c" },
 											{ srcFilesPath .. "**.h" },
 											{ incFilesPath .. "**.h" } )
 		files  { sourceFiles }
