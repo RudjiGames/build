@@ -622,6 +622,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "vs*", _filter, "not orbis" }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		defines {
 			"WIN32",
 			"_WIN32",
@@ -643,6 +644,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "vs2008", _filter }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc/pre1600") }
 
 	configuration { "x32", "vs*", "not orbis", _filter }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
@@ -677,6 +679,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "mingw-*", _filter }
 		defines { "WIN32" }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/mingw") }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/mingw") }
+
 		buildoptions {
 			"-Wunused-value",
 			"-fdata-sections",
@@ -944,11 +948,13 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		defines { "RTM_FREEBSD" }
 		includedirs {
 			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
+			path.join(find3rdPartyProject("bx"), "include/compat/mingw")
 		}
 
 	configuration { "durango", _filter }
 		includedirs {
 			path.join(getProjectPath("rbase"), "inc/compat/msvc"),
+			path.join(find3rdPartyProject("bx"), "include/compat/mingw")
 		}
 		removeflags { 
 			"StaticRuntime", 
@@ -961,6 +967,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "Xbox360", _filter }
 		defines { "RTM_XBOX360" }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		defines {
 			"NOMINMAX",
 			"_XBOX",
@@ -990,7 +997,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wunused-value",
 			"-Wundef",
 		}
-		includedirs { path.join(getProjectPath("rbase"), "inc/compat/osx")
+		includedirs { 
+			path.join(getProjectPath("rbase"), "inc/compat/osx"),
+			path.join(find3rdPartyProject("bx"), "include/compat/osx")
 		}
 
 	configuration { "ios*", _filter }
@@ -1010,6 +1019,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/osx") }
 
 	configuration { "ios-arm", _filter }
 		linkoptions {
@@ -1064,6 +1074,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/ios") }
 
 	configuration { "tvos-arm64" }
 		linkoptions {
@@ -1098,6 +1109,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "orbis" }
 		includedirs {
 			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
+			path.join(find3rdPartyProject("bx"), "include/compat/freebsd"),
 			"$(SCE_ORBIS_SDK_DIR)/target/include",
 			"$(SCE_ORBIS_SDK_DIR)/target/include_common",
 		}
