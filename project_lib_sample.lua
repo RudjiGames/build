@@ -24,7 +24,16 @@ function addProject_lib_sample(_name, _sampleName)
 		local	sourceFiles = mergeTables(	{ srcFilesPath .. "**.cpp" },
 											{ incFilesPath .. "**.h" } )
 		files  { sourceFiles }
-		
+
+		local rappDependency = "rapp"
+		local headers = os.matchfiles( incFilesPath .. "**.h")
+		for _,file in ipairs( headers ) do
+			local headerSrc = readFile(file);
+			if headerSrc:find("#define RAPP_WITH_BGFX 1") then
+				rappDependency = { "rapp", "bgfx" }
+			end
+		end
+
 		local name = _sampleName
 		if string.find(_sampleName, "_") ~= nil then
 			name = string.sub(_sampleName, string.find(_sampleName, "_") + 1, string.len(_sampleName))
@@ -47,6 +56,5 @@ function addProject_lib_sample(_name, _sampleName)
 																	false,	-- WITH_QT
 																	true	-- EXECUTABLE
 																	)
-		addDependencies(_sampleName, { "rapp", _name })
+		addDependencies(_sampleName, { rappDependency, _name })
 end
-
