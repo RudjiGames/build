@@ -695,7 +695,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		links { 
 			"ole32",
 			"oleaut32",
-			"uuid"
+			"uuid",
+			"gdi32"
 		}
 		linkoptions {
 			"-Wl,--gc-sections",
