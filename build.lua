@@ -361,6 +361,7 @@ end
 function loadProject(_projectName, _load)
 	local name = getProjectBaseName(_projectName)
 	local prjFile = ""
+
 	for _,path in ipairs(RTM_PROJECT_DIRS) do
 		prjFile = path .. name .. ".lua"
 		if os.isfile(prjFile) then assert(loadfile(prjFile))(find3rdPartyProject(name)) break end
@@ -397,6 +398,7 @@ function getProjectDependencies(_name, _additionalDeps)
 	end
 
 	for _,dependency in ipairs(finalDep) do
+	print("LOADING " .. dependency)
 		loadProject(dependency, ProjectLoad.LoadOnly)
 	end
 
