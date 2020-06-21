@@ -207,7 +207,8 @@ ProjectLoad = {
 	LoadAndAdd	= {}
 }
 
-g_projectIsLoaded = {}
+g_projectIsLoaded	= {}
+g_fileIsLoaded		= {}
 
 function getProjectDesc(_name)
 	local descFn = _G["projectDescription_" .. _name]
@@ -359,14 +360,27 @@ function configDependency(_name, dependency)
 end
 
 function loadProject(_projectName, _load)
+
 	local name = getProjectBaseName(_projectName)
 	local prjFile = ""
 
 	for _,path in ipairs(RTM_PROJECT_DIRS) do
-		prjFile = path .. name .. ".lua"
-		if os.isfile(prjFile) then assert(loadfile(prjFile))(find3rdPartyProject(name)) break end
-		prjFile = path .. name .. "/genie/" .. name .. ".lua"
-		if os.isfile(prjFile) then dofile(prjFile) break end
+			prjFile = path .. name .. ".lua"
+			if os.isfile(prjFile) then
+				if g_fileIsLoaded[prjFile] == nil then
+					g_fileIsLoaded[prjFile] = true
+					assert(loadfile(prjFile))(find3rdPartyProject(name))
+					break
+				end
+			end
+			prjFile = path .. name .. "/genie/" .. name .. ".lua"
+			if os.isfile(prjFile) then
+				if g_fileIsLoaded[prjFile] == nil then
+					g_fileIsLoaded[prjFile] = true
+					dofile(prjFile)
+					break
+				end
+			end
 	end
 
 	_load = _load or ProjectLoad.LoadAndAdd
@@ -398,7 +412,6 @@ function getProjectDependencies(_name, _additionalDeps)
 	end
 
 	for _,dependency in ipairs(finalDep) do
-	print("LOADING " .. dependency)
 		loadProject(dependency, ProjectLoad.LoadOnly)
 	end
 
