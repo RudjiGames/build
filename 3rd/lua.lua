@@ -9,8 +9,8 @@ local params	= { ... }
 local LUA_ROOT	= params[1]
 
 local LUA_FILES = {
-	LUA_ROOT .. "src/**.c",
-	LUA_ROOT .. "src/**.h"
+	LUA_ROOT .. "onelua.c",
+	LUA_ROOT .. "**.h"
 }
 
 local LUA_DEFINES = {}
@@ -20,6 +20,7 @@ end
 
 function projectExtraConfig_lua()
 	defines { LUA_DEFINES }
+	includedirs { LUA_ROOT }
 end
 
 function projectAdd_lua()
