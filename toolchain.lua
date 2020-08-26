@@ -1184,19 +1184,19 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "switch", _filter }
 		defines { "RTM_SWITCH" }
---		defines {
---		}
---		buildoptions {
---		}
---		buildoptions_cpp {
---		}
-		includedirs {
-			"\"$(NINTENDO_SDK_ROOT)/Include/"
+		buildoptions_cpp {
+			"-std=c++11",
 		}
---		links {
---		}
---		linkoptions {
---		}
+		includedirs {
+			os.getenv("NINTENDO_SDK_ROOT") .. "/Include/",
+			os.getenv("NINTENDO_SDK_ROOT") .. "/Common/Configs/Targets/NX-NXFP2-a64/Include"
+		}
+	configuration { "switch", "debug", _filter }
+		defines { "NN_SDK_BUILD_DEBUG" }
+	configuration { "switch", "debug", _filter }
+		defines { "NN_SDK_BUILD_DEVELOP" }
+	configuration { "switch", "retail", _filter }
+		defines { "NN_SDK_BUILD_RELEASE" }
 
 	if _executable then
 		configuration { "mingw-clang", _filter }
