@@ -43,6 +43,7 @@ newoption {
         { "osx",           "OSX"                    },
         { "orbis",         "Orbis"                  },
         { "rpi",           "RaspberryPi"            },
+        { "switch",        "Nintendo Switch"        },
     },
 }
 
@@ -160,6 +161,10 @@ function getTargetOS()
 		return "rpi"
 	end
 
+	if _OPTIONS["gcc"] == "switch" then
+		return "switch"
+	end
+
 	-- visual studio - winphone
 	if	(_OPTIONS["vs"] == "winphone8") then
 		return "winphone8"
@@ -271,6 +276,9 @@ function getTargetCompiler()
 	-- gmake - rpi
 	if (_OPTIONS["gcc"] == "rpi")			then	return "gcc"			end
 
+	-- gmake - switch
+	if (_OPTIONS["gcc"] == "switch")		then	return "clang"			end
+	
 	-- gmake - orbis
 	-- visuul studio - orbis
 	if (_OPTIONS["gcc"] == "orbis")			then	return "orbis-clang"	end
@@ -509,6 +517,19 @@ function toolchain()
 			premake.gcc.ar  = orbisToolchain .. "ar\""
 
 		elseif "rpi" == _OPTIONS["gcc"] then
+
+		elseif "switch" == _OPTIONS["gcc"] then
+
+			if not os.getenv("NINTENDO_SDK_ROOT") then
+				print("Set NINTENDO_SDK_ROOT environment variable.")
+			end
+
+			nintendoToolchain = "\"$(NINTENDO_SDK_ROOT)/Compilers/NX/nx/aarch64/bin/"
+
+			premake.gcc.cc  = nintendoToolchain .. "clang\""
+			premake.gcc.cxx = nintendoToolchain .. "clang++\""
+			premake.gcc.ar  = nintendoToolchain .. "aarch64-nintendo-nx-elf-ar\""
+
 		end
 
 		elseif _ACTION == "vs2012" or _ACTION == "vs2013" or _ACTION == "vs2015" or _ACTION == "vs2017" then
@@ -1160,6 +1181,22 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		linkoptions {
 			"-Wl,--gc-sections",
 		}
+
+	configuration { "switch", _filter }
+		defines { "RTM_SWITCH" }
+--		defines {
+--		}
+--		buildoptions {
+--		}
+--		buildoptions_cpp {
+--		}
+		includedirs {
+			"\"$(NINTENDO_SDK_ROOT)/Include/"
+		}
+--		links {
+--		}
+--		linkoptions {
+--		}
 
 	if _executable then
 		configuration { "mingw-clang", _filter }
