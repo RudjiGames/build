@@ -1187,10 +1187,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		buildoptions_cpp {
 			"-std=c++11",
 		}
+		if os.getenv("NINTENDO_SDK_ROOT") then
 		includedirs {
 			os.getenv("NINTENDO_SDK_ROOT") .. "/Include/",
 			os.getenv("NINTENDO_SDK_ROOT") .. "/Common/Configs/Targets/NX-NXFP2-a64/Include"
 		}
+		end
 	configuration { "switch", "debug", _filter }
 		defines { "NN_SDK_BUILD_DEBUG" }
 	configuration { "switch", "debug", _filter }
