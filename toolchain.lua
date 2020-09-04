@@ -1184,15 +1184,25 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "switch", _filter }
 		defines { "RTM_SWITCH" }
+		links {
+			"c",
+			"c++",
+			"nnSdk",
+			"nn_init_memory",
+			"nn_profiler",
+		}
 		buildoptions_cpp {
 			"-std=c++11",
 		}
-		if os.getenv("NINTENDO_SDK_ROOT") then
+		libdirs {
+			os.getenv("NINTENDO_SDK_ROOT") .. "/Compilers/NX/nx/aarch64/lib/aarch64-nintendo-nx-elf-ropjop/noeh/",
+			os.getenv("NINTENDO_SDK_ROOT") .. "/Compilers/NX/nx/aarch64/lib/aarch64-nintendo-nx-elf-ropjop/",
+			os.getenv("NINTENDO_SDK_ROOT") .. "/Libraries/NX-NXFP2-a64/Release/",
+		}
 		includedirs {
 			os.getenv("NINTENDO_SDK_ROOT") .. "/Include/",
 			os.getenv("NINTENDO_SDK_ROOT") .. "/Common/Configs/Targets/NX-NXFP2-a64/Include"
 		}
-		end
 	configuration { "switch", "debug", _filter }
 		defines { "NN_SDK_BUILD_DEBUG" }
 	configuration { "switch", "debug", _filter }
