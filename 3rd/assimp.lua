@@ -36,7 +36,8 @@ local ASSIMP_INCLUDES = {
 	ASSIMP_ROOT .. "contrib/openddlparser/include/",
 	ASSIMP_ROOT .. "contrib/zlib/",
 	ASSIMP_ROOT .. "contrib/zlib/contrib/minizip",
-	ASSIMP_ROOT .. "code/BoostWorkaround/"
+	ASSIMP_ROOT .. "code/BoostWorkaround/",
+	ASSIMP_ROOT .. "code/",
 }
 
 local sedCommand = getToolForHost("sed")
