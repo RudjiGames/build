@@ -21,10 +21,16 @@ local BNET_FILES = {
 } 
 
 function projectDependencies_bnet()
+	if os.is("windows") then
+		return { "Ws2_32", "Mswsock", "AdvApi32", "bx" }
+	end
 	return { "bx" }
 end 
 
 function projectExtraConfig_bnet()
+	if os.is("windows") then
+		links { "Ws_32.lib", "Mswsock.lib", "AdvApi32.lib" }
+	end
 	includedirs { BNET_INCLUDE }
 end
 
