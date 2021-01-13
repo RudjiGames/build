@@ -24,6 +24,14 @@ function projectExtraConfig_curl()
 	defines { CURL_DEFINES }
 	configuration { "vs20*", "windows" }
 		buildoptions { '/wd"4005"' }
+		defines {"USE_SSL", "USE_SCHANNEL", "USE_WINDOWS_SSPI"}
+	configuration { 'linux' }
+		defines {"HAVE_CONFIG_H", "CURL_HIDDEN_SYMBOLS"}
+end
+
+function projectExtraConfigExecutable_curl()
+	configuration { "vs20*", "windows" }
+		links { "Crypt32" }
 end
 
 function projectAdd_curl()
