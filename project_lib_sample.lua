@@ -25,12 +25,13 @@ function addProject_lib_sample(_name, _sampleName)
 											{ incFilesPath .. "**.h" } )
 		files  { sourceFiles }
 
-		local rappDependency = "rapp"
+		local withBGFX = false
 		local headers = os.matchfiles( incFilesPath .. "**.h")
 		for _,file in ipairs( headers ) do
 			local headerSrc = readFile(file);
 			if headerSrc:find("#define RAPP_WITH_BGFX 1") then
-				rappDependency = { "rapp", "bgfx" }
+				withBGFX = true
+				break
 			end
 		end
 
@@ -56,5 +57,14 @@ function addProject_lib_sample(_name, _sampleName)
 																	false,	-- WITH_QT
 																	true	-- EXECUTABLE
 																	)
-		addDependencies(_sampleName, { rappDependency, _name })
+
+		if _name == "rapp" then
+			_name = ""
+		end
+
+		if withBGFX then
+			addDependencies(_sampleName, {{ "rapp", "bgfx" }, rappDep })
+		else
+			addDependencies(_sampleName, { "rapp", rappDep })
+		end
 end

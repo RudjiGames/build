@@ -397,7 +397,6 @@ end
 
 function getProjectDependencies(_name, _additionalDeps)
 	local fullName = getProjectFullName(_name)
-
 	local dep = {}
 	if _G["projectDependencies_" .. fullName] then
 		dep = _G["projectDependencies_" .. fullName]()
@@ -437,23 +436,23 @@ end
 
 -- can be called only ONCE from one project, merge dependencies before calling!!!
 function addDependencies(_name, _additionalDeps)
-	_dependencies = getProjectDependencies(_name, _additionalDeps)
+	local dependencies = getProjectDependencies(_name, _additionalDeps)
 
 	addExtraSettingsForExecutable(_name)
 
-	if _dependencies ~= nil then
-		for _,dependency in ipairs(_dependencies) do
-			local dependencyFullName = getProjectFullName(dependency)
+	if dependencies ~= nil then
+		for _,dependency in ipairs(dependencies) do
 
+			local dependencyFullName = getProjectFullName(dependency)
 			addExtraSettingsForExecutable(dependencyFullName)
 
 			addInclude(_name, dependency)
-			links { getProjectFullName(dependencyFullName) }
+			links { dependencyFullName }
 		end
 	end
 	
-	if _dependencies ~= nil then
-		for _,dependency in ipairs(_dependencies) do
+	if dependencies ~= nil then
+		for _,dependency in ipairs(dependencies) do
 			loadProject(dependency)
 		end
 	end
