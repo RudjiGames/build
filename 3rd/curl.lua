@@ -15,7 +15,7 @@ local CURL_FILES = {
 	CURL_ROOT .. "src/*.h"
 }
 
-local CURL_DEFINES = { "CURL_STATICLIB", "CURL_STRICTER" }
+local CURL_DEFINES = { "CURL_STATICLIB", "CURL_STRICTER", "CURL_DISABLE_LDAP" }
 
 function projectExtraConfig_curl()
 	includedirs {	CURL_ROOT .. "include",
