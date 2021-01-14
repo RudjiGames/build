@@ -14,10 +14,24 @@ local UWS_FILES = {
 }
 
 function projectDependencies_uwebsockets()
-	return { "openssl", "libuv", "zlib" }
+	if os.is("windows") then
+		return { "libuv", "zlib" }
+	else
+		return { "openssl", "libuv", "zlib" }
+	end
 end 
 
-function projectAdd_uwebsockets()
-	addProject_3rdParty_lib("uwebsockets", UWS_FILES)
+function projectExtraConfigExecutable_uwebsockets()
+	flags   { "Cpp17" }
 end
 
+function projectExtraConfig_uwebsockets()
+	flags   { "Cpp17" }
+end
+
+function projectNoBuild_uwebsockets()
+end
+
+function projectAdd_uwebsockets()
+--	addProject_3rdParty_lib("uwebsockets", UWS_FILES)
+end

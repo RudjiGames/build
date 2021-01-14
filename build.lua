@@ -447,7 +447,10 @@ function addDependencies(_name, _additionalDeps)
 			addExtraSettingsForExecutable(dependencyFullName)
 
 			addInclude(_name, dependency)
-			links { dependencyFullName }
+
+			if not _G["projectNoBuild_" .. dependencyFullName] then
+				links { dependencyFullName }
+			end
 		end
 	end
 	
