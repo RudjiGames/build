@@ -7,7 +7,7 @@
 
 local params		= { ... }
 local CURL_ROOT		= params[1]
-print(CURL_ROOT)
+
 local CURL_FILES = {
 	CURL_ROOT .. "lib/**.c",
 	CURL_ROOT .. "lib/**.h",
