@@ -13,10 +13,10 @@ local ENKITS_FILES = {
 	ENKITS_ROOT .. "src/**.*"
 }
 
-function projectExtraConfig_enkits()
+function projectExtraConfig_enkiTS()
 	includedirs { ENKITS_ROOT .. "include/" }
 end
 
-function projectAdd_enkits()
-	addProject_3rdParty_lib("enkits", ENKITS_FILES)
+function projectAdd_enkiTS()
+	addProject_3rdParty_lib("enkiTS", ENKITS_FILES)
 end
