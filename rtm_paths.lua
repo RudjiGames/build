@@ -1,5 +1,6 @@
 RTM_PROJECT_DIR_PATHS = {
    { true, "" },
+   { true, "../" },
    { true, "build/3rd/" },
    { true, "build/tools/src/" },
    { true, "3rd/" },

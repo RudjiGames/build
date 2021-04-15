@@ -19,7 +19,8 @@ function addProject_game(_name)
 			kind		"ConsoleApp"
 		configuration {}
 
-		project().path = getProjectPath(_name, ProjectPath.Dir)
+		project().path = path.getabsolute(	getProjectPath(_name, ProjectPath.Dir) or 
+											getProjectPath(_name, ProjectPath.Root)) .. "/"
 
 		table.insert(RTM_PROJECT_PATHS, project().path)
 
