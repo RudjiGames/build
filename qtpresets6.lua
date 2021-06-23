@@ -7,7 +7,7 @@
 --
 
 qt = {}
-qt.version = "5" -- default Qt version
+qt.version = "6" -- default Qt version
 
 RTM_QT_FILES_PATH_MOC	= "../.qt/qt_moc"
 RTM_QT_FILES_PATH_UI	= "../.qt/qt_ui"
@@ -186,7 +186,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 					buildoptions( "/FI" .. '"' .. _projectName .. "_pch.h" .. '"' .. " " )
 					-- 4127 conditional expression is constant
 					-- 4275 non dll-interface class 'stdext::exception' used as base for dll-interface class 'std::bad_cast'
-					buildoptions( "/wd4127 /wd4275" ) 
+					buildoptions( "/wd4127 /wd4275 /Zc:__cplusplus /std:c++17" ) 
 			end
 
 			for _, lib in ipairs( _libsToLink ) do
