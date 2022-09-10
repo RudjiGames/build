@@ -29,7 +29,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQt
 		uuid		( os.uuid(project().name) )
 
 		project().path = getProjectPath(project().name, ProjectPath.Root) .. _name .. "/"
-	
+
 		table.insert(RTM_PROJECT_PATHS, project().path)
 		
 		local	sourceFiles = mergeTables(	{ project().path .. "inc/**.h" },

@@ -32,7 +32,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		local QT_PATH = os.getenv(qtEnv)
 		if getTargetOS() == "windows" then
     		if QT_PATH == nil then
-	    		print ("ERROR: The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets5.lua")
+	    		print ("ERROR: The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets6.lua")
 		    	os.exit()
     		end
         else
@@ -186,7 +186,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 					buildoptions( "/FI" .. '"' .. _projectName .. "_pch.h" .. '"' .. " " )
 					-- 4127 conditional expression is constant
 					-- 4275 non dll-interface class 'stdext::exception' used as base for dll-interface class 'std::bad_cast'
-					buildoptions( "/wd4127 /wd4275 /Zc:__cplusplus /std:c++17" ) 
+					buildoptions( "/wd4127 /wd4275 /Zc:__cplusplus /std:c++17 /permissive-" ) 
 			end
 
 			for _, lib in ipairs( _libsToLink ) do
