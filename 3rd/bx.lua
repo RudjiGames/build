@@ -21,6 +21,11 @@ local BX_FILES = {
 
 function projectExtraConfig_bx()
 	includedirs { BX_INCLUDE }
+	configuration { "debug or release" }
+		defines { "BX_CONFIG_DEBUG=1" }
+	configuration { "retail" }
+		defines { "BX_CONFIG_DEBUG=0" }
+	configuration {}
 end
 
 function projectAdd_bx()

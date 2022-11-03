@@ -657,6 +657,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"_WINSOCK_DEPRECATED_NO_WARNINGS",
 		}
 		buildoptions {
+			"/Zc:__cplusplus",
+			"/std:c++14",
 			"/Ob2"		-- The Inline Function Expansion
 		}
 		linkoptions {
@@ -711,7 +713,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		links { 
 			"ole32",
@@ -797,7 +799,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 --			"-Wuseless-cast",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		links {
 			"rt",
@@ -936,7 +938,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		linkoptions {
 			"-no-canonical-prefixes",
@@ -963,7 +965,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef"
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 
 	configuration { "freebsd", _filter }
@@ -1008,10 +1010,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "osx", _filter }
 		defines { "RTM_OSX" }
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions_objcpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions {
 			"-Wfatal-errors",
@@ -1030,10 +1032,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-lc++",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions_objcpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions {
 			"-Wfatal-errors",
@@ -1136,7 +1138,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"$(SCE_ORBIS_SDK_DIR)/target/include_common",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		links {
 			"ScePosix_stub_weak",
@@ -1167,7 +1169,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		includedirs {
 			"/opt/vc/include",
@@ -1192,7 +1194,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"nn_profiler",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		if os.getenv("NINTENDO_SDK_ROOT") then
 		libdirs {

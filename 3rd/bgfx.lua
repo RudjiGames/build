@@ -12,7 +12,7 @@ local BGFX_INCLUDE	= {
 	BGFX_ROOT .. "include",
 	BGFX_ROOT .. "3rdparty",
 	BGFX_ROOT .. "3rdparty/khronos",
-	BGFX_ROOT .. "3rdparty/dxsdk/include",
+	BGFX_ROOT .. "3rdparty/directx-headers/include/directx",
 	find3rdPartyProject("bx") .. "include",
 	find3rdPartyProject("bimg") .. "include" 
 }
@@ -132,6 +132,11 @@ function projectExtraConfigExecutable_bgfx()
 function projectExtraConfig_bgfx()
  	includedirs { BGFX_INCLUDE }
 	defines { BGFX_DEFINES }
+	configuration { "debug or release" }
+		defines { "BX_CONFIG_DEBUG=1" }
+	configuration { "retail" }
+		defines { "BX_CONFIG_DEBUG=0" }
+	configuration {}
 end
 
 function projectAdd_bgfx()
