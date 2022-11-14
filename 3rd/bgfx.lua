@@ -88,6 +88,7 @@ function projectExtraConfigExecutable_bgfx()
 		}
 
 	configuration { "linux-* or freebsd" }
+		defines { "BGFX_CONFIG_RENDERER_OPENGL=1" }
 		links {
 			"pthread",
 		}
