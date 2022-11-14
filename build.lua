@@ -442,14 +442,15 @@ function addDependencies(_name, _additionalDeps)
 
 	if dependencies ~= nil then
 		for _,dependency in ipairs(dependencies) do
+			if dependency ~= nil and dependency ~= "" then
+				local dependencyFullName = getProjectFullName(dependency)
+				addExtraSettingsForExecutable(dependencyFullName)
 
-			local dependencyFullName = getProjectFullName(dependency)
-			addExtraSettingsForExecutable(dependencyFullName)
+				addInclude(_name, dependency)
 
-			addInclude(_name, dependency)
-
-			if not _G["projectNoBuild_" .. dependencyFullName] then
-				links { dependencyFullName }
+				if not _G["projectNoBuild_" .. dependencyFullName] then
+					links { dependencyFullName }
+				end
 			end
 		end
 	end

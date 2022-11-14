@@ -31,7 +31,7 @@ newoption {
         { "asmjs",         "Emscripten/asm.js"      },
         { "freebsd",       "FreeBSD"                },
         { "linux-gcc",     "Linux (GCC compiler)"   },
-        { "linux-gcc-6",   "Linux (GCC-6 compiler)" },
+        { "linux-gcc-9",   "Linux (GCC-9 compiler)" },
         { "linux-clang",   "Linux (Clang compiler)" },
         { "ios-arm",       "iOS - ARM"              },
         { "ios-arm64",     "iOS - ARM64"            },
@@ -126,7 +126,7 @@ function getTargetOS()
 
 	-- gmake - linux
 	if	(_OPTIONS["gcc"] == "linux-gcc") or
-		(_OPTIONS["gcc"] == "linux-gcc-6") or
+		(_OPTIONS["gcc"] == "linux-gcc-9") or
 		(_OPTIONS["gcc"] == "linux-clang") or
 		(_OPTIONS["os"]  == "linux") then
 		return "linux"
@@ -252,7 +252,7 @@ function getTargetCompiler()
 
 	-- gmake - linux
 	if	(_OPTIONS["gcc"] == "linux-gcc")	then	return "gcc"			end
-	if	(_OPTIONS["gcc"] == "linux-gcc-6")  then	return "gcc-6"			end
+	if	(_OPTIONS["gcc"] == "linux-gcc-9")  then	return "gcc-9"			end
 	if	(_OPTIONS["gcc"] == "linux-clang")	then	return "clang"			end
 
 	-- gmake - ios
@@ -460,9 +460,9 @@ function toolchain()
 			
 		elseif "linux-gcc" == _OPTIONS["gcc"] then
 
-		elseif "linux-gcc-6" == _OPTIONS["gcc"] then
-			premake.gcc.cc  = "gcc-6"
-			premake.gcc.cxx = "g++-6"
+		elseif "linux-gcc-9" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "gcc-9"
+			premake.gcc.cxx = "g++-9"
 			premake.gcc.ar  = "ar"
 
 		elseif "linux-clang" == _OPTIONS["gcc"] then
@@ -657,6 +657,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"_WINSOCK_DEPRECATED_NO_WARNINGS",
 		}
 		buildoptions {
+			"/Zc:__cplusplus",
+			"/std:c++14",
 			"/Ob2"		-- The Inline Function Expansion
 		}
 		linkoptions {
@@ -711,7 +713,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		links { 
 			"ole32",
@@ -764,7 +766,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "linux-clang", _filter }
 
-	configuration { "linux-gcc-6", _filter }
+	configuration { "linux-gcc-9", _filter }
 		buildoptions {
 --			"-fno-omit-frame-pointer",
 --			"-fsanitize=address",
@@ -797,7 +799,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 --			"-Wuseless-cast",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		links {
 			"rt",
@@ -936,7 +938,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		linkoptions {
 			"-no-canonical-prefixes",
@@ -963,7 +965,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef"
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 
 	configuration { "freebsd", _filter }
@@ -1008,10 +1010,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "osx", _filter }
 		defines { "RTM_OSX" }
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions_objcpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions {
 			"-Wfatal-errors",
@@ -1030,10 +1032,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-lc++",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions_objcpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		buildoptions {
 			"-Wfatal-errors",
@@ -1136,7 +1138,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"$(SCE_ORBIS_SDK_DIR)/target/include_common",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		links {
 			"ScePosix_stub_weak",
@@ -1167,7 +1169,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		includedirs {
 			"/opt/vc/include",
@@ -1192,7 +1194,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"nn_profiler",
 		}
 		buildoptions_cpp {
-			"-std=c++11",
+			"-std=c++14",
 		}
 		if os.getenv("NINTENDO_SDK_ROOT") then
 		libdirs {
