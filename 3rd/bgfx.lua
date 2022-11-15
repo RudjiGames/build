@@ -133,6 +133,12 @@ function projectExtraConfigExecutable_bgfx()
 function projectExtraConfig_bgfx()
  	includedirs { BGFX_INCLUDE }
 	defines { BGFX_DEFINES }
+
+	local BGFX_DEFINES = {}
+	if _OPTIONS["with-glfw"] then
+		BGFX_DEFINES = { "BGFX_CONFIG_MULTITHREADED=0" }		
+	end
+
 	configuration { "debug or release" }
 		defines { "BX_CONFIG_DEBUG=1" }
 	configuration { "retail" }
@@ -141,11 +147,6 @@ function projectExtraConfig_bgfx()
 end
 
 function projectAdd_bgfx()
-	local BGFX_DEFINES = {}
-	if _OPTIONS["with-glfw"] then
-		BGFX_DEFINES = { "BGFX_CONFIG_MULTITHREADED=0" }		
-	end
-
 	if isAppleTarget() then
 		table.insert(BFGX_FILES, BGFX_ROOT .. "src/amalgamated.mm")
 	end
