@@ -8,12 +8,14 @@
 local params		= { ... }
 local BGFX_ROOT		= params[1]
 
+local BX_ROOT		= find3rdPartyProject("bx") .. "include"
+
 local BGFX_INCLUDE	= {
 	BGFX_ROOT .. "include",
 	BGFX_ROOT .. "3rdparty",
 	BGFX_ROOT .. "3rdparty/khronos",
 	BGFX_ROOT .. "3rdparty/directx-headers/include/directx",
-	find3rdPartyProject("bx") .. "include",
+	BX_ROOT,
 	find3rdPartyProject("bimg") .. "include" 
 }
 
@@ -88,7 +90,6 @@ function projectExtraConfigExecutable_bgfx()
 		}
 
 	configuration { "linux-* or freebsd" }
-		defines { "BGFX_CONFIG_RENDERER_OPENGL=1" }
 		links {
 			"pthread",
 		}
@@ -143,6 +144,11 @@ function projectExtraConfig_bgfx()
 		defines { "BX_CONFIG_DEBUG=1" }
 	configuration { "retail" }
 		defines { "BX_CONFIG_DEBUG=0" }
+	configuration { "linux*" }
+		includedirs {	BX_ROOT .. "/compat/linux",
+				BGFX_ROOT .. "/3rdparty/directx-headers/include/directx",
+				BGFX_ROOT .. "/3rdparty/directx-headers/include",
+				BGFX_ROOT .. "/3rdparty/directx-headers/include/wsl/stubs" } 
 	configuration {}
 end
 
