@@ -104,13 +104,14 @@ function projectExtraConfigExecutable_bgfx()
 		}
 
 	configuration { "osx" }
+		buildoptions { "-x objective-c++" }  -- additional build option for osx
 		linkoptions {
-			"-framework CoreFoundation",
 			"-framework Cocoa",
-			"-framework QuartzCore",
+			"-framework IOKit",
 			"-framework OpenGL",
+			"-framework QuartzCore",
 			"-weak_framework Metal",
-			"-weak_framework MetalKit",
+			"-weak_framework MetalKit"
 		}
 			
 	configuration { "ios*" }
@@ -122,6 +123,8 @@ function projectExtraConfigExecutable_bgfx()
 			"-framework UIKit",
 			"-framework QuartzCore",
 		}
+
+	configuration {}
 
 	if getTargetOS() == "ios" then
 		configuration { "xcode4", "ios" }
@@ -146,9 +149,14 @@ function projectExtraConfig_bgfx()
 		defines { "BX_CONFIG_DEBUG=0" }
 	configuration { "linux*" }
 		includedirs {	BX_ROOT .. "/compat/linux",
-				BGFX_ROOT .. "/3rdparty/directx-headers/include/directx",
-				BGFX_ROOT .. "/3rdparty/directx-headers/include",
-				BGFX_ROOT .. "/3rdparty/directx-headers/include/wsl/stubs" } 
+						BGFX_ROOT .. "/3rdparty/directx-headers/include/directx",
+						BGFX_ROOT .. "/3rdparty/directx-headers/include",
+						BGFX_ROOT .. "/3rdparty/directx-headers/include/wsl/stubs" }
+
+	configuration { "vs* or mingw*", "not durango" }
+		includedirs {	BGFX_ROOT .. "/3rdparty/directx-headers/include/directx"	}
+	
+	
 	configuration {}
 end
 
