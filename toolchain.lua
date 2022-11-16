@@ -958,9 +958,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "asmjs", _filter }
 		defines { "RTM_ASMJS" }
 		buildoptions {
-			"-i\"system$(EMSCRIPTEN)/system/include\"",
-			"-i\"system$(EMSCRIPTEN)/system/include/libcxx\"",
-			"-i\"system$(EMSCRIPTEN)/system/include/libc\"",
 			"-Wunused-value",
 			"-Wundef"
 		}
