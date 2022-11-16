@@ -19,7 +19,7 @@ local BGFX_INCLUDE	= {
 	find3rdPartyProject("bimg") .. "include" 
 }
 
-local BFGX_FILES = {
+local BGFX_FILES = {
 	BGFX_ROOT .. "src/amalgamated.cpp",
 	BGFX_ROOT .. "include/**.h"
 }
@@ -82,7 +82,7 @@ function projectExtraConfigExecutable_bgfx()
 
 	configuration { "android*" }
 		linkoptions {
-			"-shared",
+			"-Wl,--fix-cortex-a8",
 		}
 		links {
 			"EGL",
@@ -90,7 +90,13 @@ function projectExtraConfigExecutable_bgfx()
 		}
 
 	configuration { "linux-* or freebsd" }
+		configuration { "linux-*" }
+		buildoptions {
+			"-fPIC",
+		}
 		links {
+			"X11",
+			"GL",
 			"pthread",
 		}
 
@@ -111,8 +117,9 @@ function projectExtraConfigExecutable_bgfx()
 			"-framework OpenGL",
 			"-framework QuartzCore",
 			"-weak_framework Metal",
-			"-weak_framework MetalKit"
+			"-weak_framework MetalKit",
 		}
+
 			
 	configuration { "ios*" }
 		kind "ConsoleApp"
@@ -143,10 +150,23 @@ function projectExtraConfig_bgfx()
 		BGFX_DEFINES = { "BGFX_CONFIG_MULTITHREADED=0" }		
 	end
 
+	configuration { "*clang*" }
+		buildoptions {
+			"-Wno-microsoft-enum-value", -- enumerator value is not representable in the underlying type 'int'
+			"-Wno-microsoft-const-init", -- default initialization of an object of const type '' without a user-provided default constructor is a Microsoft extension
+		}														
+
 	configuration { "debug or release" }
 		defines { "BX_CONFIG_DEBUG=1" }
 	configuration { "retail" }
 		defines { "BX_CONFIG_DEBUG=0" }
+
+	configuration { "asmjs*" }
+		defines {
+			"BGFX_CONFIG_RENDERER_OPENGL=0",
+			"BGFX_CONFIG_RENDERER_OPENGLES=0",
+		}
+
 	configuration { "linux*" }
 		includedirs {	BX_ROOT .. "/compat/linux",
 						BGFX_ROOT .. "/3rdparty/directx-headers/include/directx",
@@ -156,15 +176,14 @@ function projectExtraConfig_bgfx()
 	configuration { "vs* or mingw*", "not durango" }
 		includedirs {	BGFX_ROOT .. "/3rdparty/directx-headers/include/directx"	}
 	
-	
 	configuration {}
 end
 
 function projectAdd_bgfx()
 	if isAppleTarget() then
-		table.insert(BFGX_FILES, BGFX_ROOT .. "src/amalgamated.mm")
+		table.insert(BGFX_FILES, BGFX_ROOT .. "src/amalgamated.mm")
 	end
 	
-	addProject_3rdParty_lib("bgfx", BFGX_FILES)
+	addProject_3rdParty_lib("bgfx", BGFX_FILES)
 end
 
