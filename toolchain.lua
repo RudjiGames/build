@@ -964,6 +964,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		buildoptions_cpp {
 			"-std=c++14",
 		}
+		linkoptions {
+			"-s MAX_WEBGL_VERSION=2",
+			"-s WASM=0",
+		}
 
 	configuration { "freebsd", _filter }
 		defines { "RTM_FREEBSD" }
@@ -1217,7 +1221,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 		configuration { "asmjs", _filter }
 			kind "ConsoleApp"
-			targetextension ".bc"
+			targetextension ".html"
 
 		configuration { "mingw*", _filter }
 			targetextension ".exe"
