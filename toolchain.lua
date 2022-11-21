@@ -1231,7 +1231,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 		configuration { "asmjs", _filter }
 			kind "ConsoleApp"
-			targetextension ".html"
+			targetextension ".js"
 
 		configuration { "mingw*", _filter }
 			targetextension ".exe"
