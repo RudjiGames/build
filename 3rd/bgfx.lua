@@ -109,12 +109,6 @@ function projectExtraConfigExecutable_bgfx()
 			"pthread",
 		}
 
-	configuration { "asmjs*" }
-		defines {
-			"BGFX_CONFIG_RENDERER_OPENGL=0",
-			"BGFX_CONFIG_RENDERER_OPENGLES=0",
-		}
-
 	configuration { "osx" }
 		buildoptions { "-x objective-c++" }  -- additional build option for osx
 		linkoptions {
@@ -166,12 +160,6 @@ function projectExtraConfig_bgfx()
 		defines { "BX_CONFIG_DEBUG=1" }
 	configuration { "retail" }
 		defines { "BX_CONFIG_DEBUG=0" }
-
-	configuration { "asmjs*" }
-		defines {
-			"BGFX_CONFIG_RENDERER_OPENGL=0",
-			"BGFX_CONFIG_RENDERER_OPENGLES=0",
-		}
 
 	configuration { "linux*" }
 		includedirs {	BX_ROOT .. "/compat/linux",
