@@ -645,6 +645,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		defines {
+			"NOMINMAX",
 			"WIN32",
 			"_WIN32",
 			"_HAS_EXCEPTIONS=0",
