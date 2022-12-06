@@ -967,17 +967,25 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		linkoptions {
 			"-s MAX_WEBGL_VERSION=2",
-			"-s WASM=0",
+			"-s WASM=1",
 			"-s TOTAL_MEMORY=64MB",
 			"-s ALLOW_MEMORY_GROWTH=1"
 		}
-
 		removeflags {
 			"OptimizeSpeed",
 		}
-
 		flags {
 			"Optimize"
+		}
+	configuration { "asmjs", "retail" }
+		buildoptions {
+			"-Oz",
+			"-fno-rtti",
+			"-flto"
+		}
+		linkoptions {
+			"-Oz",
+			"-flto"
 		}
 
 	configuration { "freebsd", _filter }
