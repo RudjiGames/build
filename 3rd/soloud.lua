@@ -1,5 +1,5 @@
 --
--- Copyright (c) 2018 Milos Tosic. All rights reserved.
+-- Copyright (c) 2022 Milos Tosic. All rights reserved.
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
@@ -19,7 +19,15 @@ function projectExtraConfig_soloud()
 	configuration { "vs*" }
 		defines { "WITH_XAUDIO2" }
 	configuration { "asmjs" }
-		defines { "WITH_MINIAUDIO" }
+--		defines { "WITH_SDL_STATIC" }
+		defines { "WITH_SDL2_STATIC" }
+	configuration {}
+end
+
+function projectExtraConfigExecutable_soloud()
+	configuration { "asmjs" }
+--		linkoptions { "-s USE_SDL=1" }
+		linkoptions { "-s USE_SDL=2" }
 	configuration {}
 end
 
@@ -30,7 +38,8 @@ function projectAdd_soloud()
 	end
 
 	if getTargetOS() == "asmjs" then
-		table.insert(SOLOUD_FILES, SOLOUD_ROOT .. "src/backend/miniaudio/**.*")
+--		table.insert(SOLOUD_FILES, SOLOUD_ROOT .. "src/backend/sdl_static/**.*")
+		table.insert(SOLOUD_FILES, SOLOUD_ROOT .. "src/backend/sdl2_static/**.*")
 	end
 
 	addProject_3rdParty_lib("soloud", SOLOUD_FILES)
