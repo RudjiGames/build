@@ -19,15 +19,7 @@ function projectExtraConfig_soloud()
 	configuration { "vs*" }
 		defines { "WITH_XAUDIO2" }
 	configuration { "asmjs" }
---		defines { "WITH_SDL_STATIC" }
-		defines { "WITH_SDL2_STATIC" }
-	configuration {}
-end
-
-function projectExtraConfigExecutable_soloud()
-	configuration { "asmjs" }
---		linkoptions { "-s USE_SDL=1" }
-		linkoptions { "-s USE_SDL=2" }
+		defines { "WITH_MINIAUDIO" }
 	configuration {}
 end
 
@@ -38,8 +30,7 @@ function projectAdd_soloud()
 	end
 
 	if getTargetOS() == "asmjs" then
---		table.insert(SOLOUD_FILES, SOLOUD_ROOT .. "src/backend/sdl_static/**.*")
-		table.insert(SOLOUD_FILES, SOLOUD_ROOT .. "src/backend/sdl2_static/**.*")
+		table.insert(SOLOUD_FILES, SOLOUD_ROOT .. "src/backend/miniaudio/**.*")
 	end
 
 	addProject_3rdParty_lib("soloud", SOLOUD_FILES)
