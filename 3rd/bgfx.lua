@@ -41,7 +41,7 @@ function projectExtraConfigExecutable_bgfx()
 		links   {
 			"glfw3"
 		}
-	end
+
 		configuration { "linux or freebsd" }
 			links {
 				"Xrandr",
@@ -58,6 +58,7 @@ function projectExtraConfigExecutable_bgfx()
 			}
 
 		configuration {}
+	end
 	
 	configuration { "vs20* or mingw*", "not orbis", "not durango", "not winphone*", "not winstore*" }
 		links {
