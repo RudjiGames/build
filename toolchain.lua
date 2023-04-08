@@ -1037,7 +1037,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		buildoptions {
 			"-Wfatal-errors",
-			"-msse2",
 			"-Wunused-value",
 			"-Wundef",
 		}

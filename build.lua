@@ -134,7 +134,7 @@ end
 
 function addPCH(_path, _name)
 	local PCH = getPCHPath(_path, _name)
-	if PCH ~= nil then
+	if PCH ~= nil and not os.is("macosx") then
 		pchheader (PCH)
 		pchsource (_path .. _name .. "_pch.cpp")
 	end
