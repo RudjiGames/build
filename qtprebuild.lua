@@ -97,10 +97,10 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
-qtMocExe = "moc" .. windowsExe
-qtUICExe = "uic" .. windowsExe
-qtQRCExe = "rcc" .. windowsExe
-qtTSExe  = "lrelease" .. windowsExe
+qtMocExe = qtDirectory .. "/moc" .. windowsExe
+qtUICExe = qtDirectory .. "/uic" .. windowsExe
+qtQRCExe = qtDirectory .. "/rcc" .. windowsExe
+qtTSExe  = qtDirectory .. "/lrelease" .. windowsExe
 
 if file_exists(qtDirectory..del.."bin"..del..qtMocExe) then
 	qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
