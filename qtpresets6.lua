@@ -30,14 +30,14 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		end
 
 		local QT_PATH = os.getenv(qtEnv)
-		if getTargetOS() == "windows" then
+		--if getTargetOS() == "windows" then
     		if QT_PATH == nil then
 	    		print ("ERROR: The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets6.lua")
 		    	os.exit()
     		end
-        else
-            QT_PATH = ""
-        end
+        --else
+        --    QT_PATH = ""
+        --end
 
 		flatten( _mocfiles )
 		flatten( _qrcfiles )
