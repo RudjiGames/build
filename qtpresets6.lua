@@ -112,7 +112,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		includedirs	{ QT_PATH .. "/include" }
 
 		local libsDirectory = QT_PATH .. "/lib/"
-		print("Qt linking directory: " .. libsDirectory)
 		libdirs { libsDirectory }
 
 		if os.is("windows") then
