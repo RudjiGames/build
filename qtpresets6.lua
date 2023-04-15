@@ -245,9 +245,11 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
-				-- links { libsDirectory .. "Qt" .. lib .. ".framework" }
-				-- includedirs { libsDirectory .. "Qt" .. lib .. ".framework" }
-				linkoptions { "-F " .. libsDirectory .. "Qt" .. lib .. ".framework" }
+				if os.isdir(libsDirectory .. "Qt" .. lib .. ".framework") then
+					links { libsDirectory .. "Qt" .. lib .. ".framework" }
+				else
+					print("Framework " .. "Qt" .. lib .. ".framework" .. " not found!")
+				end
 			end
 		end
 
