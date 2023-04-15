@@ -199,8 +199,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 	
 			configuration { _config }
 
-		else
-		if os.is("linux") then
+		elseif os.is("linux") then
 
 			-- check if X11Extras is needed
 			local extrasLib = QT_PATH .. "lib/lib" .. QT_LIB_PREFIX .. "X11Extras.a"
@@ -228,8 +227,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			buildoptions { qtFlags }
 			linkoptions { qtLibs }
 
-		else
-		if os.is("macosx") then
+		elseif os.is("macosx") then
 			configuration { _config }
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
