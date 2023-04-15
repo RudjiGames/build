@@ -111,6 +111,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 	
 		includedirs	{ QT_PATH .. "/include" }
 
+		local libsDirectory = QT_PATH .. "/lib/"
+		print("Qt linking directory: " .. libDirectory)
+		libdirs { libsDirectory }
+
 		if os.is("windows") then
 
 			_libsToLink = mergeTables(_libsToLink, "WinExtras")
@@ -171,13 +175,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			end
 
 			defines { "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
-
-			local libsDirectory = QT_PATH .. "/lib/"
-
-			print("Qt linking directory: " .. libDirectory)
-
-			configuration { _config }
-			libdirs { libsDirectory }
 
 			configuration { _config }
 
