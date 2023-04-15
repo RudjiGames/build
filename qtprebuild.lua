@@ -167,7 +167,7 @@ end
 if arg[1] == "-moc" then
 
 	lfs.mkdir( qtMocOutputDirectory )
-	outputFileName = path.getabsolute(qtMocOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtMocPostfix .. ".cpp")
+	outputFileName = qtMocOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtMocPostfix .. ".cpp"
 
 	if checkUpToDate(outputFileName) == true then return end
 	
@@ -184,7 +184,7 @@ if arg[1] == "-moc" then
 	end
 elseif arg[1] == "-rcc" then
 	lfs.mkdir( qtQRCOutputDirectory )
-	outputFileName = path.getabsolute(qtQRCOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtQRCPostfix .. ".cpp")
+	outputFileName = qtQRCOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtQRCPostfix .. ".cpp"
 
 	if checkUpToDate(outputFileName) == true then return end
 
@@ -201,7 +201,7 @@ elseif arg[1] == "-rcc" then
 	end
 elseif arg[1] == "-uic" then
 		lfs.mkdir( qtUIOutputDirectory )
-		outputFileName = path.getabsolute(qtUIOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtUIPostfix .. ".h")
+		outputFileName = qtUIOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtUIPostfix .. ".h"
 
 		if checkUpToDate(outputFileName) == true then return end
 
