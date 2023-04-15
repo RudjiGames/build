@@ -244,11 +244,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			configuration { _config }
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
-				links { "Qt" .. lib .. ".framework" }
+				links { libsDirectory .. "Qt" .. lib .. ".framework" }
 			end
 		end
 
 	configuration {}
 	return addedFiles
 end
-
