@@ -228,6 +228,19 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			linkoptions { qtLibs }
 
 		elseif os.is("macosx") then
+			local qtLinks = QT_LIB_PREFIX .. table.concat( libsToLink, " " .. QT_LIB_PREFIX )
+
+			local qtLibs  = "pkg-config --libs " .. qtLinks
+			local qtFlags = "pkg-config --cflags " .. qtLinks
+			local libPipe = io.popen( qtLibs, 'r' )
+			local flagPipe= io.popen( qtFlags, 'r' )
+
+	
+			qtLibs = libPipe:read( '*line' )
+			qtFlags = flagPipe:read( '*line' )
+			libPipe:close()
+			flagPipe:close()
+
 			configuration { _config }
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
