@@ -112,7 +112,12 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		includedirs	{ QT_PATH .. "/include" }
 
 		local libsDirectory = QT_PATH .. "/lib/"
-		libdirs { libsDirectory }
+	
+		if os.is("macosx") then
+			linkoptions { "-F " .. libsDirectory }
+		else
+			libdirs { libsDirectory }
+		end
 
 		if os.is("windows") then
 
@@ -228,28 +233,11 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			linkoptions { qtLibs }
 
 		elseif os.is("macosx") then
-			local qtLinks = QT_LIB_PREFIX .. table.concat( libsToLink, " " .. QT_LIB_PREFIX )
-
-			local qtLibs  = "pkg-config --libs " .. qtLinks
-			local qtFlags = "pkg-config --cflags " .. qtLinks
-			local libPipe = io.popen( qtLibs, 'r' )
-			local flagPipe= io.popen( qtFlags, 'r' )
-
-	
-			qtLibs = libPipe:read( '*line' )
-			qtFlags = flagPipe:read( '*line' )
-			libPipe:close()
-			flagPipe:close()
-
 			configuration { _config }
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
-				if os.isdir(libsDirectory .. "Qt" .. lib .. ".framework") then
-					links { libsDirectory .. "Qt" .. lib .. ".framework" }
-				else
-					print("Framework " .. "Qt" .. lib .. ".framework" .. " not found!")
-				end
+				links { "Qt" .. lib .. ".framework" }
 			end
 		end
 
