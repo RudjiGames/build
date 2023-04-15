@@ -246,6 +246,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
 				links { libsDirectory .. "Qt" .. lib .. ".framework" }
+				includedirs { libsDirectory .. "Qt" .. lib .. ".framework" }
 			end
 		end
 
