@@ -174,6 +174,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			local libsDirectory = QT_PATH .. "/lib/"
 
+			print("Qt linking directory: " .. libDirectory)
+
 			configuration { _config }
 			libdirs { libsDirectory }
 
