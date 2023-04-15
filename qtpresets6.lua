@@ -178,6 +178,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			configuration { _config }
 			libdirs { libsDirectory }
+		print("DEBUG LIBS")
+		print(libsDirectory)
 
 			configuration { _config }
 
