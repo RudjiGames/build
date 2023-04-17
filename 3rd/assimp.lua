@@ -31,6 +31,7 @@ local ASSIMP_FILES = {
 local ASSIMP_INCLUDES = {
 	ASSIMP_ROOT,
 	ASSIMP_ROOT .. "include/",	
+	ASSIMP_ROOT .. "contrib/",
 	ASSIMP_ROOT .. "contrib/rapidjson/include/",
 	ASSIMP_ROOT .. "contrib/irrXML/",
 	ASSIMP_ROOT .. "contrib/openddlparser/include/",
@@ -38,6 +39,7 @@ local ASSIMP_INCLUDES = {
 	ASSIMP_ROOT .. "contrib/zlib/contrib/minizip",
 	ASSIMP_ROOT .. "code/BoostWorkaround/",
 	ASSIMP_ROOT .. "code/",
+	ASSIMP_ROOT .. "contrib/pugixml/src"
 }
 
 local sedCommand = getToolForHost("sed")
@@ -50,6 +52,11 @@ function projectExtraConfig_assimp()
 		prebuildcommands(string.gsub("copy " .. ASSIMP_ROOT .. "revision.h.in " .. ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
 		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/0x@GIT_COMMIT_HASH@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
 
+		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_MAJOR@/1/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_MINOR@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_PATCH@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_PACKAGE_VERSION@/1/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+
 		prebuildcommands(string.gsub("copy " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h", "/", "\\"))
 	else
 		prebuildcommands("cp " .. ASSIMP_ROOT .. "include/assimp/config.h.in " ..  ASSIMP_ROOT .. "include/assimp/config.h")
@@ -58,11 +65,16 @@ function projectExtraConfig_assimp()
 		prebuildcommands("cp " .. ASSIMP_ROOT .. "revision.h.in " .. ASSIMP_ROOT .. "code/revision.h")
 		prebuildcommands("sed -i s/0x@GIT_COMMIT_HASH@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
 
+		prebuildcommands("sed -i s/@ASSIMP_VERSION_MAJOR@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+		prebuildcommands("sed -i s/@ASSIMP_VERSION_MINOR@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+		prebuildcommands("sed -i s/@ASSIMP_VERSION_PATCH@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+		prebuildcommands("sed -i s/@ASSIMP_PACKAGE_VERSION@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+
 		prebuildcommands("cp " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h")
 	end
 
 	includedirs { ASSIMP_INCLUDES }
-	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER" }
+	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER", "ASSIMP_BUILD_NO_EXPORT" }
 
 	configuration { "vs20*", "not orbis", "not durango", "not winphone*", "not winstore*" }
 		buildoptions { "/bigobj" }
