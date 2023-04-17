@@ -45,34 +45,6 @@ local ASSIMP_INCLUDES = {
 local sedCommand = getToolForHost("sed")
 
 function projectExtraConfig_assimp()
-	if os.is("windows") then
-		prebuildcommands(string.gsub("copy " .. ASSIMP_ROOT .. "include/assimp/config.h.in " .. ASSIMP_ROOT .. "include/assimp/config.h", "/", "\\"))
-		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/" .. '"cmakedefine ASSIMP_DOUBLE_PRECISION"' .. "/" .. '"define ASSIMP_FUCK_DOUBLE_PRECISION"' .. "/g " .. string.gsub(ASSIMP_ROOT .. "include/assimp/config.h", "/", "\\"))
-
-		prebuildcommands(string.gsub("copy " .. ASSIMP_ROOT .. "revision.h.in " .. ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
-		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/0x@GIT_COMMIT_HASH@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
-
-		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_MAJOR@/1/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
-		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_MINOR@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
-		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_PATCH@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
-		prebuildcommands(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_PACKAGE_VERSION@/1/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
-
-		prebuildcommands(string.gsub("copy " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h", "/", "\\"))
-	else
-		prebuildcommands("cp " .. ASSIMP_ROOT .. "include/assimp/config.h.in " ..  ASSIMP_ROOT .. "include/assimp/config.h")
-		prebuildcommands("sed -i s/" .. '"cmakedefine ASSIMP_DOUBLE_PRECISION"' .. "/" .. '"define ASSIMP_FUCK_DOUBLE_PRECISION"' .. "/g " .. ASSIMP_ROOT .. "include/assimp/config.h")
-
-		prebuildcommands("cp " .. ASSIMP_ROOT .. "revision.h.in " .. ASSIMP_ROOT .. "code/revision.h")
-		prebuildcommands("sed -i s/0x@GIT_COMMIT_HASH@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
-
-		prebuildcommands("sed -i s/@ASSIMP_VERSION_MAJOR@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
-		prebuildcommands("sed -i s/@ASSIMP_VERSION_MINOR@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
-		prebuildcommands("sed -i s/@ASSIMP_VERSION_PATCH@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
-		prebuildcommands("sed -i s/@ASSIMP_PACKAGE_VERSION@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
-
-		prebuildcommands("cp " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h")
-	end
-
 	includedirs { ASSIMP_INCLUDES }
 	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER", "ASSIMP_BUILD_NO_EXPORT" }
 
@@ -84,6 +56,33 @@ end
 
 -- disable IFC importer as it fails to compile with TDM-GCC 4.8.1
 function projectAdd_assimp()
+	if os.is("windows") then
+		os.execute(string.gsub("copy " .. ASSIMP_ROOT .. "include/assimp/config.h.in " .. ASSIMP_ROOT .. "include/assimp/config.h", "/", "\\"))
+		os.execute(string.gsub(sedCommand, "/", "\\") .. " -i s/" .. '"cmakedefine ASSIMP_DOUBLE_PRECISION"' .. "/" .. '"define ASSIMP_FUCK_DOUBLE_PRECISION"' .. "/g " .. string.gsub(ASSIMP_ROOT .. "include/assimp/config.h", "/", "\\"))
+
+		os.execute(string.gsub("copy " .. ASSIMP_ROOT .. "revision.h.in " .. ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		os.execute(string.gsub(sedCommand, "/", "\\") .. " -i s/0x@GIT_COMMIT_HASH@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+
+		os.execute(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_MAJOR@/1/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		os.execute(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_MINOR@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		os.execute(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_VERSION_PATCH@/0/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+		os.execute(string.gsub(sedCommand, "/", "\\") .. " -i s/@ASSIMP_PACKAGE_VERSION@/1/g " .. string.gsub(ASSIMP_ROOT .. "code/revision.h", "/", "\\"))
+
+		os.execute(string.gsub("copy " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h", "/", "\\"))
+	else
+		os.execute("cp " .. ASSIMP_ROOT .. "include/assimp/config.h.in " ..  ASSIMP_ROOT .. "include/assimp/config.h")
+		os.execute("sed -i s/" .. '"cmakedefine ASSIMP_DOUBLE_PRECISION"' .. "/" .. '"define ASSIMP_FUCK_DOUBLE_PRECISION"' .. "/g " .. ASSIMP_ROOT .. "include/assimp/config.h")
+
+		os.execute("cp " .. ASSIMP_ROOT .. "revision.h.in " .. ASSIMP_ROOT .. "code/revision.h")
+		os.execute("sed -i s/0x@GIT_COMMIT_HASH@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+
+		os.execute("sed -i s/@ASSIMP_VERSION_MAJOR@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+		os.execute("sed -i s/@ASSIMP_VERSION_MINOR@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+		os.execute("sed -i s/@ASSIMP_VERSION_PATCH@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+		os.execute("sed -i s/@ASSIMP_PACKAGE_VERSION@/0/g " .. ASSIMP_ROOT .. "code/revision.h")
+
+		os.execute("cp " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h.included " .. ASSIMP_ROOT .. "contrib/zlib/zconf.h")
+	end
+
 	addProject_3rdParty_lib("assimp", ASSIMP_FILES, true)
 end
-
