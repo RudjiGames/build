@@ -46,7 +46,7 @@ local sedCommand = getToolForHost("sed")
 
 function projectExtraConfig_assimp()
 	includedirs { ASSIMP_INCLUDES }
-	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER", "ASSIMP_BUILD_NO_EXPORT" }
+	defines {"ASSIMP_BUILD_NO_IFC_IMPORTER", "ASSIMP_BUILD_NO_C4D_IMPORTER", "ASSIMP_BUILD_NO_OPENGEX_IMPORTER", "ASSIMP_BUILD_NO_EXPORT" }
 
 	configuration { "vs20*", "not orbis", "not durango", "not winphone*", "not winstore*" }
 		buildoptions { "/bigobj" }
