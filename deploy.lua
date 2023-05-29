@@ -93,22 +93,42 @@ function sedAppendReplace(_str, _search, _replace, _last)
 end
 
 function prepareProjectDeployment(_filter, _binDir)
-	
 	if _OPTIONS["no-deploy"] then
 		return
 	end
+
+	if  getTargetOS() == "ios"		or
+		getTargetOS() == "tvos"		or
+		prepareDeploymentiOS(_filter, _binDir)	return
+	end
+
+	if getTargetOS() == "asmjs" then
+		prepareDeploymentAsmJS(_filter, _binDir)	return
+	end
 	
+	if getTargetOS() == "linux" then
+		prepareDeploymentLinux(_filter, _binDir)	return
+	end
+
+	if getTargetOS() == "osx" then
+		prepareDeploymentOSX(_filter, _binDir)	return
+	end
+
 	if getTargetOS() == "android" then
 		prepareDeploymentAndroid(_filter, _binDir)	return
 	end
 
-	if  getTargetOS() == "durango"		or
+	if  getTargetOS() == "windows"		or
+		getTargetOS() == "durango"		or
 		getTargetOS() == "winphone8"	or
 		getTargetOS() == "winphone81"	or
 		getTargetOS() == "winstore81"	or
 		getTargetOS() == "winstore82"	then
-		prepareDeploymentWinRT(_filer, _binDir)	return
+		prepareDeploymentWindows(_filer, _binDir)	return
 	end
+
+	return "switch"
+
 end
 
 function prepareDeploymentAndroid(_filter, _binDir)
@@ -161,7 +181,25 @@ end
 -- 480 x 480
 -- 1920 x 1080
 
-function prepareDeploymentWinRT(_filter, _binDir)
+function prepareDeploymentiOS(_filter, _binDir)
+end
+
+function prepareDeploymentAsmJS(_filter, _binDir)	return
+end
+
+function prepareDeploymentLinux(_filter, _binDir)	return
+end
+
+function prepareDeploymentOSX(_filter, _binDir)	return
+end
+
+function prepareDeploymentAndroid(_filter, _binDir)	return
+end
+
+function prepareDeploymentWindows(_filer, _binDir)	return
+end
+
+function prepareDeploymentWindows(_filter, _binDir)
 	local copyDst = RTM_LOCATION_PATH .. project().name .. "/" .. "Image/Loose/"
 	local copySrc = script_dir() .. "deploy/durango/"
 
@@ -215,4 +253,3 @@ function prepareDeploymentWinRT(_filter, _binDir)
 	files { copyDst .. "Package.appxmanifest" }
 
 end
-
