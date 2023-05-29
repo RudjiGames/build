@@ -3,6 +3,9 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
+local params = { ... }
+local RTM_ADD_SEARCH_PATH = params[1] or nil
+
 --------------------------------------------------------
 -- directories
 --------------------------------------------------------
@@ -50,6 +53,16 @@ else
     print("ERROR: Custom project directories script not found at " .. customProjectDirs)
     os.exit()
     return
+end
+
+-- add extra search path, passed on from the invoking script
+if RTM_ADD_SEARCH_PATH ~= nil then
+	RTM_ADD_SEARCH_PATH = path.getabsolute(RTM_ADD_SEARCH_PATH.. "../../../") .. "/"
+	if os.isdir(RTM_ADD_SEARCH_PATH) then
+		table.insert(RTM_PROJECT_DIRS, RTM_ADD_SEARCH_PATH) 
+	else
+		print("Warning: path does not exist: " .. RTM_ADD_SEARCH_PATH)	
+	end
 end
 
 dofile (RTM_SCRIPTS_DIR .. "toolchain.lua")
@@ -360,7 +373,6 @@ function configDependency(_name, dependency)
 end
 
 function loadProject(_projectName, _load)
-
 	local name = getProjectBaseName(_projectName)
 	local prjFile = ""
 
