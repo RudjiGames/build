@@ -97,9 +97,9 @@ function prepareProjectDeployment(_filter, _binDir)
 		return
 	end
 
-	if  getTargetOS() == "ios"		or
-		getTargetOS() == "tvos"		or
-		prepareDeploymentiOS(_filter, _binDir)	return
+	if  getTargetOS() == "ios"	or
+		getTargetOS() == "tvos" then
+		prepareDeploymentiOS(_filter, _binDir) 	return
 	end
 
 	if getTargetOS() == "asmjs" then
