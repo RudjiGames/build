@@ -9,12 +9,18 @@ local params		= { ... }
 local RAWPDB_ROOT	= params[1]
 
 local RAWPDB_FILES = {
-	RAWPDB_ROOT .. "src/**.h",
-	RAWPDB_ROOT .. "src/**.cpp",
+	RAWPDB_ROOT .. "src/Examples/ExampleMemoryMappedFile.cpp",
+	RAWPDB_ROOT .. "src/Examples/ExampleMemoryMappedFile.h",
+	RAWPDB_ROOT .. "src/Examples/ExampleMain.cpp",
+	RAWPDB_ROOT .. "src/Foundstion/PDB**.cpp",
+	RAWPDB_ROOT .. "src/Foundstion/PDB**.h",
+	RAWPDB_ROOT .. "src/PDB**.h",
+	RAWPDB_ROOT .. "src/PDB**.cpp"
 }
 
 function projectExtraConfig_raw_pdb()
 	includedirs { RAWPDB_ROOT .. "src/" }
+	forcedincludes {"cstdlib"}
 end
 
 function projectAdd_raw_pdb()
