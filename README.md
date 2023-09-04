@@ -29,7 +29,7 @@ Dependencies
 Documentation
 ======
 
-**build**  documentation can be found [here](https://milostosic.github.io/build/).  
+**build**  documentation can be found [here](https://rudjigames.github.io/build/).
 
 Author
 ======
