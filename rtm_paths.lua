@@ -4,6 +4,7 @@ RTM_PROJECT_DIR_PATHS = {
    { true, "build/tools/src/" },
    { true, "3rd/" },
    { true, "libs/" },
+   { true, "src/" },
    { true, "src/libs/" },
    { true, "src/app/" },
    { true, "src/app/games/" },
