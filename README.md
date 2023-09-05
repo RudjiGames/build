@@ -35,8 +35,7 @@ Author
 ======
 
 The author of **build** is Milos Tosic  
-[ <img src="https://github.com/RudjiGames/.github/blob/main/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/RudjiGames/.github/blob/main/images/mail.png">](mailto:milostosic77@gmail.com)  
-
+[ <img src="https://github.com/RudjiGames/.github/blob/main/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/RudjiGames/.github/blob/main/images/mail.png">](mailto:milostosic77@gmail.com) 
 
 
 License (BSD 2-clause)
