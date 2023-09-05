@@ -45,7 +45,7 @@ License (BSD 2-clause)
 <img align="right" src="https://opensource.org/wp-content/uploads/2022/10/osi-badge-dark.svg" width="100" height="137">
 </a>
 
-	Copyright (c) 2023 by Milos Tosic. All rights reserved.
+	Copyright 2023 by Milos Tosic. All rights reserved.
 	
 	https://github.com/RudjiGames/build
 	
