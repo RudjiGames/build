@@ -1,4 +1,4 @@
-![build logo](https://raw.githubusercontent.com/milostosic/build/gh-pages/images/build_logo.png)
+![build logo](https://raw.githubusercontent.com/RudjiGames/build/gh-pages/images/build_logo.png)
 
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/rmem/blob/master/LICENSE)
 
