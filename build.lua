@@ -308,7 +308,7 @@ function getProjectPath(_name, _pathType)
 	end
 
 	local projectPath = find3rdPartyProject(_name)
-	if projectPath != nil then
+	if projectPath ~= nil then
 		if _pathType == ProjectPath.Root then
 			return path.getabsolute(projectPath .. "../") .. "/"
 		else
