@@ -1,3 +1,8 @@
+--
+-- Copyright 2023 Milos Tosic. All rights reserved.
+-- License: http://www.opensource.org/licenses/BSD-2-Clause
+--
+
 RTM_PROJECT_DIR_PATHS = {
    { true, "" },
    { true, "build/3rd/" },
