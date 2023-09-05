@@ -308,15 +308,15 @@ function getProjectPath(_name, _pathType)
 	end
 
 	local projectPath = find3rdPartyProject(_name)
-	if projectPath == nil then return "" end
-
-	if _pathType == ProjectPath.Root then
-		return path.getabsolute(projectPath .. "../") .. "/"
-	else
-		return projectPath
+	if projectPath != nil then
+		if _pathType == ProjectPath.Root then
+			return path.getabsolute(projectPath .. "../") .. "/"
+		else
+			return projectPath
+		end
 	end
 
-	return ""
+	return nil
 end
 
 function addIncludePath(_name, _path)
@@ -482,10 +482,14 @@ function addLibProjects(_name)
 
 	local projectDir = getProjectPath(_name)
 
-	local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
-	for _,dir in ipairs(sampleDirs) do
-		local dirName = path.getbasename(dir)
-		addProject_lib_sample(_name, dirName, _toolLib)
+	local bool hasRapp = getProjectPath("rapp") ~= nil
+
+	if hasRapp then
+		local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
+		for _,dir in ipairs(sampleDirs) do
+			local dirName = path.getbasename(dir)
+			addProject_lib_sample(_name, dirName, _toolLib)
+		end
 	end
 
 	local testDir = projectDir .. "/test/"
