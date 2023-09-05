@@ -1,6 +1,6 @@
 ![build logo](https://raw.githubusercontent.com/RudjiGames/build/gh-pages/images/build_logo.png)
 
-[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/rmem/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/RudjiGames/build/blob/master/LICENSE)
 
 **build** is a set of scripts for a build system based on [GENie](https://github.com/bkaradzic/GENie) and other tools.  
 Goal of **build** is to minimize efforts that go into maintaining project configurations and their physical organization on disk.  
@@ -29,19 +29,21 @@ Dependencies
 Documentation
 ======
 
-**build**  documentation can be found [here](https://rudjigames.github.io/build/).
+**build**  documentation can be found [here](https://RudjiGames.github.io/build/).
 
 Author
 ======
 
 The author of **build** is Milos Tosic  
-[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/mail.png">](mailto:milostosic77@gmail.com)  
+[ <img src="https://github.com/RudjiGames/.github/blob/main/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/RudjiGames/.github/blob/main/images/mail.png">](mailto:milostosic77@gmail.com)  
+
+
 
 License (BSD 2-clause)
 ======
 
 <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">
-<img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
+<img align="right" src="https://opensource.org/wp-content/uploads/2022/10/osi-badge-dark.svg" width="100" height="137">
 </a>
 
 	Copyright (c) 2023 Milos Tosic. All rights reserved.
