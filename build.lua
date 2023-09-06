@@ -308,15 +308,15 @@ function getProjectPath(_name, _pathType)
 	end
 
 	local projectPath = find3rdPartyProject(_name)
-	if projectPath == nil then return "" end
-
-	if _pathType == ProjectPath.Root then
-		return path.getabsolute(projectPath .. "../") .. "/"
-	else
-		return projectPath
+	if projectPath ~= nil then
+		if _pathType == ProjectPath.Root then
+			return path.getabsolute(projectPath .. "../") .. "/"
+		else
+			return projectPath
+		end
 	end
 
-	return ""
+	return nil
 end
 
 function addIncludePath(_name, _path)
@@ -423,7 +423,7 @@ function getProjectDependencies(_name, _additionalDeps)
 	end
 
 	for _,dependency in ipairs(finalDep) do
-		loadProject(dependency, ProjectLoad.LoadOnly)
+		pcall(loadProject, dependency, ProjectLoad.LoadOnly)
 	end
 
 	local depNest = {}
@@ -456,7 +456,7 @@ function addDependencies(_name, _additionalDeps)
 		for _,dependency in ipairs(dependencies) do
 			if dependency ~= nil and dependency ~= "" then
 				local dependencyFullName = getProjectFullName(dependency)
-				addExtraSettingsForExecutable(dependencyFullName)
+				pcall(addExtraSettingsForExecutable, dependencyFullName)
 
 				addInclude(_name, dependency)
 
@@ -469,7 +469,7 @@ function addDependencies(_name, _additionalDeps)
 	
 	if dependencies ~= nil then
 		for _,dependency in ipairs(dependencies) do
-			loadProject(dependency)
+			pcall(loadProject, dependency)
 		end
 	end
 end
@@ -482,16 +482,24 @@ function addLibProjects(_name)
 
 	local projectDir = getProjectPath(_name)
 
-	local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
-	for _,dir in ipairs(sampleDirs) do
-		local dirName = path.getbasename(dir)
-		addProject_lib_sample(_name, dirName, _toolLib)
+	-- Add unit sample projects only if unittest-cpp dependency can be found
+	local rapp = getProjectPath("rapp")
+	if rapp ~= nil then
+		local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
+		for _,dir in ipairs(sampleDirs) do
+			local dirName = path.getbasename(dir)
+			addProject_lib_sample(_name, dirName, _toolLib)
+		end
 	end
 
-	local testDir = projectDir .. "/test/"
-	if os.isdir(testDir) then
-		addProject_lib_test(_name)
- 	end
+	-- Add unit test projects only if unittest-cpp dependency can be found
+	local unittest_path = find3rdPartyProject("unittest-cpp")
+	if unittest_path ~= nil then
+		local testDir = projectDir .. "/test/"
+		if os.isdir(testDir) then
+			addProject_lib_test(_name)
+ 		end
+	end
 
 	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
 	for _,dir in ipairs(toolsDirs) do
