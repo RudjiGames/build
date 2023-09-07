@@ -63,7 +63,7 @@ function addProject_lib_sample(_name, _sampleName)
 		end
 
 		if withBGFX then
-			addDependencies(_sampleName, {{ "rapp", "bgfx" }, _name })
+			addDependencies(_sampleName, { {"rapp", "bgfx"}, _name })
 		else
 			addDependencies(_sampleName, { "rapp", _name })
 		end

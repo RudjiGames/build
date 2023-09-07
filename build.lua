@@ -277,6 +277,7 @@ function getProjectFullName(_projectName)
 end
 
 function find3rdPartyProject(_name)
+	if istable(_name) then return nil end
 	local name = getProjectBaseName(_name)
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		local libDir = dir .. name
@@ -374,25 +375,26 @@ end
 
 function loadProject(_projectName, _load)
 	local name = getProjectBaseName(_projectName)
-	local prjFile = ""
-
-	for _,path in ipairs(RTM_PROJECT_DIRS) do
-			prjFile = path .. name .. ".lua"
-			if os.isfile(prjFile) then
-				if g_fileIsLoaded[prjFile] == nil then
-					g_fileIsLoaded[prjFile] = true
-					assert(loadfile(prjFile))(find3rdPartyProject(name))
-					break
+	if name ~= nil then
+		local prjFile = ""
+		for _,path in ipairs(RTM_PROJECT_DIRS) do
+				prjFile = path .. name .. ".lua"
+				if os.isfile(prjFile) then
+					if g_fileIsLoaded[prjFile] == nil then
+						g_fileIsLoaded[prjFile] = true
+						assert(loadfile(prjFile))(find3rdPartyProject(name))
+						break
+					end
 				end
-			end
-			prjFile = path .. name .. "/genie/" .. name .. ".lua"
-			if os.isfile(prjFile) then
-				if g_fileIsLoaded[prjFile] == nil then
-					g_fileIsLoaded[prjFile] = true
-					dofile(prjFile)
-					break
+				prjFile = path .. name .. "/genie/" .. name .. ".lua"
+				if os.isfile(prjFile) then
+					if g_fileIsLoaded[prjFile] == nil then
+						g_fileIsLoaded[prjFile] = true
+						dofile(prjFile)
+						break
+					end
 				end
-			end
+		end
 	end
 
 	_load = _load or ProjectLoad.LoadAndAdd
@@ -409,21 +411,23 @@ end
 
 function getProjectDependencies(_name, _additionalDeps)
 	local fullName = getProjectFullName(_name)
+
 	local dep = {}
 	if _G["projectDependencies_" .. fullName] then
 		dep = _G["projectDependencies_" .. fullName]()
 	end
 
+	local finalDep = {}
+
 	_additionalDeps = _additionalDeps or {}
 	dep = mergeTables(dep, _additionalDeps)
 
-	local finalDep = {}
 	for _,dependency in ipairs(dep) do
 		table.insert(finalDep, configDependency(_name, dependency))
 	end
 
 	for _,dependency in ipairs(finalDep) do
-		pcall(loadProject, dependency, ProjectLoad.LoadOnly)
+		loadProject(dependency, ProjectLoad.LoadOnly)
 	end
 
 	local depNest = {}
@@ -454,10 +458,10 @@ function addDependencies(_name, _additionalDeps)
 
 	if dependencies ~= nil then
 		for _,dependency in ipairs(dependencies) do
-			if dependency ~= nil and dependency ~= "" then
+			if dependency ~= nil then
 				local dependencyFullName = getProjectFullName(dependency)
-				pcall(addExtraSettingsForExecutable, dependencyFullName)
 
+				addExtraSettingsForExecutable(dependencyFullName)
 				addInclude(_name, dependency)
 
 				if not _G["projectNoBuild_" .. dependencyFullName] then
@@ -469,7 +473,7 @@ function addDependencies(_name, _additionalDeps)
 	
 	if dependencies ~= nil then
 		for _,dependency in ipairs(dependencies) do
-			pcall(loadProject, dependency)
+			loadProject(dependency)
 		end
 	end
 end
