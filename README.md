@@ -3,7 +3,8 @@
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/RudjiGames/build/blob/master/LICENSE)
 
 **build** is a set of scripts for a build system based on [GENie](https://github.com/bkaradzic/GENie) and other tools.  
-Goal of **build** is to minimize efforts that go into maintaining project configurations and their physical organization on disk.  
+Goal of **build** is to minimize efforts that go into maintaining project configurations and their physical organization on disk.
+
 Some highlight features of **build**:  
  * Centralized location to control configrations of projects/solutions (VS lingo)
  * Ability to add projects/solutions with just a few lines of Lua script
