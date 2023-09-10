@@ -1,24 +1,702 @@
-<!doctype html><html lang=en class="js csstransforms3d"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.118.2"><meta name=description content><link rel="shortcut icon" href=images/favicon.ico><title>data :: build documentatione</title><link href=/css/nucleus.css?1694371168 rel=stylesheet><link href=/css/fontawesome-all.min.css?1694371168 rel=stylesheet><link href=/css/hybrid.css?1694371168 rel=stylesheet><link href=/css/featherlight.min.css?1694371168 rel=stylesheet><link href=/css/perfect-scrollbar.min.css?1694371168 rel=stylesheet><link href=/css/auto-complete.css?1694371168 rel=stylesheet><link href=/css/atom-one-dark-reasonable.css?1694371168 rel=stylesheet><link href=/css/theme.css?1694371168 rel=stylesheet><link href=/css/tabs.css?1694371168 rel=stylesheet><link href=/css/hugo-theme.css?1694371168 rel=stylesheet><link href=/css/theme-rudji.css?1694371168 rel=stylesheet><script src=/js/jquery-3.3.1.min.js?1694371168></script><style>:root #header+#content>#left>#rlblock_left{display:none!important}</style></head><body data-url=/project_structure/data/><nav id=sidebar><div id=header-wrapper><div id=header><a id=logo href=https://127.0.0.1/><img src=/images/build_logo.png width=200/><p><a href=https://github.com/bkaradzic/GENie><b>GENie</b></a> <font color=#ffffff>build system scripts</font></p></a></div><div class=searchbox><label for=search-by><i class="fa fa-search"></i></label>
-<input data-search-input id=search-by type=text placeholder=Search...>
-<span data-search-clear><i class="fa fa-close"></i></span></div><script type=text/javascript src=/js/lunr.min.js?1694371168></script>
-<script type=text/javascript src=/js/horsey.js?1694371168></script>
-<script type=text/javascript>var baseurl="https://127.0.0.1/"</script><script type=text/javascript src=/js/search.js?1694371168></script></div><section id=homelinks><ul><li><a class=padding href=/><i class='fas fa-home'></i> Home</a></li></ul></section><div class=highlightable><ul class=topics><li data-nav-id=/getting_started/ title="Getting started" class=dd-item><a href=/getting_started/>Getting started</a></li><li data-nav-id=/project_structure/ title="Project structure" class="dd-item
-parent"><a href=/project_structure/>Project structure</a><ul><li data-nav-id=/project_structure/build/ title=build class=dd-item><a href=/project_structure/build/>build</a></li><li data-nav-id=/project_structure/3rd/ title=3rd class=dd-item><a href=/project_structure/3rd/>3rd</a></li><li data-nav-id=/project_structure/data/ title=data class="dd-item
-active"><a href=/project_structure/data/>data</a></li><li data-nav-id=/project_structure/deploy/ title=deploy class=dd-item><a href=/project_structure/deploy/>deploy</a></li><li data-nav-id=/project_structure/tools/ title=tools class=dd-item><a href=/project_structure/tools/>tools</a></li></ul></li><li data-nav-id=/project_types/ title="Project types" class=dd-item><a href=/project_types/>Project types</a></li><li data-nav-id=/use_case/ title="Sample use case" class=dd-item><a href=/use_case/>Sample use case</a></li><li data-nav-id=/customizing/ title="Custom configurations" class=dd-item><a href=/customizing/>Custom configurations</a></li></ul><section id=footer><center><a class=github-button href=https://github.com/milostosic/build/archive/master.zip data-icon=octicon-cloud-download aria-label="Download milostosic/build on GitHub">Download</a>
-<a class=github-button href=https://github.com/milostosic/build data-icon=octicon-star data-show-count=true aria-label="Star milostosic/build on GitHub">Star</a>
-<a class=github-button href=https://github.com/milostosic/build/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork milostosic/build on GitHub">Fork</a>
-<a href=https://rudji.com><img src=/images/rudji_games_logo_small_transparent_dark.png width=150></a></center>
-<script async defer src=https://buttons.github.io/buttons.js></script></section></div></nav><section id=body><div id=overlay></div><div class="padding highlightable"><div><div id=top-bar><div id=breadcrumbs itemscope itemtype=http://data-vocabulary.org/Breadcrumb><span id=sidebar-toggle-span><a href=# id=sidebar-toggle data-sidebar-toggle><i class="fas fa-bars"></i></a></span>
-<span id=toc-menu><i class="fas fa-list-alt"></i></span>
-<span class=links><a href=/>build documentation</a> > <a href=/project_structure/>Project structure</a> > data</span></div><div class=progress><div class=wrapper><nav id=TableOfContents></nav></div></div></div></div><div id=head-tags></div><div id=body-inner><h1>data</h1><p><strong>WIP</strong></p><p>This directory will contain scripts for the asset build system (WIP).</p><footer class=footline></footer></div></div><div id=navigation><a class="nav nav-prev" href=/project_structure/3rd/ title=3rd><i class="fa fa-chevron-left"></i></a>
-<a class="nav nav-next" href=/project_structure/deploy/ title=deploy style=margin-right:0><i class="fa fa-chevron-right"></i></a></div></section><div style=left:-1000px;overflow:scroll;position:absolute;top:-1000px;border:none;box-sizing:content-box;height:200px;margin:0;padding:0;width:200px><div style=border:none;box-sizing:content-box;height:200px;margin:0;padding:0;width:200px></div></div><script src=/js/clipboard.min.js?1694371168></script>
-<script src=/js/perfect-scrollbar.min.js?1694371168></script>
-<script src=/js/perfect-scrollbar.jquery.min.js?1694371168></script>
-<script src=/js/jquery.sticky.js?1694371168></script>
-<script src=/js/featherlight.min.js?1694371168></script>
-<script src=/js/highlight.pack.js?1694371168></script>
-<script>hljs.initHighlightingOnLoad()</script><script src=/js/modernizr.custom-3.6.0.js?1694371168></script>
-<script src=/js/learn.js?1694371168></script>
-<script src=/js/hugo-learn.js?1694371168></script>
-<script src=/mermaid/mermaid.js?1694371168></script>
-<script>mermaid.initialize({startOnLoad:!0})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.118.2">
+    <meta name="description" content="">
+
+
+    <link rel="shortcut icon" href="images/favicon.ico" />
+
+
+    <title>data :: build documentatione</title>
+
+    
+    <link href="https://rudjigames.github.io/build/css/nucleus.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/fontawesome-all.min.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/hybrid.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/featherlight.min.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/perfect-scrollbar.min.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/auto-complete.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/atom-one-dark-reasonable.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/theme.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/tabs.css?1694372016" rel="stylesheet">
+    <link href="https://rudjigames.github.io/build/css/hugo-theme.css?1694372016" rel="stylesheet">
+    
+    <link href="https://rudjigames.github.io/build/css/theme-rudji.css?1694372016" rel="stylesheet">
+    
+    
+
+    <script src="https://rudjigames.github.io/build/js/jquery-3.3.1.min.js?1694372016"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="https://rudjigames.github.io/build/project_structure/data/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://rudjigames.github.io/build/">
+<img src="https://rudjigames.github.io/build/images/build_logo.png" width=200/>
+<p><a href="https://github.com/bkaradzic/GENie"><b>GENie</b></a> <font color="#ffffff">build system scripts</font></p>
+</a>
+
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fa fa-search"></i></label>
+    <input data-search-input id="search-by" type="text" placeholder="Search...">
+    <span data-search-clear=""><i class="fa fa-close"></i></span>
+</div>
+
+<script type="text/javascript" src="https://rudjigames.github.io/build/js/lunr.min.js?1694372016"></script>
+<script type="text/javascript" src="https://rudjigames.github.io/build/js/horsey.js?1694372016"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/rudjigames.github.io\/build\/";
+    
+</script>
+<script type="text/javascript" src="https://rudjigames.github.io/build/js/search.js?1694372016"></script>
+
+    
+  </div>
+  
+    <section id="homelinks">
+      <ul>
+        <li>
+            <a class="padding" href='https://rudjigames.github.io/build/'><i class='fas fa-home'></i> Home</a>
+        </li>
+      </ul>
+    </section>
+  
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/getting_started/" title="Getting started" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/getting_started/">
+          Getting started
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_structure/" title="Project structure" class="dd-item
+        parent
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_structure/">
+          Project structure
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_structure/build/" title="build" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_structure/build/">
+          build
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_structure/3rd/" title="3rd" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_structure/3rd/">
+          3rd
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_structure/data/" title="data" class="dd-item
+        
+        active
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_structure/data/">
+          data
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_structure/deploy/" title="deploy" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_structure/deploy/">
+          deploy
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_structure/tools/" title="tools" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_structure/tools/">
+          tools
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/project_types/" title="Project types" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/project_types/">
+          Project types
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/use_case/" title="Sample use case" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/use_case/">
+          Sample use case
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/customizing/" title="Custom configurations" class="dd-item
+        
+        
+        
+        ">
+      <a href="https://rudjigames.github.io/build/customizing/">
+          Custom configurations
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+        
+    </ul>
+
+    
+    
+
+    
+    <section id="footer">
+      <center>
+    
+    <a class="github-button" href="https://github.com/milostosic/build/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download milostosic/build on GitHub">Download</a>
+
+    
+    <a class="github-button" href="https://github.com/milostosic/build" data-icon="octicon-star" data-show-count="true" aria-label="Star milostosic/build on GitHub">Star</a>
+
+    
+    <a class="github-button" href="https://github.com/milostosic/build/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork milostosic/build on GitHub">Fork</a>
+	<a href="https://rudji.com"><img src="https://rudjigames.github.io/build/images/rudji_games_logo_small_transparent_dark.png" width=150></a>
+</center>
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='https://rudjigames.github.io/build/'>build documentation</a> > <a href='https://rudjigames.github.io/build/project_structure/'>Project structure</a> > data
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              data
+            </h1>
+          
+
+        
+
+
+
+	<p><strong>WIP</strong></p>
+<p>This directory will contain scripts for the asset build system (WIP).</p>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div>
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="https://rudjigames.github.io/build/project_structure/3rd/" title="3rd"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="https://rudjigames.github.io/build/project_structure/deploy/" title="deploy" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="https://rudjigames.github.io/build/js/clipboard.min.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/perfect-scrollbar.min.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/perfect-scrollbar.jquery.min.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/jquery.sticky.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/featherlight.min.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/highlight.pack.js?1694372016"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://rudjigames.github.io/build/js/modernizr.custom-3.6.0.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/learn.js?1694372016"></script>
+    <script src="https://rudjigames.github.io/build/js/hugo-learn.js?1694372016"></script>
+    
+        
+            <script src="https://rudjigames.github.io/build/mermaid/mermaid.js?1694372016"></script>
+        
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+    
+    
+
+  </body>
+</html>
