@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Project types on build documentatione</title>
-    <link>https://github.com/RudjiGames/build/blob/gh-pages/project_types/</link>
+    <link>https://rudjigames.github.io/build/project_types/</link>
     <description>Recent content in Project types on build documentatione</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://github.com/RudjiGames/build/blob/gh-pages/project_types/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://rudjigames.github.io/build/project_types/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
