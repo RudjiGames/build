@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>build documentation on build documentatione</title>
-    <link>https://rudjigames.github.io/build/</link>
+    <link>https://github.com/RudjiGames/build/blob/gh-pages/</link>
     <description>Recent content in build documentation on build documentatione</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://rudjigames.github.io/build/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://github.com/RudjiGames/build/blob/gh-pages/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
