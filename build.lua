@@ -266,9 +266,9 @@ end
 
 function getProjectFullName(_projectName)
 	if istable(_projectName) then
-		local ret = ""
+		local ret = nil
 		for _,name in ipairs(_projectName) do
-			if ret == "" then ret = name else ret = ret .. "_" .. name end
+			if ret == nil then ret = name else ret = ret .. "_" .. name end
 		end
 		return ret
 	else
