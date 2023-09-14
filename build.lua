@@ -382,7 +382,11 @@ function loadProject(_projectName, _load)
 				if os.isfile(prjFile) then
 					if g_fileIsLoaded[prjFile] == nil then
 						g_fileIsLoaded[prjFile] = true
-						assert(loadfile(prjFile))(find3rdPartyProject(name))
+
+						local projectName = find3rdPartyProject(name);
+						if projectName ~= nil then
+							assert(loadfile(prjFile))(projectName)
+						end
 						break
 					end
 				end
