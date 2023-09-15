@@ -40,7 +40,7 @@ end
 -- Check if a file is a directory
 function file_isdir(path)
    -- "/" works on both Unix and Windows
-   return exists(path.."/")
+   return file_exists(path.."/")
 end
 
 function mkdir(_dirname)
