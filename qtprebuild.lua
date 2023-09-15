@@ -26,6 +26,23 @@ if not windows then
 	windowsExe = ""
 end
 
+-- Check if a file exists
+function file_exists(file)
+   local ok, err, code = os.rename(file, file)
+   if not ok then
+      if code == 13 then -- Permission denied, but it exists
+         return true
+      end
+   end
+   return ok, err
+end
+
+-- Check if a file is a directory
+function file_isdir(path)
+   -- "/" works on both Unix and Windows
+   return exists(path.."/")
+end
+
 function mkdir(_dirname)
 	local dir = _dirname
 	if windows then
@@ -34,7 +51,7 @@ function mkdir(_dirname)
 		dir = string.gsub( _dirname, "\\\\", "\\" )
 	end
 
-	if not os.isdir(dir) then
+	if not file_isdir(dir) then
 		if not windows then
 			os.execute("mkdir -p " .. dir)
 		else
@@ -88,11 +105,6 @@ if not ( arg[1] == "-moc" or arg[1] == "-uic" or arg[1] == "-rcc"  or arg[1] == 
 	return
 end
 
-function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end
-
 --Make sure input file exists
 if not file_exists(arg[2]) then
 	print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[The supplied input file ]]..arg[2]..[[, does not exist]], 4 ) ); io.stdout:flush()
@@ -125,7 +137,7 @@ end
 mkdir( qtOutputDirectory )
 
 function get_file_time(filepath)
-	if os.is("windows") then
+	if windows then
 		local pipe = io.popen('dir /4/tw "'..filepath..'"')
 		local output = pipe:read"*a"
 		pipe:close()
