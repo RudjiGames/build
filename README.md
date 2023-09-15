@@ -1,9 +1,10 @@
-![build logo](https://raw.githubusercontent.com/milostosic/build/gh-pages/images/build_logo.png)
+![build logo](https://raw.githubusercontent.com/RudjiGames/build/gh-pages/images/build_logo.png)
 
-[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/rmem/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/RudjiGames/build/blob/master/LICENSE)
 
 **build** is a set of scripts for a build system based on [GENie](https://github.com/bkaradzic/GENie) and other tools.  
-Goal of **build** is to minimize efforts that go into maintaining project configurations and their physical organization on disk.  
+Goal of **build** is to minimize efforts that go into maintaining project configurations and their physical organization on disk.
+
 Some highlight features of **build**:  
  * Centralized location to control configrations of projects/solutions (VS lingo)
  * Ability to add projects/solutions with just a few lines of Lua script
@@ -19,7 +20,7 @@ Source Code
 
 You can get the latest source code by cloning it from github:
 
-      git clone https://github.com/milostosic/build.git 
+      git clone https://github.com/RudjiGames/build.git 
 
 Dependencies
 ======
@@ -29,24 +30,19 @@ Dependencies
 Documentation
 ======
 
-**build**  documentation can be found [here](https://milostosic.github.io/build/).  
+**build**  documentation can be found [here](https://RudjiGames.github.io/build/).
 
-Author
-======
-
-The author of **build** is Milos Tosic  
-[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/mail.png">](mailto:milostosic77@gmail.com)  
 
 License (BSD 2-clause)
 ======
 
 <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">
-<img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
+<img align="right" src="https://opensource.org/wp-content/uploads/2022/10/osi-badge-dark.svg" width="100" height="137">
 </a>
 
-	Copyright (c) 2018 Milos Tosic. All rights reserved.
+	Copyright 2023 by Milos Tosic. All rights reserved.
 	
-	https://github.com/milostosic/build
+	https://github.com/RudjiGames/build
 	
 	Redistribution and use in source and binary forms, with or without
 	modification, are permitted provided that the following conditions are met:

@@ -1,5 +1,5 @@
 --
--- Copyright (c) 2018 Milos Tosic. All rights reserved.
+-- Copyright 2023 Milos Tosic. All rights reserved.
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
@@ -34,6 +34,6 @@ function addProject_lib_test(_name)
 																	true	-- EXECUTABLE
 																	)
 
-		addDependencies(project().name, { "rapp", "unittest-cpp", _name })
+		addDependencies(project().name, { "unittest-cpp", _name })
 end
 

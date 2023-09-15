@@ -1,5 +1,5 @@
 --
--- Copyright (c) 2018 Milos Tosic. All rights reserved.
+-- Copyright 2023 Milos Tosic. All rights reserved.
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
@@ -266,9 +266,9 @@ end
 
 function getProjectFullName(_projectName)
 	if istable(_projectName) then
-		local ret = ""
+		local ret = nil
 		for _,name in ipairs(_projectName) do
-			if ret == "" then ret = name else ret = ret .. "_" .. name end
+			if ret == nil then ret = name else ret = ret .. "_" .. name end
 		end
 		return ret
 	else
@@ -277,6 +277,7 @@ function getProjectFullName(_projectName)
 end
 
 function find3rdPartyProject(_name)
+	if istable(_name) then return nil end
 	local name = getProjectBaseName(_name)
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		local libDir = dir .. name
@@ -308,15 +309,15 @@ function getProjectPath(_name, _pathType)
 	end
 
 	local projectPath = find3rdPartyProject(_name)
-	if projectPath == nil then return "" end
-
-	if _pathType == ProjectPath.Root then
-		return path.getabsolute(projectPath .. "../") .. "/"
-	else
-		return projectPath
+	if projectPath ~= nil then
+		if _pathType == ProjectPath.Root then
+			return path.getabsolute(projectPath .. "../") .. "/"
+		else
+			return projectPath
+		end
 	end
 
-	return ""
+	return nil
 end
 
 function addIncludePath(_name, _path)
@@ -374,29 +375,30 @@ end
 
 function loadProject(_projectName, _load)
 	local name = getProjectBaseName(_projectName)
-	local prjFile = ""
+	if name ~= nil then
+		local prjFile = ""
+		for _,path in ipairs(RTM_PROJECT_DIRS) do
+				prjFile = path .. name .. ".lua"
+				if os.isfile(prjFile) then
+					if g_fileIsLoaded[prjFile] == nil then
+						g_fileIsLoaded[prjFile] = true
 
-	for _,path in ipairs(RTM_PROJECT_DIRS) do
-			prjFile = path .. name .. ".lua"
-			if os.isfile(prjFile) then
-				if g_fileIsLoaded[prjFile] == nil then
-					g_fileIsLoaded[prjFile] = true
-
-					local projectName = find3rdPartyProject(name);
-					if projectName ~= nil then
-						assert(loadfile(prjFile))(projectName)
+						local projectName = find3rdPartyProject(name);
+						if projectName ~= nil then
+							assert(loadfile(prjFile))(projectName)
+						end
+						break
 					end
-					break
 				end
-			end
-			prjFile = path .. name .. "/genie/" .. name .. ".lua"
-			if os.isfile(prjFile) then
-				if g_fileIsLoaded[prjFile] == nil then
-					g_fileIsLoaded[prjFile] = true
-					dofile(prjFile)
-					break
+				prjFile = path .. name .. "/genie/" .. name .. ".lua"
+				if os.isfile(prjFile) then
+					if g_fileIsLoaded[prjFile] == nil then
+						g_fileIsLoaded[prjFile] = true
+						dofile(prjFile)
+						break
+					end
 				end
-			end
+		end
 	end
 
 	_load = _load or ProjectLoad.LoadAndAdd
@@ -413,15 +415,17 @@ end
 
 function getProjectDependencies(_name, _additionalDeps)
 	local fullName = getProjectFullName(_name)
+
 	local dep = {}
 	if _G["projectDependencies_" .. fullName] then
 		dep = _G["projectDependencies_" .. fullName]()
 	end
 
+	local finalDep = {}
+
 	_additionalDeps = _additionalDeps or {}
 	dep = mergeTables(dep, _additionalDeps)
 
-	local finalDep = {}
 	for _,dependency in ipairs(dep) do
 		table.insert(finalDep, configDependency(_name, dependency))
 	end
@@ -459,10 +463,10 @@ function addDependencies(_name, _additionalDeps)
 
 	if dependencies ~= nil then
 		for _,dependency in ipairs(dependencies) do
-			if dependency ~= nil and dependency ~= "" then
+			if dependency ~= nil then
 				local dependencyFullName = getProjectFullName(dependency)
-				addExtraSettingsForExecutable(dependencyFullName)
 
+				addExtraSettingsForExecutable(dependencyFullName)
 				addInclude(_name, dependency)
 
 				if not _G["projectNoBuild_" .. dependencyFullName] then
@@ -487,16 +491,24 @@ function addLibProjects(_name)
 
 	local projectDir = getProjectPath(_name)
 
-	local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
-	for _,dir in ipairs(sampleDirs) do
-		local dirName = path.getbasename(dir)
-		addProject_lib_sample(_name, dirName, _toolLib)
+	-- Add unit sample projects only if unittest-cpp dependency can be found
+	local rapp = getProjectPath("rapp")
+	if rapp ~= nil then
+		local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
+		for _,dir in ipairs(sampleDirs) do
+			local dirName = path.getbasename(dir)
+			addProject_lib_sample(_name, dirName, _toolLib)
+		end
 	end
 
-	local testDir = projectDir .. "/test/"
-	if os.isdir(testDir) then
-		addProject_lib_test(_name)
- 	end
+	-- Add unit test projects only if unittest-cpp dependency can be found
+	local unittest_path = find3rdPartyProject("unittest-cpp")
+	if unittest_path ~= nil then
+		local testDir = projectDir .. "/test/"
+		if os.isdir(testDir) then
+			addProject_lib_test(_name)
+ 		end
+	end
 
 	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
 	for _,dir in ipairs(toolsDirs) do

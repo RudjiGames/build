@@ -1,5 +1,5 @@
 --
--- Copyright (c) 2018 Milos Tosic. All rights reserved.
+-- Copyright 2023 Milos Tosic. All rights reserved.
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
@@ -58,13 +58,17 @@ function addProject_lib_sample(_name, _sampleName)
 																	true	-- EXECUTABLE
 																	)
 
-		if _name == "rapp" then
-			_name = ""
+
+		local dependencies = {}
+		if _name ~= "rapp" then
+			dependencies = mergeTables(dependencies, { _name })
 		end
 
 		if withBGFX then
-			addDependencies(_sampleName, {{ "rapp", "bgfx" }, _name })
+			dependencies = mergeTables(dependencies, {{"rapp", "bgfx"}})
 		else
-			addDependencies(_sampleName, { "rapp", _name })
+			dependencies = mergeTables(dependencies, {"rapp"})
 		end
+
+		addDependencies(_sampleName, dependencies)
 end
