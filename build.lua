@@ -381,7 +381,11 @@ function loadProject(_projectName, _load)
 			if os.isfile(prjFile) then
 				if g_fileIsLoaded[prjFile] == nil then
 					g_fileIsLoaded[prjFile] = true
-					assert(loadfile(prjFile))(find3rdPartyProject(name))
+
+					local projectName = find3rdPartyProject(name);
+					if projectName ~= nil then
+						assert(loadfile(prjFile))(projectName)
+					end
 					break
 				end
 			end
@@ -441,8 +445,9 @@ function getProjectDependencies(_name, _additionalDeps)
 end
 
 function addExtraSettingsForExecutable(_name)
-	if _G["projectExtraConfigExecutable_" .. _name] then
-		dep = _G["projectExtraConfigExecutable_" .. _name]()
+	local fullProjectName = getProjectFullName(_name)
+	if _G["projectExtraConfigExecutable_" .. fullProjectName] then
+		dep = _G["projectExtraConfigExecutable_" .. fullProjectName]()
 	end
 end
 
