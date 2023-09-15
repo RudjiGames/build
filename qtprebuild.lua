@@ -28,19 +28,20 @@ end
 
 -- Check if a file exists
 function file_exists(file)
-   local ok, err, code = os.rename(file, file)
-   if not ok then
-      if code == 13 then -- Permission denied, but it exists
-         return true
-      end
-   end
-   return ok, err
+	if file == nil then return false end
+	local ok, err, code = os.rename(file, file)
+	if not ok then
+		if code == 13 then -- Permission denied, but it exists
+			return true
+		end
+	end
+	return ok, err
 end
 
 -- Check if a file is a directory
 function file_isdir(path)
-   -- "/" works on both Unix and Windows
-   return file_exists(path.."/")
+	-- "/" works on both Unix and Windows
+	return file_exists(path.."/")
 end
 
 function mkdir(_dirname)
