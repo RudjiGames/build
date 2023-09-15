@@ -29,7 +29,7 @@ function addProject_lib_sample(_name, _sampleName)
 		local headers = os.matchfiles( incFilesPath .. "**.h")
 		for _,file in ipairs( headers ) do
 			local headerSrc = readFile(file);
-			if headerSrc:find("#define RAPP_WITH_BGFX 1") then
+			if headerSrc:find("#define RAPP_WITH_BGFX") then -- NB: a single space character between 'define' and 'RAPP_WITH_BGFX'
 				withBGFX = true
 				break
 			end
