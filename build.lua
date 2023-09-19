@@ -11,7 +11,7 @@ local RTM_ADD_SEARCH_PATH = params[1] or nil
 --------------------------------------------------------
 
 function script_dir()
-	return path.getdirectory(debug.getinfo(2, "S").source:sub(2)) .. "/"
+	return debug.getinfo(2, "S").source:sub(2):match("(.*[/\\])") 
 end
 
 RTM_SCRIPTS_DIR			= script_dir()
@@ -360,7 +360,10 @@ function addProject(_name)
 		if find3rdPartyProject(name) == nil then
 			g_projectIsLoaded[name] = true
 			-- some 'missing' dependencies are actually system libraries, for example X11, GL, etc.
-			print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
+			-- if we cannot find it on OS level - warn user
+			if os.findlib(name) == nil then
+				print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
+			end
 		end
 	end
 end
