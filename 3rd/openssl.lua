@@ -14,15 +14,15 @@ function projectExtraConfigExecutable_openssl()
 			includedirs { OSSL_ROOT .. "x64/include" }
 			libdirs { OSSL_ROOT .. "x64/lib" }
 			links   {
-				"libcrypto.lib",
-				"libssl.lib"
+				"libcrypto",
+				"libssl"
 			}
 		configuration {"x32"}
 			includedirs { OSSL_ROOT .. "x86/include" }
 			libdirs { OSSL_ROOT .. "x86/lib" }
 			links   {
-				"libcrypto.lib",
-				"libssl.lib"
+				"libcrypto",
+				"libssl"
 			}
 	end
 end
