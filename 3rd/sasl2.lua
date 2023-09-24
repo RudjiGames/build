@@ -46,8 +46,14 @@ function projectExtraConfigExecutable_sasl2()
 	configuration {}
 end
 
-function projectAdd_sasl2()
+function copyHeaderSASL(name)
+	if not os.isfile(SASL2_ROOT .. "include/sasl/"	.. name) then
+		os.copyfile( SASL2_ROOT .. "include/"		.. name,
+					 SASL2_ROOT .. "include/sasl/"	.. name)
+	end
+end
 
+function projectAdd_sasl2()
 	if getTargetOS() == "windows" then
 		SASL2_FILES = mergeTables(SASL2_FILES, {
 			--SASL2_ROOT .. "lib/getaddrinfo.c",
@@ -65,6 +71,15 @@ function projectAdd_sasl2()
 			SASL2_ROOT .. "lib/dlopen.c"
 		})
 	end
+
+	os.mkdir(SASL2_ROOT .. "include/sasl")
+
+	os.copyfile(SASL2_ROOT .. "include/sasl/exits.h", SASL2_ROOT .. "include/sasl/exits.h")
+	copyHeaderSASL("gai.h")
+	copyHeaderSASL("prop.h")
+	copyHeaderSASL("sasl.h")
+	copyHeaderSASL("saslplug.h")
+	copyHeaderSASL("saslutil.h")
 
 	addProject_3rdParty_lib("sasl2", SASL2_FILES)
 end
