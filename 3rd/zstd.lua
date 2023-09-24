@@ -18,6 +18,10 @@ function projectExtraConfig_zstd()
 	includedirs { ZSTD_ROOT .. "lib" }
 end
 
+function projectExtraConfigExecutable_zstd()
+	includedirs { ZSTD_ROOT .. "lib" }
+end
+
 function projectAdd_zstd()
 	addProject_3rdParty_lib("zstd", ZSTD_FILES)
 end
