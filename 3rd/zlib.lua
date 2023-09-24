@@ -27,6 +27,11 @@ function projectExtraConfig_zlib()
 	defines { ZLIB_DEFINES }
 end
 
+function projectExtraConfigExecutable_zlib()
+	includedirs { ZLIB_ROOT }
+end
+
+
 function projectAdd_zlib()
 	addProject_3rdParty_lib("zlib", ZLIB_FILES)
 end

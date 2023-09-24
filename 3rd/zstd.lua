@@ -3,21 +3,21 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
--- https://github.com/cyrusimap/cyrus-sasl.git
+-- https://github.com/facebook/zstd.git
 
 local params		= { ... }
-local SASL_ROOT		= params[1]
+local ZSTD_ROOT		= params[1]
 
-local SASL_FILES = {
-	SASL_ROOT .. "lib/**.c",
-	SASL_ROOT .. "lib/**.h",
-	SASL_ROOT .. "include/**.h"
+local ZSTD_FILES = {
+	ZSTD_ROOT .. "lib/**.c",
+	ZSTD_ROOT .. "lib/**.h",
+	ZSTD_ROOT .. "include/**.h"
 }
 
-function projectExtraConfig_sasl()
-	includedirs { SASL_ROOT .. "include" }
+function projectExtraConfig_zstd()
+	includedirs { ZSTD_ROOT .. "lib" }
 end
 
-function projectAdd_sasl()
-	addProject_3rdParty_lib("sasl", SASL_FILES)
+function projectAdd_zstd()
+	addProject_3rdParty_lib("zstd", ZSTD_FILES)
 end

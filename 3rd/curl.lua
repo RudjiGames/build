@@ -10,31 +10,28 @@ local CURL_ROOT		= params[1]
 
 local CURL_FILES = {
 	CURL_ROOT .. "lib/**.c",
-	CURL_ROOT .. "lib/**.h",
-	CURL_ROOT .. "src/*.c",
-	CURL_ROOT .. "src/*.h"
+	CURL_ROOT .. "lib/**.h"
 }
-
-local CURL_DEFINES = { "CURL_STATICLIB", "CURL_STRICTER", "CURL_DISABLE_LDAP" }
 
 function projectExtraConfig_curl()
 	includedirs {	CURL_ROOT .. "include",
 					CURL_ROOT .. "lib" }
 
-	defines { CURL_DEFINES }
-	configuration { "vs20*", "windows" }
-		buildoptions { '/wd"4005"' }
-		defines {"USE_SSL", "USE_SCHANNEL", "USE_WINDOWS_SSPI"}
-	configuration { 'linux' }
-		defines {"HAVE_CONFIG_H", "CURL_HIDDEN_SYMBOLS"}
+	defines { "CURL_STATICLIB", "BUILDING_LIBCURL", "curlx_dynbuf=dynbuf" }
+
+	configuration { "vs*", "windows" }
+		-- 4047 - 'const char *' differs in levels of indirection from 'int'
+		-- 4024 - different types for formal and actual parameter 1
+		buildoptions { "/wd4047 /wd4024"}
+	configuration {}
 end
 
 function projectExtraConfigExecutable_curl()
-	configuration { "vs20*", "windows" }
+	configuration { "vs*", "windows" }
 		links { "Crypt32" }
+	configuration {}
 end
 
 function projectAdd_curl()
 	addProject_3rdParty_lib("curl", CURL_FILES)
 end
-
