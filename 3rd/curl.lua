@@ -17,8 +17,8 @@ function projectExtraConfig_curl()
 	includedirs {	CURL_ROOT .. "include",
 					CURL_ROOT .. "lib" }
 
-	defines { "CURL_STATICLIB", "BUILDING_LIBCURL", "curlx_dynbuf=dynbuf" }
-
+	defines { "CURL_STATICLIB", "CURL_USE_OPENSSL=1", "BUILDING_LIBCURL", "curlx_dynbuf=dynbuf" }
+					   
 	configuration { "vs*", "windows" }
 		-- 4047 - 'const char *' differs in levels of indirection from 'int'
 		-- 4024 - different types for formal and actual parameter 1
@@ -32,6 +32,16 @@ function projectExtraConfigExecutable_curl()
 	configuration {}
 end
 
+function projectExtraConfigExecutable_curl()
+	configuration { "linux" }
+		links { "libcurl4" }
+	configuration { "vs*", "windows" }
+		links { "Crypt32" }
+	configuration {}
+end
+
 function projectAdd_curl()
-	addProject_3rdParty_lib("curl", CURL_FILES)
+	if getTargetOS() ~= "linux" then
+		addProject_3rdParty_lib("curl", CURL_FILES)
+	end
 end

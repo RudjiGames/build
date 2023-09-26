@@ -41,6 +41,8 @@ function projectExtraConfig_sasl2()
 end
 
 function projectExtraConfigExecutable_sasl2()
+	configuration { "linux" }
+		links { "libsasl2" }
 	configuration { "vs*", "windows" }
 		links { "Crypt32" }
 	configuration {}
@@ -81,5 +83,7 @@ function projectAdd_sasl2()
 	copyHeaderSASL("saslplug.h")
 	copyHeaderSASL("saslutil.h")
 
-	addProject_3rdParty_lib("sasl2", SASL2_FILES)
+	if getTargetOS() ~= "linux" then
+		addProject_3rdParty_lib("sasl2", SASL2_FILES)
+	end
 end

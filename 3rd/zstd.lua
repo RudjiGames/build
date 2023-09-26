@@ -9,8 +9,14 @@ local params		= { ... }
 local ZSTD_ROOT		= params[1]
 
 local ZSTD_FILES = {
-	ZSTD_ROOT .. "lib/**.c",
-	ZSTD_ROOT .. "lib/**.h",
+	ZSTD_ROOT .. "lib/common/**.c",
+	ZSTD_ROOT .. "lib/compress/**.h",
+	ZSTD_ROOT .. "lib/decompress/**.c",
+	ZSTD_ROOT .. "lib/decompress/**.h",
+	ZSTD_ROOT .. "lib/dictBuilder/**.c",
+	ZSTD_ROOT .. "lib/dictBuilder/**.h",
+	ZSTD_ROOT .. "lib/*.c",
+	ZSTD_ROOT .. "lib/*.h",
 	ZSTD_ROOT .. "include/**.h"
 }
 

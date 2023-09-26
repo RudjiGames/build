@@ -35,5 +35,8 @@ function projectExtraConfig_librdkafka()
 end
 
 function projectAdd_librdkafka()
-	addProject_3rdParty_lib("librdkafka", KAFKA_FILES)
+	if getTargetOS() ~= "linux" then
+		addProject_3rdParty_lib("librdkafka", KAFKA_FILES)
+	end
 end
+																  su
