@@ -9,13 +9,11 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STBIR_DEFAULT_FILTER_DOWNSAMPLE STBIR_FILTER_BOX
 
-#include <stb/stb_image.h>
-#include <stb/stb_image_resize.h>
-#include <stb/stb_image_write.h>
-
-#include <stdlib.h>
+#include "fpng.h"
+#include "stb_image.h"
+#include "stb_image_resize.h"
 
 int main(int argc, char* argv[])
 {
@@ -27,28 +25,19 @@ int main(int argc, char* argv[])
 	int width		= atoi(argv[3]);
 	int height		= atoi(argv[4]);
 
-	int srcW = 0;
-	int srcH = 0;
-	int srcC = 0;
-	unsigned char* srcData = stbi_load(src, &srcW, &srcH, &srcC, 4);
+	std::vector<uint8_t> pixels;
+	uint32_t srcW = 0, srcH = 0;
+	uint32_t channels;
+	uint32_t desired_channels = 4;
+	fpng::fpng_decode_file(src, pixels, srcW, srcH, channels, desired_channels);
 
 	unsigned char* dstData = new unsigned char[width*height*4];
 
-	stbir_resize_uint8( srcData, srcW, srcH, srcW*4, 
-						dstData, width, height, width*4, 4);
+	stbir_resize_uint8( pixels.data(),	srcW, srcH, srcW*4, 
+						dstData,	width, height, width*4, 4);
 
-	if (strstr(dst, ".png"))
-		stbi_write_png(dst, width, height, 4, dstData, width*4);
-
-	if (strstr(dst, ".bmp"))
-		stbi_write_bmp(dst, width, height, 4, dstData);
-
-	if (strstr(dst, ".tga"))
-		stbi_write_tga(dst, width, height, 4, dstData);
-
-
+	fpng::fpng_encode_image_to_file(dst, dstData, width, height, 4);
 	delete[] dstData;
-	stbi_image_free(srcData);
 
 	return 0;
 }
