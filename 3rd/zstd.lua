@@ -25,7 +25,10 @@ function projectExtraConfig_zstd()
 end
 
 function projectExtraConfigExecutable_zstd()
-	includedirs { ZSTD_ROOT .. "lib" }
+	includedirs {
+		ZSTD_ROOT .. "lib",
+		ZSTD_ROOT .. "lib/common"
+	}
 end
 
 function projectAdd_zstd()

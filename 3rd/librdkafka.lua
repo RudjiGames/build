@@ -8,6 +8,13 @@
 local params		= { ... }
 local KAFKA_ROOT	= params[1]
 
+local ZSTD_INC      = find3rdPartyProject("zstd")
+
+if ZSTD_INC == nil then
+	print("ERROR: zstd dependency not found!")
+	return
+end
+
 local KAFKA_FILES = {
 	KAFKA_ROOT .. "src/**.c",
 	KAFKA_ROOT .. "src/**.h"
@@ -25,7 +32,8 @@ function projectExtraConfig_librdkafka()
 	includedirs {
 		KAFKA_ROOT .. "include",
 		KAFKA_ROOT .. "include",
-		ZLIB_ROOT
+		ZLIB_ROOT,
+		ZSTD_INC   .. "lib/common"
 	}
 
  	configuration { "vs*", "windows" }
