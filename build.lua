@@ -560,7 +560,18 @@ function flatten(t)
 	end
 end
 
-function readFile(_file)
+function recreateDir(_path)
+	rmdir(_path)
+	mkdir(_path)
+end
+
+function getProjectTempIncludePath(_project)
+   mkdir(getSolutionBaseDir() .. "/include/" .. _project)
+   return getSolutionBaseDir() .. "/include/" .. _project
+end
+
+-- read file contents
+function file_read(_file)
     local f = io.open(_file, "r")
 	if f == nil then return "" end
     local content = f:read("*all")
@@ -568,8 +579,20 @@ function readFile(_file)
     return content
 end
 
-function recreateDir(_path)
-	rmdir(_path)
-	mkdir(_path)
+-- Check if a file exists
+function file_exists(file)
+	if file == nil then return false end
+	local ok, err, code = os.rename(file, file)
+	if not ok then
+		if code == 13 then -- Permission denied, but it exists
+			return true
+		end
+	end
+	return ok, err
 end
 
+-- Check if a file is a directory
+function file_isdir(path)
+	-- "/" works on both Unix and Windows
+	return file_exists(path.."/")
+end

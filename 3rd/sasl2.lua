@@ -38,6 +38,8 @@ function projectExtraConfig_sasl2()
 		includedirs { SASL2_ROOT .. "win32/include" }
 		defines { "LIBSASL_EXPORTS", "HAVE_NT_THREADS" }
 	configuration {}
+
+	includedirs { getProjectTempIncludePath("sasl2") }
 end
 
 function projectExtraConfigExecutable_sasl2()
@@ -46,12 +48,15 @@ function projectExtraConfigExecutable_sasl2()
 	configuration { "vs*", "windows" }
 		links { "Crypt32" }
 	configuration {}
+
+	includedirs { getProjectTempIncludePath("sasl2") }
 end
 
 function copyHeaderSASL(name)
-	if not os.isfile(SASL2_ROOT .. "include/sasl/"	.. name) then
-		os.copyfile( SASL2_ROOT .. "include/"		.. name,
-					 SASL2_ROOT .. "include/sasl/"	.. name)
+	if not os.isfile(getProjectTempIncludePath("sasl2")	.. "/" .. name) then
+		print(SASL2_ROOT .. "include/"	.. name)
+		print(getProjectTempIncludePath("sasl2"))
+		os.copyfile(SASL2_ROOT .. "include/"	.. name, getProjectTempIncludePath("sasl2")	.. "/sasl/" .. name)
 	end
 end
 
@@ -74,9 +79,8 @@ function projectAdd_sasl2()
 		})
 	end
 
-	os.mkdir(SASL2_ROOT .. "include/sasl")
-
-	os.copyfile(SASL2_ROOT .. "include/sasl/exits.h", SASL2_ROOT .. "include/sasl/exits.h")
+	os.mkdir(getProjectTempIncludePath("sasl2") .. "/sasl")
+	--os.copyfile(SASL2_ROOT .. "include/sasl/exits.h", SASL2_ROOT .. "include/sasl/exits.h")
 	copyHeaderSASL("gai.h")
 	copyHeaderSASL("prop.h")
 	copyHeaderSASL("sasl.h")
