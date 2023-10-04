@@ -83,7 +83,7 @@ function projectAdd_sasl2()
 	copyHeaderSASL("saslplug.h")
 	copyHeaderSASL("saslutil.h")
 
-	if getTargetOS() ~= "linux" then
+	if getTargetOS() ~= "linux" and getTargetOS() ~= "osx" then
 		addProject_3rdParty_lib("sasl2", SASL2_FILES)
 	end
 end

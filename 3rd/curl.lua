@@ -35,13 +35,15 @@ end
 function projectExtraConfigExecutable_curl()
 	configuration { "linux" }
 		links { "libcurl4" }
+	configuration { "osx" }
+		links { "libcurl4" }
 	configuration { "vs*", "windows" }
 		links { "Crypt32" }
 	configuration {}
 end
 
 function projectAdd_curl()
-	if getTargetOS() ~= "linux" then
+	if getTargetOS() ~= "linux" and getTargetOS() ~= "osx" then
 		addProject_3rdParty_lib("curl", CURL_FILES)
 	end
 end

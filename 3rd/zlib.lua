@@ -28,6 +28,8 @@ function projectExtraConfig_zlib()
 
 	configuration { "linux" }
 		forcedincludes { "unistd.h" }
+	configuration { "osx" }
+		forcedincludes { "unistd.h" }
 	configuration {}
 end
 
