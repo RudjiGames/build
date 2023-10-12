@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright (c) 2018 Milos Tosic. All Rights Reserved.                   ///
+/// Copyright 2023 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -12,7 +12,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include <stb/stb_image.h>
-#include <stb/stb_image_resize.h>
+#include <stb/stb_image_resize2.h>
 #include <stb/stb_image_write.h>
 
 #include <stdlib.h>
@@ -34,8 +34,7 @@ int main(int argc, char* argv[])
 
 	unsigned char* dstData = new unsigned char[width*height*4];
 
-	stbir_resize_uint8( srcData, srcW, srcH, srcW*4, 
-						dstData, width, height, width*4, 4);
+	stbir_resize_uint8_linear( srcData, srcW, srcH, srcW*4, dstData, width, height, width*4, STBIR_RGBA);
 
 	if (strstr(dst, ".png"))
 		stbi_write_png(dst, width, height, 4, dstData, width*4);
