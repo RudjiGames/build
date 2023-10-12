@@ -15,7 +15,7 @@ local LUA_FILES = {
 
 local LUA_DEFINES = {}
 if getTargetOS() == "android" then
-	lua_defines = { "l_getlocaledecpoint()='.'" }
+	LUA_DEFINES = { "l_getlocaledecpoint()='.'" }
 end
 
 function projectExtraConfig_lua()

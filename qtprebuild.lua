@@ -7,9 +7,6 @@
 -- Josh Lareau <joshua.lareau@gentex.com>
 -- ----------------------------------------------------------------------------
 
-
-require("lfs")
-
 RTM_QT_FILES            = "../.qt"
 RTM_QT_FILES_PATH_MOC	= "../.qt/qt_moc"
 RTM_QT_FILES_PATH_UI	= "../.qt/qt_ui"
@@ -27,6 +24,23 @@ del = "\\"
 if not windows then
 	del = "/"
 	windowsExe = ""
+end
+
+function mkdir(_dirname)
+	local dir = _dirname
+	if windows then
+		dir = string.gsub( _dirname, "([/]+)", "\\" )
+	else
+		dir = string.gsub( _dirname, "\\\\", "\\" )
+	end
+
+	if not file_isdir(dir) then
+		if not windows then
+			os.execute("mkdir -p " .. dir)
+		else
+			os.execute("mkdir " .. dir)
+		end
+	end
 end
 
 findLast = function(str, what, plain)
@@ -75,8 +89,7 @@ if not ( arg[1] == "-moc" or arg[1] == "-uic" or arg[1] == "-rcc"  or arg[1] == 
 end
 
 --Make sure input file exists
-inputFileModTime = lfs.attributes( arg[2], "modification" )
-if inputFileModTime == nil then
+if not file_exists(arg[2]) then
 	print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[The supplied input file ]]..arg[2]..[[, does not exist]], 4 ) ); io.stdout:flush()
 	return
 end
@@ -92,11 +105,6 @@ qtQRCPostfix	= "_qrc"
 qtUIPostfix		= "_ui"
 qtTSPostfix		= "_ts"
 
-function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end
-
 qtMocExe = "moc" .. windowsExe
 qtUICExe = "uic" .. windowsExe
 qtQRCExe = "rcc" .. windowsExe
@@ -109,14 +117,29 @@ if file_exists(qtDirectory..del.."bin"..del..qtMocExe) then
 	qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
 end
 
-lfs.mkdir( qtOutputDirectory )
+mkdir( qtOutputDirectory )
+
+function get_file_time(filepath)
+	if windows then
+		local pipe = io.popen('dir /4/tw "'..filepath..'"')
+		local output = pipe:read"*a"
+		pipe:close()
+		return output:match"\n(%d.-:%S*)"
+	else
+		local pipe = io.popen("stat -c %Y testfile")
+		local last_modified = f:read()
+		pipe:close()
+		return last_modified
+	end
+end
 
 function checkUpToDate(outputFileName) 
-	outputFileModTime = lfs.attributes( outputFileName, "modification" )
-	if outputFileModTime ~= nil and ( inputFileModTime < outputFileModTime ) then
+	if file_exists(outputFileModTime) and ( inputFileModTime < outputFileModTime ) then
 		--print( outputFileName.." is up-to-date, not regenerating" )
 		io.stdout:flush()
 		return true
+	else
+		print( outputFileName .. " is out of date, regenerating" )
 	end
 	return false
 end
@@ -166,7 +189,7 @@ end
 
 if arg[1] == "-moc" then
 
-	lfs.mkdir( qtMocOutputDirectory )
+	mkdir( qtMocOutputDirectory )
 	outputFileName = qtMocOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtMocPostfix .. ".cpp"
 
 	if checkUpToDate(outputFileName) == true then return end
@@ -183,7 +206,7 @@ if arg[1] == "-moc" then
 		io.stdout:flush()
 	end
 elseif arg[1] == "-rcc" then
-	lfs.mkdir( qtQRCOutputDirectory )
+	mkdir( qtQRCOutputDirectory )
 	outputFileName = qtQRCOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtQRCPostfix .. ".cpp"
 
 	if checkUpToDate(outputFileName) == true then return end
@@ -200,7 +223,7 @@ elseif arg[1] == "-rcc" then
 		io.stdout:flush()
 	end
 elseif arg[1] == "-uic" then
-		lfs.mkdir( qtUIOutputDirectory )
+		mkdir( qtUIOutputDirectory )
 		outputFileName = qtUIOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtUIPostfix .. ".h"
 
 		if checkUpToDate(outputFileName) == true then return end
@@ -217,7 +240,7 @@ elseif arg[1] == "-uic" then
 			io.stdout:flush()
 		end
 elseif arg[1] == "-ts" then
-		lfs.mkdir( qtTSOutputDirectory )
+		mkdir( qtTSOutputDirectory )
 		outputFileName = qtTSOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtTSPostfix .. ".qm"
 
 		if checkUpToDate(outputFileName) == true then return end

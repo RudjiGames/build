@@ -4,12 +4,8 @@
 --
 
 function projectExtraConfig_imageconv()
-	includedirs	{
-		path.getabsolute(find3rdPartyProject("stb") .. "../")
-	}
 end
  
 function projectAdd_imageconv()
 	addProject_cmd("imageconv")
 end
-

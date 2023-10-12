@@ -34,6 +34,7 @@ Permissions = {
 }
 
 function convertImage(_src, _dst, _width, _height)
+--print("Scaling down: " .. _src .. " -> " .. _width .. "x" .. _height .. " (" .. _dst .. ")")
 	mkdir(path.getdirectory(_dst))
 	local imageConv = getToolForHost("imageconv")
 	os.execute(imageConv .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
@@ -131,6 +132,8 @@ function prepareProjectDeployment(_filter, _binDir)
 
 end
 
+imagesConverted = {}
+
 function prepareDeploymentAndroid(_filter, _binDir)
 	local copyDst = _binDir .. "deploy/" .. project().name .. "/"
 	local copySrc = script_dir() .. "deploy/android/"
@@ -164,12 +167,15 @@ function prepareDeploymentAndroid(_filter, _binDir)
 		logoSource = desc.logo_square
 	end
 
-	convertImage(logoSource, copyDst .. "res/drawable-ldpi/icon.png",		32, 32)
-	convertImage(logoSource, copyDst .. "res/drawable-mdpi/icon.png",		48, 48)
-	convertImage(logoSource, copyDst .. "res/drawable-hdpi/icon.png",		72, 72)
-	convertImage(logoSource, copyDst .. "res/drawable-xhdpi/icon.png",		96, 96)
-	convertImage(logoSource, copyDst .. "res/drawable-xxhdpi/icon.png",		144, 144)
-	convertImage(logoSource, copyDst .. "res/drawable-xxxhdpi/icon.png",	192, 192)
+	if imagesConverted[logoSource] ~= true then
+		imagesConverted[logoSource] = true 
+		convertImage(logoSource, copyDst .. "res/drawable-ldpi/icon.png",		32, 32)
+		convertImage(logoSource, copyDst .. "res/drawable-mdpi/icon.png",		48, 48)
+		convertImage(logoSource, copyDst .. "res/drawable-hdpi/icon.png",		72, 72)
+		convertImage(logoSource, copyDst .. "res/drawable-xhdpi/icon.png",		96, 96)
+		convertImage(logoSource, copyDst .. "res/drawable-xxhdpi/icon.png",		144, 144)
+		convertImage(logoSource, copyDst .. "res/drawable-xxxhdpi/icon.png",	192, 192)
+	end
 
 	-- dodati post build command prema filteru
 end
@@ -222,12 +228,15 @@ function prepareDeploymentWindows(_filter, _binDir)
 	local logoSquare	= path.getbasename(desc.logo_square)
 	local logoWide		= path.getbasename(desc.logo_wide)
 	
-	convertImage(desc.logo_wide,   copyDst .. logoWide   .. "1920.png",   1920, 1080)
-	convertImage(desc.logo_wide,   copyDst .. logoWide   .. "620.png",     620,  300)
-	convertImage(desc.logo_square, copyDst .. logoSquare .. "44.png",       44,   44)
-	convertImage(desc.logo_square, copyDst .. logoSquare .. "50.png",       50,   50)
-	convertImage(desc.logo_square, copyDst .. logoSquare .. "150.png",     150,  150)
-	
+	if imagesConverted[desc.logo_wide] ~= true then
+		imagesConverted[desc.logo_wide] = true 
+		convertImage(desc.logo_wide,   copyDst .. logoWide   .. "1920.png",   1920, 1080)
+		convertImage(desc.logo_wide,   copyDst .. logoWide   .. "620.png",     620,  300)
+		convertImage(desc.logo_square, copyDst .. logoSquare .. "150.png",     150,  150)
+		convertImage(desc.logo_square, copyDst .. logoSquare .. "44.png",       44,   44)
+		convertImage(desc.logo_square, copyDst .. logoSquare .. "50.png",       50,   50)
+	end
+
 	local sedCmd = sedGetBinary() .. " -e " .. '"'
 
 	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_COMPANY@@",	desc.publisher.company)

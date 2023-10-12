@@ -25,6 +25,16 @@ end
 function projectExtraConfig_zlib()
 	includedirs { ZLIB_ROOT }
 	defines { ZLIB_DEFINES }
+
+	configuration { "linux" }
+		forcedincludes { "unistd.h" }
+	configuration { "osx" }
+		forcedincludes { "unistd.h" }
+	configuration {}
+end
+
+function projectExtraConfigExecutable_zlib()
+	includedirs { ZLIB_ROOT }
 end
 
 function projectAdd_zlib()

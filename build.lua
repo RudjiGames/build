@@ -11,7 +11,7 @@ local RTM_ADD_SEARCH_PATH = params[1] or nil
 --------------------------------------------------------
 
 function script_dir()
-	return path.getdirectory(debug.getinfo(2, "S").source:sub(2)) .. "/"
+	return debug.getinfo(2, "S").source:sub(2):match("(.*[/\\])") 
 end
 
 RTM_SCRIPTS_DIR			= script_dir()
@@ -360,7 +360,10 @@ function addProject(_name)
 		if find3rdPartyProject(name) == nil then
 			g_projectIsLoaded[name] = true
 			-- some 'missing' dependencies are actually system libraries, for example X11, GL, etc.
-			print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
+			-- if we cannot find it on OS level - warn user
+			if os.findlib(name) == nil then
+				print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
+			end
 		end
 	end
 end
@@ -557,7 +560,18 @@ function flatten(t)
 	end
 end
 
-function readFile(_file)
+function recreateDir(_path)
+	rmdir(_path)
+	mkdir(_path)
+end
+
+function getProjectTempIncludePath(_project)
+   mkdir(getSolutionBaseDir() .. "/include/" .. _project)
+   return getSolutionBaseDir() .. "/include/" .. _project
+end
+
+-- read file contents
+function file_read(_file)
     local f = io.open(_file, "r")
 	if f == nil then return "" end
     local content = f:read("*all")
@@ -565,8 +579,20 @@ function readFile(_file)
     return content
 end
 
-function recreateDir(_path)
-	rmdir(_path)
-	mkdir(_path)
+-- Check if a file exists
+function file_exists(file)
+	if file == nil then return false end
+	local ok, err, code = os.rename(file, file)
+	if not ok then
+		if code == 13 then -- Permission denied, but it exists
+			return true
+		end
+	end
+	return ok, err
 end
 
+-- Check if a file is a directory
+function file_isdir(path)
+	-- "/" works on both Unix and Windows
+	return file_exists(path.."/")
+end

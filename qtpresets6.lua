@@ -56,7 +56,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		local LUAEXE = "lua "
 		if os.is("windows") then
-			LUAEXE = "lua.exe "
+			LUAEXE = "lua5.1.exe "
 		end
 
 		local addedFiles = {}
@@ -67,7 +67,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			local mocFileBase = path.getbasename(file)
 			local mocFilePath = QT_MOC_FILES_PATH .. "/" .. mocFileBase .. "_moc.cpp"
 
-			local headerSrc = readFile(file);
+			local headerSrc = file_read(file);
 			if headerSrc:find("Q_OBJECT") then
 				local moc_header = path.getrelative(path.getdirectory(mocFilePath), file)
 				prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. moc_header .. '"' }
