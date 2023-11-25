@@ -7,6 +7,7 @@
 -- Josh Lareau <joshua.lareau@gentex.com>
 -- ----------------------------------------------------------------------------
 
+
 RTM_QT_FILES            = "../.qt"
 RTM_QT_FILES_PATH_MOC	= "../.qt/qt_moc"
 RTM_QT_FILES_PATH_UI	= "../.qt/qt_ui"
@@ -26,6 +27,25 @@ if not windows then
 	windowsExe = ""
 end
 
+
+-- Check if a file exists
+function file_exists(file)
+	if file == nil then return false end
+	local ok, err, code = os.rename(file, file)
+	if not ok then
+		if code == 13 then -- Permission denied, but it exists
+			return true
+		end
+	end
+	return ok, err
+end
+
+--
+function file_isdir(path)
+	return file_exists(path.."/")
+end
+
+--
 function mkdir(_dirname)
 	local dir = _dirname
 	if windows then
@@ -43,6 +63,7 @@ function mkdir(_dirname)
 	end
 end
 
+--
 findLast = function(str, what, plain)
 	plain = plain or true
 	local lastMatch = 1
@@ -89,10 +110,10 @@ if not ( arg[1] == "-moc" or arg[1] == "-uic" or arg[1] == "-rcc"  or arg[1] == 
 end
 
 --Make sure input file exists
-if not file_exists(arg[2]) then
-	print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[The supplied input file ]]..arg[2]..[[, does not exist]], 4 ) ); io.stdout:flush()
-	return
-end
+--if not file_exists(arg[2]) then
+--	print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[The supplied input file ]]..arg[2]..[[, does not exist]], 4 ) ); io.stdout:flush()
+--	return
+--end
 
 qtOutputDirectory			= sourceDir .. RTM_QT_FILES
 qtMocOutputDirectory		= sourceDir .. RTM_QT_FILES_PATH_MOC
@@ -110,16 +131,14 @@ qtUICExe = "uic" .. windowsExe
 qtQRCExe = "rcc" .. windowsExe
 qtTSExe  = "lrelease" .. windowsExe
 
-if file_exists(qtDirectory..del.."bin"..del..qtMocExe) then
-	qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
-	qtUICExe = qtDirectory..del.."bin"..del..qtUICExe
-	qtQRCExe = qtDirectory..del.."bin"..del..qtQRCExe
-	qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
-end
+qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
+qtUICExe = qtDirectory..del.."bin"..del..qtUICExe
+qtQRCExe = qtDirectory..del.."bin"..del..qtQRCExe
+qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
 
 mkdir( qtOutputDirectory )
 
-function get_file_time(filepath)
+function file_get_time(filepath)
 	if windows then
 		local pipe = io.popen('dir /4/tw "'..filepath..'"')
 		local output = pipe:read"*a"
@@ -133,14 +152,14 @@ function get_file_time(filepath)
 	end
 end
 
-function checkUpToDate(outputFileName) 
-	if file_exists(outputFileModTime) and ( inputFileModTime < outputFileModTime ) then
+function file_is_upToDate(outputFileName) 
+	--if file_exists(outputFileModTime) and ( inputFileModTime < outputFileModTime ) then
 		--print( outputFileName.." is up-to-date, not regenerating" )
-		io.stdout:flush()
-		return true
-	else
-		print( outputFileName .. " is out of date, regenerating" )
-	end
+		--io.stdout:flush()
+		--return true
+	--else
+		--print( outputFileName .. " is out of date, regenerating" )
+	--end
 	return false
 end
 
@@ -192,7 +211,7 @@ if arg[1] == "-moc" then
 	mkdir( qtMocOutputDirectory )
 	outputFileName = qtMocOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtMocPostfix .. ".cpp"
 
-	if checkUpToDate(outputFileName) == true then return end
+	if file_is_upToDate(outputFileName) == true then return end
 	
 	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[5] .. "\""
 	if windows then
@@ -209,7 +228,7 @@ elseif arg[1] == "-rcc" then
 	mkdir( qtQRCOutputDirectory )
 	outputFileName = qtQRCOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtQRCPostfix .. ".cpp"
 
-	if checkUpToDate(outputFileName) == true then return end
+	if file_is_upToDate(outputFileName) == true then return end
 
 	local fullRCCPath = qtQRCExe.." -name \""..getFileNameNoExtFromPath( arg[2] ).."\" \""..arg[2].."\" -o \""..outputFileName.."\""
 	if windows then
@@ -226,7 +245,7 @@ elseif arg[1] == "-uic" then
 		mkdir( qtUIOutputDirectory )
 		outputFileName = qtUIOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtUIPostfix .. ".h"
 
-		if checkUpToDate(outputFileName) == true then return end
+		if file_is_upToDate(outputFileName) == true then return end
 
 		local fullUICPath = qtUICExe.." \""..arg[2].."\" -o \""..outputFileName.."\""
 		if windows then
@@ -243,7 +262,7 @@ elseif arg[1] == "-ts" then
 		mkdir( qtTSOutputDirectory )
 		outputFileName = qtTSOutputDirectory .. del .. getFileNameNoExtFromPath( arg[2] ) .. qtTSPostfix .. ".qm"
 
-		if checkUpToDate(outputFileName) == true then return end
+		if file_is_upToDate(outputFileName) == true then return end
 
 		local fullTSPath = qtTSExe.." \""..arg[2].."\""
 		if windows then

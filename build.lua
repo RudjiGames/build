@@ -560,11 +560,7 @@ function flatten(t)
 	end
 end
 
-function recreateDir(_path)
-	rmdir(_path)
-	mkdir(_path)
-end
-
+--
 function getProjectTempIncludePath(_project)
    mkdir(getSolutionBaseDir() .. "/include/" .. _project)
    return getSolutionBaseDir() .. "/include/" .. _project
@@ -592,7 +588,85 @@ function file_exists(file)
 end
 
 -- Check if a file is a directory
+-- "/" works on both Unix and Windows
 function file_isdir(path)
-	-- "/" works on both Unix and Windows
 	return file_exists(path.."/")
+end
+
+-- 
+function mkdir(_dirname)
+	local dir = _dirname
+	if windows then
+		dir = string.gsub( _dirname, "([/]+)", "\\" )
+	else
+		dir = string.gsub( _dirname, "\\\\", "\\" )
+	end
+
+	if not file_isdir(dir) then
+		if not windows then
+			os.execute("mkdir -p " .. dir)
+		else
+			os.execute("mkdir " .. dir)
+		end
+	end
+end
+
+--
+function recreateDir(_path)
+	rmdir(_path)
+	mkdir(_path)
+end
+
+--
+function file_get_time(filepath)
+	if windows then
+		local pipe = io.popen('dir /4/tw "'..filepath..'"')
+		local output = pipe:read"*a"
+		pipe:close()
+		return output:match"\n(%d.-:%S*)"
+	else
+		local pipe = io.popen("stat -c %Y testfile")
+		local last_modified = f:read()
+		pipe:close()
+		return last_modified
+	end
+end
+
+-- 
+function file_is_upToDate(outputFileName) 
+	if file_exists(outputFileModTime) and ( inputFileModTime < outputFileModTime ) then
+		--print( outputFileName.." is up-to-date, not regenerating" )
+		io.stdout:flush()
+		return true
+	else
+		print( outputFileName .. " is out of date, regenerating" )
+	end
+	return false
+end
+
+function getFileNameNoExtFromPath( path )
+	local i = 0
+	local lastSlash = 0
+	local lastPeriod = 0
+	local returnFilename
+	while true do
+		i = string.find( path, "/", i+1 )
+		if i == nil then break end
+		lastSlash = i
+	end
+
+	i = 0
+	while true do
+		i = string.find( path, "%.", i+1 )
+		if i == nil then break end
+		lastPeriod = i
+	end
+
+	if lastPeriod < lastSlash then
+		returnFilename = path:sub( lastSlash + 1 )
+	else
+		returnFilename = path:sub( lastSlash + 1, lastPeriod - 1 )
+	end
+
+	return returnFilename
 end
