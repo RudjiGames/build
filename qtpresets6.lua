@@ -56,7 +56,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		local LUAEXE = "lua "
 		if os.is("windows") then
-			LUAEXE = "lua5.1.exe "
+			LUAEXE = "lua.exe "
 		end
 
 		local addedFiles = {}
