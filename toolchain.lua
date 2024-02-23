@@ -428,7 +428,7 @@ function toolchain()
 		elseif "asmjs" == _OPTIONS["gcc"] then
 
 			if not os.getenv("EMSCRIPTEN") then
-				print("Set EMSCRIPTEN enviroment variables.")
+				print("Please set EMSCRIPTEN enviroment variable to point to directory where emcc can be found.")
 			end
 
 			premake.gcc.cc   = "\"$(EMSCRIPTEN)/emcc\""
