@@ -8,8 +8,12 @@
 local params		= { ... }
 local NANOVG_ROOT	= params[1]
 
+local NANOVG_INCLUDE = {
+	NANOVG_ROOT .. "src"
+}
+
 local NANOVG_FILES = {
-	NANOVG_INC .. "**.*"
+	NANOVG_INCLUDE .. "**.*"
 }
 
 function projectExtraConfig_nanovg()
@@ -19,4 +23,3 @@ end
 function projectAdd_nanovg()
 	addProject_3rdParty_lib("nanovg", NANOVG_FILES)
 end
-
