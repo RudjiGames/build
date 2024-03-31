@@ -14,11 +14,7 @@ local UWS_FILES = {
 }
 
 function projectDependencies_uwebsockets()
-	if os.is("windows") then
-		return { "libuv", "zlib" }
-	else
-		return { "openssl", "libuv", "zlib" }
-	end
+	return { "wolfssl", "libuv", "zlib" }
 end 
 
 function projectExtraConfigExecutable_uwebsockets()
@@ -26,13 +22,9 @@ function projectExtraConfigExecutable_uwebsockets()
 end
 
 function projectExtraConfig_uwebsockets()
-	defines { "WITH_OPENSSL=1" }
+	defines {  "WITH_WOLFSSL=1", "WITH_LIBUV=1"  }
 	flags   { "Cpp17" }
 end
-
-function projectNoBuild_uwebsockets()
-end
-
 function projectAdd_uwebsockets()
---	addProject_3rdParty_lib("uwebsockets", UWS_FILES)
+	addProject_3rdParty_lib("uwebsockets", UWS_FILES)
 end
