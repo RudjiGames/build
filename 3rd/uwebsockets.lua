@@ -26,6 +26,7 @@ function projectExtraConfigExecutable_uwebsockets()
 end
 
 function projectExtraConfig_uwebsockets()
+	defines { "WITH_OPENSSL=1" }
 	flags   { "Cpp17" }
 end
 
