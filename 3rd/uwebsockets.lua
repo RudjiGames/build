@@ -14,10 +14,11 @@ local UWS_FILES = {
 }
 
 function projectDependencies_uwebsockets()
-	return { "wolfssl", "libuv", "zlib" }
+	return { "usockets", "wolfssl", "libuv", "zlib" }
 end 
 
 function projectExtraConfigExecutable_uwebsockets()
+	includedirs { UWS_ROOT .. "src/" }
 	flags   { "Cpp17" }
 end
 
