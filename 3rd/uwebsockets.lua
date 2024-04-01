@@ -21,6 +21,9 @@ function projectExtraConfigExecutable_uwebsockets()
 	flags   { "Cpp17" }
 end
 
+function projectHeaderOnlyLib_uwebsockets()
+end
+
 function projectExtraConfig_uwebsockets()
 	defines {  "WITH_WOLFSSL=1", "WITH_LIBUV=1"  }
 	flags   { "Cpp17" }
