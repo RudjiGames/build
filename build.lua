@@ -486,21 +486,24 @@ function addDependencies(_name, _additionalDeps)
 	end
 end
 
-function addLibProjects(_name)
+function addLibSubProjects(_name)
 
-	loadProject(_name)
+	if istable(_name) then return end
 
-	if istable(_name) then return end	-- TODO: samples to link against the right library version
+	g_projectIsLoaded[_name] = true
+
+	if (istable(_name)) then return	  end
 
 	local projectDir = getProjectPath(_name)
+	if projectDir == nil then return end
 
-	-- Add unit sample projects only if unittest-cpp dependency can be found
+	-- Add unit sample projects only if rapp dependency can be found
 	local rapp = getProjectPath("rapp")
 	if rapp ~= nil then
 		local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
 		for _,dir in ipairs(sampleDirs) do
 			local dirName = path.getbasename(dir)
-			addProject_lib_sample(_name, dirName, _toolLib)
+			addProject_lib_sample(_name, dirName)
 		end
 	end
 
@@ -515,9 +518,16 @@ function addLibProjects(_name)
 
 	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
 	for _,dir in ipairs(toolsDirs) do
+	print(dir)
 		local dirName = path.getbasename(dir)
 		addProject_lib_tool(_name, dirName)
 	end
+end
+
+function addLibProjects(_name)
+	loadProject(_name)
+
+	addLibSubProjects(_name)
 end
 
 function stripExtension( _path )

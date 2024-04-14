@@ -7,14 +7,15 @@ function addProject_lib_tool(_name, _toolNname)
 
 	if _ACTION == nil then return end
 
-	group ("libs_tools")
-	project (_name .. "_tool_" ..  _toolNname)
+	group ("tools")
+
+	project (_toolNname)
 
 		language	"C++"
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(_name, ProjectPath.Root) .. "/tools/" .. _toolNname .. "/"
+		project().path = getProjectPath(_name, ProjectPath.Root) .. "tools/" .. _toolNname .. "/"
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )

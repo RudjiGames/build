@@ -8,9 +8,9 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 	if _ACTION == nil then return end
 
 	if _libType == Lib.Tool then
-		group ("toollibs")
+		group ("libs_tools")
 	elseif _libType == Lib.Game then
-		group ("gamelibs")
+		group ("liba_game")
 	else
 		group ("libs")
 	end
@@ -86,4 +86,3 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 
 		addDependencies(project().name)
 end
-
