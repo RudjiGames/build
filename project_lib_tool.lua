@@ -35,5 +35,16 @@ function addProject_lib_tool(_name, _toolName)
 																	false	-- EXECUTABLE
 																	)
 
-		addDependencies(project().name, { _name } )
+		local dependencies = {}
+		if _name ~= "rapp" then
+			dependencies = mergeTables(dependencies, { _name })
+		end
+
+		if withBGFX then
+			dependencies = mergeTables(dependencies, {{"rapp", "bgfx"}})
+		else
+			dependencies = mergeTables(dependencies, {"rapp"})
+		end
+
+		addDependencies(project().name, dependencies )
 end
