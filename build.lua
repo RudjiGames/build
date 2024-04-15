@@ -323,8 +323,6 @@ end
 function addIncludePath(_name, _path)
 	assert(_path ~= nil)
 	if string.len(_path) == 0 then return end
-
-print(_path)
 	if os.isdir(_path) then includedirs { _path } end
 end
 
