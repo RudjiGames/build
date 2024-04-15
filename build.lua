@@ -301,9 +301,9 @@ function getProjectPath(_name, _pathType)
 		local libDir = dir .. name
 		if os.isdir(libDir) then 
 			if _pathType == ProjectPath.Dir then
-				return libDir .. "/" 
+				return path.getabsolute(libDir .. "/")
 			else
-				return dir
+				return path.getabsolute(dir)
 			end
 		end
 	end
@@ -313,7 +313,7 @@ function getProjectPath(_name, _pathType)
 		if _pathType == ProjectPath.Root then
 			return path.getabsolute(projectPath .. "../") .. "/"
 		else
-			return projectPath
+			return path.getabsolute(projectPath)
 		end
 	end
 
@@ -518,7 +518,6 @@ function addLibSubProjects(_name)
 
 	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
 	for _,dir in ipairs(toolsDirs) do
-	print(dir)
 		local dirName = path.getbasename(dir)
 		addProject_lib_tool(_name, dirName)
 	end

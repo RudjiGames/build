@@ -3,19 +3,19 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib_tool(_name, _toolNname)
+function addProject_lib_tool(_name, _toolName)
 
 	if _ACTION == nil then return end
 
 	group ("tools")
 
-	project (_toolNname)
+	project (_toolName)
 
 		language	"C++"
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(_name, ProjectPath.Root) .. "tools/" .. _toolNname .. "/"
+		project().path = getProjectPath(_name, ProjectPath.Dir) .. "/tools/" .. _toolName
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )
