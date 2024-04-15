@@ -54,7 +54,9 @@ function cloneDir(_copySrc, _copyDst)
 		local dstFileToCopy	= dstPath .. "/" .. fileName
 
 		mkdir(dstPath)
-		os.copyfile(srcFileToCopy, dstFileToCopy)
+		if file_exists(srcFileToCopy) then
+			os.copyfile(srcFileToCopy, dstFileToCopy)
+		end
 	end
 end
 

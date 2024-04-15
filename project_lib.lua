@@ -36,7 +36,7 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 		
 		local libsPath = getProjectPath(_name, ProjectPath.Root)
 
-		local projectPath = libsPath .. _name
+		local projectPath = libsPath .. "/" .. _name
 		project().path = projectPath
 
 		table.insert(RTM_PROJECT_PATHS, projectPath)

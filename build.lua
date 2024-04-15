@@ -323,21 +323,23 @@ end
 function addIncludePath(_name, _path)
 	assert(_path ~= nil)
 	if string.len(_path) == 0 then return end
+
+print(_path)
 	if os.isdir(_path) then includedirs { _path } end
 end
 
 function addInclude(_name, _projectName)
 	local basename = getProjectBaseName(_projectName)
 	local fullname = getProjectFullName(_projectName)
-	
+
 	local projectParentDir = getProjectPath(_projectName, ProjectPath.Root)
 	if projectParentDir == nil then return false end
 
 	-- search for it..
 	addIncludePath(_name, projectParentDir)
-	addIncludePath(_name, projectParentDir .. basename .. "/include")
-	addIncludePath(_name, projectParentDir .. basename .. "/inc")
-	addIncludePath(_name, projectParentDir .. basename)
+	addIncludePath(_name, projectParentDir .. "/" .. basename .. "/include")
+	addIncludePath(_name, projectParentDir .. "/" .. basename .. "/inc")
+	addIncludePath(_name, projectParentDir .. "/" .. basename)
 end
 
 function addProject(_name)
@@ -490,7 +492,7 @@ function addLibSubProjects(_name)
 
 	if istable(_name) then return end
 
-	g_projectIsLoaded[_name] = true
+	--g_projectIsLoaded[_name] = true
 
 	if (istable(_name)) then return	  end
 
