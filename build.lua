@@ -537,7 +537,7 @@ end
 function getToolForHost(_name)
 	-- sed is special case
 	if _name == "sed" and os.is("windows") then
-		return getProjectPath("build") .. "tools\\bin\\windows\\sed.exe"
+		return getProjectPath("build") .. "\\tools\\bin\\windows\\sed.exe"
 	end
 
 	local toolPath = path.getabsolute(script_dir() .. "/tools/bin/")

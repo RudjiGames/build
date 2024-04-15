@@ -215,18 +215,18 @@ function prepareDeploymentWindows(_filter, _binDir)
 		getTargetOS() == "winphone81"	then
 		copySrc = script_dir() .. "deploy/winphone/"
 	end
-
+	
 	if	getTargetOS() == "winstore81"	or
 		getTargetOS() == "winstore82"	then
 		copySrc = script_dir() .. "deploy/winstore/"
 	end
 	
 	mkdir(copyDst)
-
+	
 	local desc = getProjectDesc(project().name)
 	
 	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
-
+	
 	local logoSquare	= path.getbasename(desc.logo_square)
 	local logoWide		= path.getbasename(desc.logo_wide)
 	
@@ -238,9 +238,9 @@ function prepareDeploymentWindows(_filter, _binDir)
 		convertImage(desc.logo_square, copyDst .. logoSquare .. "44.png",       44,   44)
 		convertImage(desc.logo_square, copyDst .. logoSquare .. "50.png",       50,   50)
 	end
-
+	
 	local sedCmd = sedGetBinary() .. " -e " .. '"'
-
+	
 	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_COMPANY@@",	desc.publisher.company)
 	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_ORG@@",		desc.publisher.organization)
 	sedCmd = sedAppendReplace(sedCmd, "@@PUBLISHER_LOCATION@@",	desc.publisher.location)
@@ -255,9 +255,9 @@ function prepareDeploymentWindows(_filter, _binDir)
 	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_620@@",			logoWide .. "620.png")
 	sedCmd = sedAppendReplace(sedCmd, "@@LOGO_1920@@",			logoWide .. "1920.png")
 	sedCmd = sedAppendReplace(sedCmd, "@@DESCRIPTION@@",		desc.description, true)
-
+	
 	sedCmd = sedCmd .. '" '
-
+	
 	cloneDirWithSed(copySrc, copyDst, sedCmd)
 	
 	files { copyDst .. "Appxmanifest.xml" }
