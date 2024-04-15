@@ -221,7 +221,9 @@ ProjectLoad = {
 }
 
 g_projectIsLoaded	= {}
+g_projectIsAdded	= {}
 g_fileIsLoaded		= {}
+
 
 function getProjectDesc(_name)
 	local descFn = _G["projectDescription_" .. _name]
@@ -406,7 +408,10 @@ function loadProject(_projectName, _load)
 
 	_load = _load or ProjectLoad.LoadAndAdd
 	if _load == ProjectLoad.LoadAndAdd then
-		addProject(_projectName)
+		if g_projectIsAdded[_projectName] == nil then
+			g_projectIsAdded[_projectName] = true
+			addProject(_projectName)
+		end
 	end
 end
 

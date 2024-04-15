@@ -23,7 +23,7 @@ function addProject_lib_tool(_name, _toolName)
 
 		addPCH( project().path, project().name )
 
-		includedirs { incFilesPath }
+		includedirs { project().path .. "/src" }
 
 		flags { Flags_Libraries }
 
@@ -34,8 +34,6 @@ function addProject_lib_tool(_name, _toolName)
 																	false,	-- WITH_QT
 																	false	-- EXECUTABLE
 																	)
-
-		links { _name }
 
 		addDependencies(project().name, { _name } )
 end

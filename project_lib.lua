@@ -41,6 +41,7 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 
 		table.insert(RTM_PROJECT_PATHS, projectPath)
 
+		local toolsFilesPath = projectPath .. "/tools/"
 		local srcFilesPath = projectPath .. "/src/"
 		local incFilesPath = projectPath .. "/inc/"
 
@@ -64,6 +65,7 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 		end
 
 		shaderFiles	= os.matchfiles( srcFilesPath .. "**.sc" )
+		toolsDirs	= os.matchdirs( toolsFilesPath .. "*" )
 
 		includedirs	{
 			libsPath, 
