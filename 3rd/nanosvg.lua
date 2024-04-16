@@ -13,11 +13,14 @@ local NANOSVG_INCLUDE = {
 }
 
 local NANOSVG_FILES = {
-	NANOSVG_INCLUDE .. "**.*"
+	NANOSVG_ROOT .. "src/**.*"
 }
 
 function projectExtraConfig_nanosvg()
 	includedirs { NANOSVG_ROOT .. "src/" }
+end
+
+function projectHeaderOnlyLib_nanosvg()
 end
 
 function projectAdd_nanosvg()

@@ -17,9 +17,8 @@ function addProject_cmd(_name)
 		uuid		( os.uuid(project().name) )
 
 		local path = getProjectPath(_name)
-		project().path = path ..  "src/"
 
-		table.insert(RTM_PROJECT_PATHS, path)
+		project().path = path ..  "/src/"
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )
@@ -38,6 +37,5 @@ function addProject_cmd(_name)
 																	false,	-- WITH_QT
 																	true	-- EXECUTABLE
 																	)
-
 		addDependencies(_name)
 end

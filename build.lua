@@ -20,7 +20,6 @@ RTM_BUILD_DIR			= RTM_ROOT_DIR .. ".build/"								-- temp build files
 RTM_LOCATION_PATH		= ""													-- solution/makefile/etc.
 
 RTM_PROJECT_DIRS  = {}
-RTM_PROJECT_PATHS = {}
 
 newoption {
 	trigger = "project-dirs",
@@ -222,8 +221,8 @@ ProjectLoad = {
 
 g_projectIsLoaded	= {}
 g_projectIsAdded	= {}
+g_projectLoadCalled	= {}
 g_fileIsLoaded		= {}
-
 
 function getProjectDesc(_name)
 	local descFn = _G["projectDescription_" .. _name]
@@ -278,44 +277,90 @@ function getProjectFullName(_projectName)
 	end
 end
 
+g_3rdPartyProjectPathCache = {}
+
 function find3rdPartyProject(_name)
+
+	if g_3rdPartyProjectPathCache[_name] ~= nil then
+		return g_3rdPartyProjectPathCache[_name]
+	end
+
 	if istable(_name) then return nil end
 	local name = getProjectBaseName(_name)
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		local libDir = dir .. name
-		if os.isdir(libDir) then 
-			return libDir .. "/"
+		local libDir = dir .. "/3rd/" .. name
+		if os.isdir(libDir) then
+			local projectPath = libDir .. "/"
+			g_3rdPartyProjectPathCache[_name] = projectPath
+			return projectPath
+		end
+		local subDirs = os.matchdirs(dir .. "*")
+		for _,subDir in ipairs(subDirs) do
+			local subPath = subDir .. "/3rd/" .. name
+			if os.isdir(subPath) then
+				g_3rdPartyProjectPathCache[_name] = subPath .. "/"
+				return subPath .. "/"
+			end
 		end
 	end
-	for _,dir in ipairs(RTM_PROJECT_PATHS) do
-		local dir_path = dir .. "/3rd/" .. _name
-		if os.isdir(dir_path) then 
-			return dir_path
-		end
-	end  	
+
 	return nil	
 end
 
+g_projectPathCache = {}
+
 function getProjectPath(_name, _pathType)
+
 	local name = getProjectBaseName(_name)
+	local full_name = getProjectFullName(_name)
+	_pathType = _pathType or ProjectPath.Dir
+
+	if g_projectPathCache[name] ~= nil then
+		return g_projectPathCache[name]
+	end
+
+	local projectPath
 	_pathType = _pathType or ProjectPath.Dir
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		local libDir = dir .. name
 		if os.isdir(libDir) then 
 			if _pathType == ProjectPath.Dir then
-				return path.getabsolute(libDir .. "/")
+				g_projectPathCache[name] = path.getabsolute(libDir .. "/");
+				return path.getabsolute(libDir .. "/");
 			else
+				g_projectPathCache[name] = path.getabsolute(dir)
 				return path.getabsolute(dir)
 			end
 		end
 	end
 
-	local projectPath = find3rdPartyProject(_name)
+	projectPath = find3rdPartyProject(_name)
 	if projectPath ~= nil then
 		if _pathType == ProjectPath.Root then
+			g_projectPathCache[name] = path.getabsolute(projectPath .. "../") .. "/"
 			return path.getabsolute(projectPath .. "../") .. "/"
 		else
+			g_projectPathCache[name] = path.getabsolute(projectPath)
 			return path.getabsolute(projectPath)
+		end
+	end
+
+ 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
+		local subDirs = os.matchdirs(dir .. "*")
+		for _,subDir in ipairs(subDirs) do
+			local subdirpath = subDir .. "/tools/" .. name .. "/"
+			local pth = path.getabsolute(subdirpath)
+			if file_isdir(pth) then
+				g_projectPathCache[name] = pth
+				--print("toolsubdir " .. pth)
+				return pth
+			end
+
+			pth = path.getabsolute(subDir .. "/3rd/" .. name .. "/")
+			if file_isdir(pth) then
+				g_projectPathCache[name] = pth
+				return pth
+			end
 		end
 	end
 
@@ -342,13 +387,21 @@ function addInclude(_name, _projectName)
 	addIncludePath(_name, projectParentDir .. "/" .. basename)
 end
 
+g_projectAddCache = {}
+
 function addProject(_name)
+	local name = getProjectFullName(_name)
+
+	if g_projectAddCache[name] ~= nil then
+		return 
+	end
+
+	g_projectAddCache[name] = true
+
 	local deps = getProjectDependencies(_name)
 	for _,dep in ipairs(deps) do
 		addProject(dep)
 	end
-
-	local name = getProjectFullName(_name)
 
 	if g_projectIsLoaded[name] == nil then
 		local nameWithUnderscore = string.gsub(name, "-", "_")
@@ -365,6 +418,21 @@ function addProject(_name)
 			-- if we cannot find it on OS level - warn user
 			if os.findlib(name) == nil then
 				print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
+			end
+		end
+	end
+
+	if name:sub(1, 1) == "r" and g_projectIsLoaded[name] == true then
+		local projectDir = getProjectPath(_name, ProjectPath.Dir)
+		local toolDirs = os.matchdirs(projectDir .. "/" .. name .. "/tools/*")
+		for _,toolPath in ipairs(toolDirs) do
+			local tool = path.getbasename(toolPath)
+			local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
+			if file_exists(scriptPath) then
+				dofile(scriptPath)
+				if _G["projectAdd_" .. tool] ~= nil then
+					_G["projectAdd_" .. tool]()
+				end
 			end
 		end
 	end
@@ -408,10 +476,7 @@ function loadProject(_projectName, _load)
 
 	_load = _load or ProjectLoad.LoadAndAdd
 	if _load == ProjectLoad.LoadAndAdd then
-		if g_projectIsAdded[_projectName] == nil then
-			g_projectIsAdded[_projectName] = true
-			addProject(_projectName)
-		end
+		addProject(_projectName)
 	end
 end
 
@@ -423,7 +488,7 @@ end
 
 function getProjectDependencies(_name, _additionalDeps)
 	local fullName = getProjectFullName(_name)
-
+   
 	local dep = {}
 	if _G["projectDependencies_" .. fullName] then
 		dep = _G["projectDependencies_" .. fullName]()
@@ -477,7 +542,7 @@ function addDependencies(_name, _additionalDeps)
 				addExtraSettingsForExecutable(dependencyFullName)
 				addInclude(_name, dependency)
 
-				if not _G["projectHeaderOnlyLib_" .. dependencyFullName] then
+				if _G["projectHeaderOnlyLib_" .. dependencyFullName] == nil then
 					links { dependencyFullName }
 				end
 			end
@@ -491,47 +556,8 @@ function addDependencies(_name, _additionalDeps)
 	end
 end
 
-function addLibSubProjects(_name)
-
-	if istable(_name) then return end
-
-	--g_projectIsLoaded[_name] = true
-
-	if (istable(_name)) then return	  end
-
-	local projectDir = getProjectPath(_name)
-	if projectDir == nil then return end
-
-	-- Add unit sample projects only if rapp dependency can be found
-	local rapp = getProjectPath("rapp")
-	if rapp ~= nil then
-		local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
-		for _,dir in ipairs(sampleDirs) do
-			local dirName = path.getbasename(dir)
-			addProject_lib_sample(_name, dirName)
-		end
-	end
-
-	-- Add unit test projects only if unittest-cpp dependency can be found
-	local unittest_path = find3rdPartyProject("unittest-cpp")
-	if unittest_path ~= nil then
-		local testDir = projectDir .. "/test/"
-		if os.isdir(testDir) then
-			addProject_lib_test(_name)
- 		end
-	end
-
-	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
-	for _,dir in ipairs(toolsDirs) do
-		local dirName = path.getbasename(dir)
-		addProject_lib_tool(_name, dirName)
-	end
-end
-
 function addLibProjects(_name)
 	loadProject(_name)
-
-	addLibSubProjects(_name)
 end
 
 function stripExtension( _path )

@@ -13,6 +13,10 @@ local MSDFGEN_FILES = {
 	MSDFGEN_ROOT .. "ext/**.*",
 }
 
+function projectExtraConfig_msdfgen()
+	defines { "MSDFGEN_PUBLIC= " } -- static link
+end
+
 function projectDependencies_msdfgen()
 	return { "freetype2", "tinyxml2" }
 end 

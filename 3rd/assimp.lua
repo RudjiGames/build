@@ -38,6 +38,7 @@ local ASSIMP_INCLUDES = {
 	ASSIMP_ROOT .. "contrib/openddlparser/include/",
 	ASSIMP_ROOT .. "contrib/zlib/",
 	ASSIMP_ROOT .. "contrib/zlib/contrib/minizip",
+	ASSIMP_ROOT .. "contrib/utf8cpp/source",
 	ASSIMP_ROOT .. "code/BoostWorkaround/",
 	ASSIMP_ROOT .. "code/",
 	ASSIMP_ROOT .. "contrib/pugixml/src"

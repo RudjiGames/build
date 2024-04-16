@@ -17,5 +17,5 @@ RTM_PROJECT_DIR_PATHS = {
    { true, "src/tools/libs/" },
    { true, "src/tools/cmdline/" },
    { true, "src/tools/qt/" },
-   { true, "../" } -- fall back at the end of search
+   --{ true, "../" } -- fall back at the end of search
 }
