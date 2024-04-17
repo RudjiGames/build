@@ -97,10 +97,6 @@ function sedAppendReplace(_str, _search, _replace, _last)
 end
 
 function prepareProjectDeployment(_filter, _binDir)
-	if _OPTIONS["deploy"] == nil then
-		return
-	end
-
 	if  getTargetOS() == "ios"	or
 		getTargetOS() == "tvos" then
 		prepareDeployment_iOS(_filter, _binDir) 	return
@@ -232,9 +228,12 @@ function prepareDeployment_Windows(_filter, _binDir)
 		imagesConverted[desc.logo_wide] = true 
 		convertImage(desc.logo_wide,   copyDst .. logoWide   .. "1920.png",   1920, 1080)
 		convertImage(desc.logo_wide,   copyDst .. logoWide   .. "620.png",     620,  300)
-		convertImage(desc.logo_square, copyDst .. logoSquare .. "150.png",     150,  150)
-		convertImage(desc.logo_square, copyDst .. logoSquare .. "44.png",       44,   44)
-		convertImage(desc.logo_square, copyDst .. logoSquare .. "50.png",       50,   50)
+
+		local squareLogo = copyDst .. logoSquare .. "150.png"
+
+		convertImage(desc.logo_square,	squareLogo,								150,  150)
+		convertImage(squareLogo,		copyDst .. logoSquare .. "44.png",       44,   44)
+		convertImage(squareLogo,		copyDst .. logoSquare .. "50.png",       50,   50)
 	end
 	
 	local sedCmd = sedGetBinary() .. " -e " .. '"'

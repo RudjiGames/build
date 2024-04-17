@@ -1253,10 +1253,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	end
 
 	configuration {}
-	
+
 	if _OPTIONS["deploy"] ~= nil and EXECUTABLE then
 		prepareProjectDeployment(_filter, binDir)
-	end		
+	end
 end
 
 function strip()

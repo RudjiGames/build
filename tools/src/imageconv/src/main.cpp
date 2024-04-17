@@ -10,11 +10,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #define STBIR_DEFAULT_FILTER_DOWNSAMPLE STBIR_FILTER_BOX
-
-#include "fpng.h"
-#include "fpng.cpp"
-#include "stb_image.h"
 #include "stb_image_resize2.h"
+
+#define FPNG_DISABLE_DECODE_CRC32_CHECKS
+#include "fpng.h"
 
 int main(int argc, char* argv[])
 {
@@ -34,7 +33,17 @@ int main(int argc, char* argv[])
 
 	unsigned char* dstData = new unsigned char[width*height*4];
 
-	stbir_resize_uint8_linear(pixels.data(), srcW, srcH, srcW*4, dstData, width, height, width*4, STBIR_RGBA);
+	if ((srcW == width) && (srcH == height))
+	{
+		memcpy(dstData, pixels.data(), width * height * 4);
+	}
+	else
+	{
+		stbir_resize(pixels.data(), srcW, srcH, srcW*4,
+					 dstData, width, height, width*4,
+					 STBIR_4CHANNEL, STBIR_TYPE_UINT8,
+					 STBIR_EDGE_CLAMP, STBIR_FILTER_BOX);
+	}
 
 	fpng::fpng_encode_image_to_file(dst, dstData, width, height, 4);
 	delete[] dstData;

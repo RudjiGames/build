@@ -233,7 +233,7 @@ function getProjectDesc(_name)
 	return {
 		version		= "1.0.0.0",	-- quad format for durango support
 		publisher	= {
-			company			= "RTM",
+			company			= "Rudji Games",
 			organization	= "RTM",
 			location		= "Belgrade",
 			state			= "Serbia",
