@@ -229,22 +229,7 @@ function getProjectDesc(_name)
 	if descFn then
 		return descFn()
 	end
-	-- no project desc (sample, test, etc.); return default
-	return {
-		version		= "1.0.0.0",	-- quad format for durango support
-		publisher	= {
-			company			= "Rudji Games",
-			organization	= "RTM",
-			location		= "Belgrade",
-			state			= "Serbia",
-			country			= "Serbia",
-		},
-		shortname			= _name,
-		longname			= _name,
-		description			= _name .. " description",
-		logo_square			= RTM_SCRIPTS_DIR .. "deploy/res/logo_square.png",
-		logo_wide			= RTM_SCRIPTS_DIR .. "deploy/res/logo_wide.png"
-	}
+	return nil
 end
 
 ProjectPath = {

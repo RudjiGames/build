@@ -34,10 +34,8 @@ Permissions = {
 }
 
 function convertImage(_src, _dst, _width, _height)
---print("Scaling down: " .. _src .. " -> " .. _width .. "x" .. _height .. " (" .. _dst .. ")")
 	mkdir(path.getdirectory(_dst))
 	local imageConv = getToolForHost("imageconv")
-	print(imageConv .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
 	os.execute(imageConv .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
 end
 
@@ -218,6 +216,7 @@ function prepareDeployment_Windows(_filter, _binDir)
 	mkdir(copyDst)
 	
 	local desc = getProjectDesc(project().name)
+	if desc == nil then return end
 	
 	desc.shortname = string.gsub(desc.shortname, "_", "")	-- remove invalid character from project names (default if no desc)
 	
