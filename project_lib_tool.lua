@@ -7,7 +7,7 @@ function addProject_lib_tool(_name, _toolName)
 
 	if _ACTION == nil then return end
 
-	group ("tools")
+	group ("libs-tools")
 
 	project (_toolName)
 
@@ -28,11 +28,11 @@ function addProject_lib_tool(_name, _toolName)
 		flags { Flags_Libraries }
 
 		assert(loadfile(RTM_SCRIPTS_DIR .. "configurations.lua"))(	sourceFiles,
-																	true,	-- IS_LIBRARY
+																	false,	-- IS_LIBRARY
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
-																	false	-- EXECUTABLE
+																	true	-- EXECUTABLE
 																	)
 
 		local dependencies = {}

@@ -19,8 +19,8 @@
 --		getProjectDesc(_name).logowide
 
 newoption {
-	trigger     = "no-deploy",
-	description = "Skip deployment setup.",
+	trigger     = "deploy",
+	description = "Include deployment step.",
 }
 
 function script_dir()
@@ -37,6 +37,7 @@ function convertImage(_src, _dst, _width, _height)
 --print("Scaling down: " .. _src .. " -> " .. _width .. "x" .. _height .. " (" .. _dst .. ")")
 	mkdir(path.getdirectory(_dst))
 	local imageConv = getToolForHost("imageconv")
+	print(imageConv .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
 	os.execute(imageConv .. " " .. _src .. " " .. _dst .. " " .. _width .. " " .. _height)
 end
 
@@ -96,29 +97,29 @@ function sedAppendReplace(_str, _search, _replace, _last)
 end
 
 function prepareProjectDeployment(_filter, _binDir)
-	if _OPTIONS["no-deploy"] then
+	if _OPTIONS["deploy"] == nil then
 		return
 	end
 
 	if  getTargetOS() == "ios"	or
 		getTargetOS() == "tvos" then
-		prepareDeploymentiOS(_filter, _binDir) 	return
+		prepareDeployment_iOS(_filter, _binDir) 	return
 	end
 
 	if getTargetOS() == "asmjs" then
-		prepareDeploymentAsmJS(_filter, _binDir)	return
+		prepareDeployment_AsmJS(_filter, _binDir)	return
 	end
 	
 	if getTargetOS() == "linux" then
-		prepareDeploymentLinux(_filter, _binDir)	return
+		prepareDeployment_Linux(_filter, _binDir)	return
 	end
 
 	if getTargetOS() == "osx" then
-		prepareDeploymentOSX(_filter, _binDir)	return
+		prepareDeployment_OSX(_filter, _binDir)	return
 	end
 
 	if getTargetOS() == "android" then
-		prepareDeploymentAndroid(_filter, _binDir)	return
+		prepareDeployment_Android(_filter, _binDir)	return
 	end
 
 	if  getTargetOS() == "windows"		or
@@ -127,7 +128,7 @@ function prepareProjectDeployment(_filter, _binDir)
 		getTargetOS() == "winphone81"	or
 		getTargetOS() == "winstore81"	or
 		getTargetOS() == "winstore82"	then
-		prepareDeploymentWindows(_filer, _binDir)	return
+		prepareDeployment_Windows(_filer, _binDir)	return
 	end
 
 	return "switch"
@@ -136,7 +137,7 @@ end
 
 imagesConverted = {}
 
-function prepareDeploymentAndroid(_filter, _binDir)
+function prepareDeployment_Android(_filter, _binDir)
 	local copyDst = _binDir .. "deploy/" .. project().name .. "/"
 	local copySrc = script_dir() .. "deploy/android/"
 	
@@ -189,25 +190,22 @@ end
 -- 480 x 480
 -- 1920 x 1080
 
-function prepareDeploymentiOS(_filter, _binDir)
+function prepareDeployment_iOS(_filter, _binDir)
 end
 
-function prepareDeploymentAsmJS(_filter, _binDir)	return
+function prepareDeployment_AsmJS(_filter, _binDir)	return
 end
 
-function prepareDeploymentLinux(_filter, _binDir)	return
+function prepareDeployment_Linux(_filter, _binDir)	return
 end
 
-function prepareDeploymentOSX(_filter, _binDir)	return
+function prepareDeployment_OSX(_filter, _binDir)	return
 end
 
-function prepareDeploymentAndroid(_filter, _binDir)	return
+function prepareDeployment_Android(_filter, _binDir)	return
 end
 
-function prepareDeploymentWindows(_filer, _binDir)	return
-end
-
-function prepareDeploymentWindows(_filter, _binDir)
+function prepareDeployment_Windows(_filter, _binDir)
 	local copyDst = RTM_LOCATION_PATH .. project().name .. "/" .. "Image/Loose/"
 	local copySrc = script_dir() .. "deploy/durango/"
 

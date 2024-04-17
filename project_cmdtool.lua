@@ -3,20 +3,20 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_cmd(_name)
+function addProject_cmd(_name, _projectPath)
 
 	if _ACTION == nil then return end
 
 	group ("tools_cmd")
+
 	project (_name)
 	
-		_includes		= _includes or {}
-
 		language	"C++"
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
 		local path = getProjectPath(_name)
+		local rootPath = path .. "../"
 
 		project().path = path ..  "/src/"
 
@@ -26,7 +26,7 @@ function addProject_cmd(_name)
 
 		addPCH( project().path, project().name )
 
-		includedirs { getProjectPath(_name, ProjectPath.Root), project().path }
+		includedirs { rootPath, project().path }
 
 		flags { Flags_Cmd }
 

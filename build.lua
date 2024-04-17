@@ -310,7 +310,6 @@ end
 g_projectPathCache = {}
 
 function getProjectPath(_name, _pathType)
-
 	local name = getProjectBaseName(_name)
 	local full_name = getProjectFullName(_name)
 	_pathType = _pathType or ProjectPath.Dir
@@ -326,7 +325,7 @@ function getProjectPath(_name, _pathType)
 		if os.isdir(libDir) then 
 			if _pathType == ProjectPath.Dir then
 				g_projectPathCache[name] = path.getabsolute(libDir .. "/");
-				return path.getabsolute(libDir .. "/");
+				return path.getabsolute(libDir .. "/")
 			else
 				g_projectPathCache[name] = path.getabsolute(dir)
 				return path.getabsolute(dir)
@@ -348,8 +347,7 @@ function getProjectPath(_name, _pathType)
  	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		local subDirs = os.matchdirs(dir .. "*")
 		for _,subDir in ipairs(subDirs) do
-			local subdirpath = subDir .. "/tools/" .. name .. "/"
-			local pth = path.getabsolute(subdirpath)
+			local pth = path.getabsolute(subDir .. "/tools/" .. name)
 			if file_isdir(pth) then
 				g_projectPathCache[name] = pth
 				--print("toolsubdir " .. pth)
@@ -392,11 +390,11 @@ g_projectAddCache = {}
 function addProject(_name)
 	local name = getProjectFullName(_name)
 
-	if g_projectAddCache[name] ~= nil then
+	if g_projectAddCache[_name] ~= nil then
 		return 
 	end
 
-	g_projectAddCache[name] = true
+	g_projectAddCache[_name] = true
 
 	local deps = getProjectDependencies(_name)
 	for _,dep in ipairs(deps) do
@@ -431,7 +429,7 @@ function addProject(_name)
 			if file_exists(scriptPath) then
 				dofile(scriptPath)
 				if _G["projectAdd_" .. tool] ~= nil then
-					_G["projectAdd_" .. tool]()
+					_G["projectAdd_" .. tool](toolPath)
 				end
 			end
 		end
