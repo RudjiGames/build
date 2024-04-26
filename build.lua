@@ -271,9 +271,10 @@ function find3rdPartyProject(_name)
 	end
 
 	if istable(_name) then return nil end
+
 	local name = getProjectBaseName(_name)
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		local libDir = dir .. "/3rd/" .. name
+		local libDir = dir .. "3rd/" .. name
 		if os.isdir(libDir) then
 			local projectPath = libDir .. "/"
 			g_3rdPartyProjectPathCache[_name] = projectPath
