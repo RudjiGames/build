@@ -16,7 +16,7 @@ local VGRENDERER_FILES = {
 }
 
 function projectDependencies_vg_renderer()
-	return { "bgfx", "bx" }
+	return { "bgfx", "bx", "libtess2" }
 end
 
 function projectExtraConfig_vg_renderer()
