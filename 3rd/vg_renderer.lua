@@ -10,7 +10,9 @@ local VGRENDERER_ROOT	= params[1]
 
 local VGRENDERER_FILES = {
 	VGRENDERER_ROOT .. "src/**.cpp",
-	VGRENDERER_ROOT .. "src/**.h"
+	VGRENDERER_ROOT .. "src/**.h",
+	VGRENDERER_ROOT .. "include/**.h",
+	VGRENDERER_ROOT .. "include/**.inl"
 }
 
 function projectDependencies_vg_renderer()
