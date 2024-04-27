@@ -422,12 +422,12 @@ function addProject(_name)
 	end
 end
 
-function configDependency(_name, dependency)
-	local name = getProjectFullName(_name)
-	if _G["projectDependencyConfig_" .. name] ~= nil then -- prebuilt libs have no projects
-		return _G["projectDependencyConfig_" .. name](dependency)
+function configDependency(dependency)
+	local dependency = getProjectFullName(dependency)
+	if _G["projectDependencyConfig_" .. dependency] ~= nil then -- prebuilt libs have no projects
+	print(dependency .. " " )
+		return _G["projectDependencyConfig_" .. dependency]()
 	end
-	return dependency
 end
 
 function loadProject(_projectName, _load)
@@ -484,7 +484,7 @@ function getProjectDependencies(_name, _additionalDeps)
 	dep = mergeTables(dep, _additionalDeps)
 
 	for _,dependency in ipairs(dep) do
-		table.insert(finalDep, configDependency(_name, dependency))
+		table.insert(finalDep, dependency)
 	end
 
 	for _,dependency in ipairs(finalDep) do
@@ -500,6 +500,13 @@ function getProjectDependencies(_name, _additionalDeps)
 
 	if _ACTION == "gmake" then
 		table.sort(finalDep, sortDependencies)
+	end
+
+	for _,dependency in ipairs(finalDep) do
+		local full = getProjectFullName(dependency)
+		if _G["projectDependencyConfig_" .. full] then
+			dep = _G["projectDependencyConfig_" .. full]()
+		end
 	end
 
 	return finalDep
