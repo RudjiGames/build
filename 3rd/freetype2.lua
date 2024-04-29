@@ -58,17 +58,6 @@ if getTargetOS() == "windows" then
 	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/windows/ftdebug.c")
 end
 
---if getTargetOS() == "osx" then
---	added = true
---	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/mac/ftmac.c")
---end
-
-if getTargetOS() == "linux" or getTargetOS() == "osx" then
-	added = true
-	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/unix/ftsystem.c")
-	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/unix/ftdebug.c")
-end
-
 if not added then
 	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "src/base/ftsystem.c")
 	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "src/base/ftdebug.c")
