@@ -9,21 +9,77 @@ local params			= { ... }
 local FREETYPE2_ROOT	= params[1]
 
 local FREETYPE2_FILES = {
-	FREETYPE2_ROOT .. "src/**.c",
-	FREETYPE2_ROOT .. "src/**.h"
+	FREETYPE2_ROOT .. "src/autofit/autofit.c",
+	FREETYPE2_ROOT .. "src/base/ftbase.c",
+	FREETYPE2_ROOT .. "src/base/ftbbox.c",
+	FREETYPE2_ROOT .. "src/base/ftbdf.c",
+	FREETYPE2_ROOT .. "src/base/ftbitmap.c",
+	FREETYPE2_ROOT .. "src/base/ftcid.c",
+	FREETYPE2_ROOT .. "src/base/ftfstype.c",
+	FREETYPE2_ROOT .. "src/base/ftgasp.c",
+	FREETYPE2_ROOT .. "src/base/ftglyph.c",
+	FREETYPE2_ROOT .. "src/base/ftgxval.c",
+	FREETYPE2_ROOT .. "src/base/ftinit.c",
+	FREETYPE2_ROOT .. "src/base/ftmm.c",
+	FREETYPE2_ROOT .. "src/base/ftotval.c",
+	FREETYPE2_ROOT .. "src/base/ftpatent.c",
+	FREETYPE2_ROOT .. "src/base/ftpfr.c",
+	FREETYPE2_ROOT .. "src/base/ftstroke.c",
+	FREETYPE2_ROOT .. "src/base/ftsynth.c",
+	FREETYPE2_ROOT .. "src/base/fttype1.c",
+	FREETYPE2_ROOT .. "src/base/ftwinfnt.c",
+	FREETYPE2_ROOT .. "src/bdf/bdf.c",
+	FREETYPE2_ROOT .. "src/bzip2/ftbzip2.c",
+	FREETYPE2_ROOT .. "src/cache/ftcache.c",
+	FREETYPE2_ROOT .. "src/cff/cff.c",
+	FREETYPE2_ROOT .. "src/cid/type1cid.c",
+	FREETYPE2_ROOT .. "src/gzip/ftgzip.c",
+	FREETYPE2_ROOT .. "src/lzw/ftlzw.c",
+	FREETYPE2_ROOT .. "src/pcf/pcf.c",
+	FREETYPE2_ROOT .. "src/pfr/pfr.c",
+	FREETYPE2_ROOT .. "src/psaux/psaux.c",
+	FREETYPE2_ROOT .. "src/pshinter/pshinter.c",
+	FREETYPE2_ROOT .. "src/psnames/psnames.c",
+	FREETYPE2_ROOT .. "src/raster/raster.c",
+	FREETYPE2_ROOT .. "src/sdf/sdf.c",
+	FREETYPE2_ROOT .. "src/sfnt/sfnt.c",
+	FREETYPE2_ROOT .. "src/smooth/smooth.c",
+	FREETYPE2_ROOT .. "src/svg/svg.c",
+	FREETYPE2_ROOT .. "src/truetype/truetype.c",
+	FREETYPE2_ROOT .. "src/type1/type1.c",
+	FREETYPE2_ROOT .. "src/type42/type42.c",
+	FREETYPE2_ROOT .. "src/winfonts/winfnt.c"
 }
 
+local added = false
+if getTargetOS() == "windows" then
+	added = true
+	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/windows/ftsystem.c")
+	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/windows/ftdebug.c")
+end
 
+--if getTargetOS() == "osx" then
+--	added = true
+--	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/mac/ftmac.c")
+--end
+
+if getTargetOS() == "linux" or getTargetOS() == "osx" then
+	added = true
+	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/unix/ftsystem.c")
+	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "builds/unix/ftdebug.c")
+end
+
+if not added then
+	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "src/base/ftsystem.c")
+	table.insert(FREETYPE2_FILES, FREETYPE2_ROOT .. "src/base/ftdebug.c")
+end
 
 function projectExtraConfig_freetype2()
-	defines {"FT2_BUILD_LIBRARY" }
+	defines { "FT2_BUILD_LIBRARY" }
+
 	includedirs { FREETYPE2_ROOT .. "include"}
-	excludes { FREETYPE2_ROOT .. "src/tools/**.*" }
-	excludes { FREETYPE2_ROOT .. "src/gzip/**.*" }
-	excludes { FREETYPE2_ROOT .. "src/lzw/**.*" }
 end
 
 function projectAdd_freetype2()
 	addProject_3rdParty_lib("freetype2", FREETYPE2_FILES)
 end
-

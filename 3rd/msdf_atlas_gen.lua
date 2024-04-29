@@ -9,13 +9,29 @@ local params			= { ... }
 local MSDFATLASGEN_ROOT	= params[1]
 
 local MSDFATLASGEN_FILES = {
-	MSDFATLASGEN_ROOT .. "msdf-atlas-gen/**.*",
+	MSDFATLASGEN_ROOT .. "msdf-atlas-gen/**.cpp",
+	MSDFATLASGEN_ROOT .. "msdf-atlas-gen/**.hpp",
+	MSDFATLASGEN_ROOT .. "msdf-atlas-gen/**.h",
+	MSDFATLASGEN_ROOT .. "msdfgen/**.cpp",
+	MSDFATLASGEN_ROOT .. "msdfgen/**.hpp",
+	MSDFATLASGEN_ROOT .. "msdfgen/**.h"
 }
 
-function projectExtraConfig_msdf_atlas_gen()
+function projectDependencyConfig_msdf_atlas_gen()
 	includedirs {
 		MSDFATLASGEN_ROOT,
 		MSDFATLASGEN_ROOT .. "msdfgen",
+	--	MSDFATLASGEN_ROOT .. "artery-font-format"		
+	}
+	defines { "MSDFGEN_PUBLIC= " } -- static link
+end
+
+function projectExtraConfig_msdf_atlas_gen()
+
+	projectDependencyConfig_msdf_atlas_gen()
+	includedirs {
+		--MSDFATLASGEN_ROOT,
+		--MSDFATLASGEN_ROOT .. "msdfgen",
 		MSDFATLASGEN_ROOT .. "artery-font-format"		
 	}
 	defines { "MSDFGEN_PUBLIC= " } -- static link
