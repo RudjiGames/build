@@ -33,10 +33,9 @@ local WITH_MINIAUDIO = 0
 local WITH_NULL = 1
 local WITH_TOOLS = 0
 
-if (os.is("Windows")) then
-	WITH_WINMM = 1
-elseif (os.is("macosx")) then
-	WITH_COREAUDIO = 1
+	if getTargetOS() == "windows"	then	WITH_WINMM		= 1
+elseif getTargetOS() == "osx"		then	WITH_COREAUDIO	= 1
+elseif getTargetOS() == "asmjs"		then	WITH_MINIAUDIO	= 1
 else
 	WITH_ALSA = 1
 	WITH_OSS = 1
@@ -433,7 +432,7 @@ function projectExtraConfig_soloud()
 	if (WITH_VITA_HOMEBREW == 0) then
 		configuration { "gmake" }
 			buildoptions { 
-				"-msse4.1", 
+				"-msse4.1 -msimd128", 
 				"-fPIC"
 			}
 	end
