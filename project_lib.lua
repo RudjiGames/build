@@ -33,7 +33,7 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 		language    "C++"
 		kind        ( libKind )
 		uuid		( os.uuid(project().name) )
-		
+
 		local libsPath = getProjectPath(_name, ProjectPath.Root)
 
 		local projectPath = libsPath .. "/" .. _name

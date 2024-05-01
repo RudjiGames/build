@@ -300,20 +300,26 @@ function getProjectPath(_name, _pathType)
 	local full_name = getProjectFullName(_name)
 	_pathType = _pathType or ProjectPath.Dir
 
-	if g_projectPathCache[name] ~= nil then
-		return g_projectPathCache[name]
+	local key
+	if _pathType == ProjectPath.Dir then
+		key = name .. "_dir"
+	else
+		key = name .. "_root"
+	end
+
+	if g_projectPathCache[key] ~= nil then
+		return g_projectPathCache[key]
 	end
 
 	local projectPath
-	_pathType = _pathType or ProjectPath.Dir
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
 		local libDir = dir .. name
 		if os.isdir(libDir) then 
 			if _pathType == ProjectPath.Dir then
-				g_projectPathCache[name] = path.getabsolute(libDir .. "/");
+				g_projectPathCache[key] = path.getabsolute(libDir .. "/");
 				return path.getabsolute(libDir .. "/")
 			else
-				g_projectPathCache[name] = path.getabsolute(dir)
+				g_projectPathCache[key] = path.getabsolute(dir)
 				return path.getabsolute(dir)
 			end
 		end
@@ -322,10 +328,10 @@ function getProjectPath(_name, _pathType)
 	projectPath = find3rdPartyProject(_name)
 	if projectPath ~= nil then
 		if _pathType == ProjectPath.Root then
-			g_projectPathCache[name] = path.getabsolute(projectPath .. "../") .. "/"
+			g_projectPathCache[key] = path.getabsolute(projectPath .. "../") .. "/"
 			return path.getabsolute(projectPath .. "../") .. "/"
 		else
-			g_projectPathCache[name] = path.getabsolute(projectPath)
+			g_projectPathCache[key] = path.getabsolute(projectPath)
 			return path.getabsolute(projectPath)
 		end
 	end
@@ -335,14 +341,13 @@ function getProjectPath(_name, _pathType)
 		for _,subDir in ipairs(subDirs) do
 			local pth = path.getabsolute(subDir .. "/tools/" .. name)
 			if file_isdir(pth) then
-				g_projectPathCache[name] = pth
-				--print("toolsubdir " .. pth)
+				g_projectPathCache[key] = pth
 				return pth
 			end
 
 			pth = path.getabsolute(subDir .. "/3rd/" .. name .. "/")
 			if file_isdir(pth) then
-				g_projectPathCache[name] = pth
+				g_projectPathCache[key] = pth
 				return pth
 			end
 		end
