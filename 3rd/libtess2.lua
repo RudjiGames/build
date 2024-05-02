@@ -13,15 +13,7 @@ local LIBTESS2_FILES = {
 	LIBTESS2_ROOT .. "Source/*.h",
 }
 
-local LIBTESS2_DEFINES = {}
-
 function projectExtraConfig_libtess2()
-	defines { LIBTESS2_DEFINES }
-	includedirs { LIBTESS2_ROOT .. "Include" }
-end
-
-function projectExtraConfig_libtess2()
-	defines { LIBTESS2_DEFINES }
 	includedirs { LIBTESS2_ROOT .. "Include" }
 end
 

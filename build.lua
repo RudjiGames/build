@@ -413,7 +413,7 @@ function addProject(_name)
 
 	if name:sub(1, 1) == "r" and g_projectIsLoaded[name] == true then
 		local projectDir = getProjectPath(_name, ProjectPath.Dir)
-		local toolDirs = os.matchdirs(projectDir .. "/" .. name .. "/tools/*")
+		local toolDirs = os.matchdirs(projectDir .. "/tools/*")
 		for _,toolPath in ipairs(toolDirs) do
 			local tool = path.getbasename(toolPath)
 			local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
@@ -705,4 +705,23 @@ function getFileNameNoExtFromPath( path )
 	end
 
 	return returnFilename
+end
+
+function setupCMakeProjectHeaders(srcPath, dstPath, replacePairs)
+	-- replace cmakedefine with define
+	-- replace strings with known values
+	-- remove all instances of '@'
+
+	os.copyfile(srcPath, dstPath);
+
+	local sedCommand = getToolForHost("sed")
+
+	if replacePairs ~= nil then
+    for _,replacePair in ipairs(replacePairs) do
+		os.execute(sedCommand .. " -i s/'" .. replacePair[1] .. "'/'" .. replacePair[2] .. "'/g " .. dstPath)
+	end
+	end
+
+	os.execute(sedCommand .. " -i s/cmakedefine/define/g " .. dstPath)
+	os.execute(sedCommand .. " -i s/@//g " .. dstPath)
 end
