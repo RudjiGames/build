@@ -15,7 +15,7 @@ function addProject_lib_tool(_name, _toolName)
 		kind		"ConsoleApp"
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(_name, ProjectPath.Dir) .. "/" .. _name .. "/tools/" .. _toolName
+		project().path = getProjectPath(_name, ProjectPath.Dir) .. "/tools/" .. _toolName .. "/"
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
 											{ project().path .. "**.h" } )
