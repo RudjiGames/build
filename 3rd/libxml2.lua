@@ -17,9 +17,22 @@ function projectDependencies_libxml2()
 	return { "zlib" }
 end 
 
-function projectExtraConfig_libxml2()
-	defines { "WITH_ZLIB", "LIBXML_SCHEMAS_ENABLED", "LIBXML_REGEXP_ENABLED", "LIBXML_AUTOMATA_ENABLED", "LIBXML_PATTERN_ENABLED", "LIBXML_VALID_ENABLED"}
+function projectDependencyConfig_libxml2()
+	defines {	"WITH_ZLIB",
+				"LIBXML_SCHEMAS_ENABLED",
+				"LIBXML_REGEXP_ENABLED",
+				"LIBXML_AUTOMATA_ENABLED",
+				"LIBXML_PATTERN_ENABLED",
+				"LIBXML_VALID_ENABLED",
+				"LIBXML_STATIC",
+				"LIBXML_UNICODE_ENABLED",
+				"LIBXML_PUSH_ENABLED"
+	}
 	includedirs { LIBXML2_ROOT .. "include" }
+end
+
+function projectExtraConfig_libxml2()
+	projectDependencyConfig_libxml2()
 	excludes {	LIBXML2_ROOT .. "test*.c",
 				LIBXML2_ROOT .. "run*.c",
 				LIBXML2_ROOT .. "xmlcatalog.c",

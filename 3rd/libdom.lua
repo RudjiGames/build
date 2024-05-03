@@ -9,15 +9,19 @@ local params		= { ... }
 local LIBDOM_ROOT	= params[1]
 
 local LIBDOM_FILES = {
+	LIBDOM_ROOT .. "bindings/xml/libxml_xmlparser.c",
 	LIBDOM_ROOT .. "src/**.c",
 	LIBDOM_ROOT .. "src/**.h",
 }
 
 function projectDependencies_libdom()
-	return { "libwapcaplet", "libparserutils" }
+	return { "libwapcaplet", "libparserutils", "libxml2" }
 end 
 
 function projectDependencyConfig_libdom()
+	if getTargetOS() == "windows" then
+		links { "Bcrypt" }
+	end
 	includedirs { LIBDOM_ROOT .. "include",
 				  LIBDOM_ROOT .. "include/dom" }
 end

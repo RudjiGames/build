@@ -11,6 +11,7 @@ local LIBSVGTINY_ROOT	= params[1]
 local LIBSVGTINY_FILES = {
 	LIBSVGTINY_ROOT .. "src/*.c",
 	LIBSVGTINY_ROOT .. "src/*.h",
+	LIBSVGTINY_ROOT .. "include/*.h"
 }
 
 function projectDependencies_libsvgtiny()
