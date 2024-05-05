@@ -402,26 +402,24 @@ function addProject(_name)
 
 	if g_projectIsLoaded[name] == nil then
 		if find3rdPartyProject(name) == nil then
-			g_projectIsLoaded[name] = true
 			-- some 'missing' dependencies are actually system libraries, for example X11, GL, etc.
 			-- if we cannot find it on OS level - warn user
 			if os.findlib(name) == nil then
-				print('WARNING: Dependency project not found - ' .. name .. ' - treating it as a system library')
+				print('WARNING: Dependency not found - ' .. name .. ' - treating it as a system library')
 			end
 		end
 	end
 
-	if name:sub(1, 1) == "r" and g_projectIsLoaded[name] == true then
-		local projectDir = getProjectPath(_name, ProjectPath.Dir)
-		local toolDirs = os.matchdirs(projectDir .. "/tools/*")
-		for _,toolPath in ipairs(toolDirs) do
-			local tool = path.getbasename(toolPath)
-			local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
-			if file_exists(scriptPath) then
-				dofile(scriptPath)
-				if _G["projectAdd_" .. tool] ~= nil then
-					_G["projectAdd_" .. tool](toolPath)
-				end
+	local projectDir = getProjectPath(_name, ProjectPath.Dir)
+	local toolDirs = os.matchdirs(projectDir .. "/tools/*")
+	for _,toolPath in ipairs(toolDirs) do
+		local tool = path.getbasename(toolPath)
+		local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
+		if file_exists(scriptPath) then
+			dofile(scriptPath)
+			if _G["projectAdd_" .. tool] ~= nil then
+				_G["projectAdd_" .. tool](toolPath)
+				g_projectIsLoaded[tool] = true
 			end
 		end
 	end
