@@ -411,15 +411,17 @@ function addProject(_name)
 	end
 
 	local projectDir = getProjectPath(_name, ProjectPath.Dir)
-	local toolDirs = os.matchdirs(projectDir .. "/tools/*")
-	for _,toolPath in ipairs(toolDirs) do
-		local tool = path.getbasename(toolPath)
-		local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
-		if file_exists(scriptPath) then
-			dofile(scriptPath)
-			if _G["projectAdd_" .. tool] ~= nil then
-				_G["projectAdd_" .. tool](toolPath)
-				g_projectIsLoaded[tool] = true
+	if projectDir ~= nil then
+		local toolDirs = os.matchdirs(projectDir .. "/tools/*")
+		for _,toolPath in ipairs(toolDirs) do
+			local tool = path.getbasename(toolPath)
+			local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
+			if file_exists(scriptPath) then
+				dofile(scriptPath)
+				if _G["projectAdd_" .. tool] ~= nil then
+					_G["projectAdd_" .. tool](toolPath)
+					g_projectIsLoaded[tool] = true
+				end
 			end
 		end
 	end
