@@ -29,9 +29,9 @@ newoption {
         { "android-mips",  "Android - MIPS"         },
         { "android-x86",   "Android - x86"          },
         { "asmjs",         "Emscripten/asm.js"      },
+        { "cheerp",        "Cheerp/asm.js"          },
         { "freebsd",       "FreeBSD"                },
         { "linux-gcc",     "Linux (GCC compiler)"   },
-        { "linux-gcc-9",   "Linux (GCC-9 compiler)" },
         { "linux-clang",   "Linux (Clang compiler)" },
         { "ios-arm",       "iOS - ARM"              },
         { "ios-arm64",     "iOS - ARM64"            },
@@ -114,7 +114,8 @@ function getTargetOS()
 	end
 
 	-- gmake - asmjs
-	if _OPTIONS["gcc"] == "asmjs" then
+	if (_OPTIONS["gcc"] == "asmjs") or
+	   (_OPTIONS["gcc"] == "cheerp") then
 		return "asmjs"
 	end
 
@@ -126,7 +127,6 @@ function getTargetOS()
 
 	-- gmake - linux
 	if	(_OPTIONS["gcc"] == "linux-gcc") or
-		(_OPTIONS["gcc"] == "linux-gcc-9") or
 		(_OPTIONS["gcc"] == "linux-clang") or
 		(_OPTIONS["os"]  == "linux") then
 		return "linux"
@@ -247,12 +247,14 @@ function getTargetCompiler()
 	-- gmake - asmjs
 	if (_OPTIONS["gcc"] == "asmjs")			then	return "gcc"			end
 
+	-- gmake - cheerp
+	if (_OPTIONS["gcc"] == "cheerp")		then	return "clang"			end
+
 	-- gmake - freebsd
 	if (_OPTIONS["gcc"] == "freebsd")		then	return "gcc"			end
 
 	-- gmake - linux
 	if	(_OPTIONS["gcc"] == "linux-gcc")	then	return "gcc"			end
-	if	(_OPTIONS["gcc"] == "linux-gcc-9")  then	return "gcc-9"			end
 	if	(_OPTIONS["gcc"] == "linux-clang")	then	return "clang"			end
 
 	-- gmake - ios
@@ -436,6 +438,17 @@ function toolchain()
 			premake.gcc.ar   = "\"$(EMSCRIPTEN)/emar\""
 			premake.gcc.llvm = true
 
+		elseif "cheerp" == _OPTIONS["gcc"] then
+
+			if not os.getenv("CHEERP") then
+				print("Please set CHEERP enviroment variable to point to directory where Cheerp clang can be found.")
+			end
+
+			premake.gcc.cc   = "\"$(CHEERP)/bin/clang\""
+			premake.gcc.cxx  = "\"$(CHEERP)/bin/clang++\""
+			premake.gcc.ar   = "\"$(CHEERP)/bin/llvm-link\""
+			premake.gcc.llvm = true
+
 		elseif "freebsd" == _OPTIONS["gcc"] then
 
 		elseif "ios-arm" == _OPTIONS["gcc"] or "ios-arm64" == _OPTIONS["gcc"] then
@@ -459,8 +472,6 @@ function toolchain()
 			premake.gcc.ar  = "ar"
 			
 		elseif "linux-gcc" == _OPTIONS["gcc"] then
-
-		elseif "linux-gcc-9" == _OPTIONS["gcc"] then
 			premake.gcc.cc  = "gcc-9"
 			premake.gcc.cxx = "g++-9"
 			premake.gcc.ar  = "ar"
@@ -767,19 +778,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "linux-clang", _filter }
 
-	configuration { "linux-gcc-9", _filter }
-		buildoptions {
---			"-fno-omit-frame-pointer",
---			"-fsanitize=address",
---			"-fsanitize=undefined",
---			"-fsanitize=float-divide-by-zero",
---			"-fsanitize=float-cast-overflow",
-		}
-		links {
---			"asan",
---			"ubsan",
-		}
-
 	configuration { "linux-g*", _filter }
 		buildoptions {
 			"-mfpmath=sse", -- force SSE to get 32-bit and 64-bit builds deterministic.
@@ -956,7 +954,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		end
 		
-	configuration { "asmjs", _filter }
+	configuration { "asmjs or cheerp", _filter }
 		defines { "RTM_ASMJS" }
 		buildoptions {
 			"-Wunused-value",
@@ -977,7 +975,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		flags {
 			"Optimize"
 		}
-	configuration { "asmjs", "retail" }
+	configuration { "asmjs or cheerp", "retail" }
 		buildoptions {
 			"-Oz",
 			"-fno-rtti",
@@ -987,6 +985,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Oz",
 			"-flto"
 		}
+
+	configuration { "asmjs", _filter }
+		defines { "RTM_ASMJS" }
+
+	configuration { "cheerp", _filter }
+		defines { "RTM_CHEERP" }
 
 	configuration { "freebsd", _filter }
 		defines { "RTM_FREEBSD" }
@@ -1237,7 +1241,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		configuration { "mingw-clang", _filter }
 			kind "ConsoleApp"
 
-		configuration { "asmjs", _filter }
+		configuration { "asmjs or cheerp", _filter }
 			kind "ConsoleApp"
 			targetextension ".html"
 
