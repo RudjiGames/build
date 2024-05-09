@@ -986,9 +986,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-flto"
 		}
 
-	configuration { "asmjs", _filter }
-		defines { "RTM_ASMJS" }
-
 	configuration { "cheerp", _filter }
 		defines { "RTM_CHEERP" }
 
