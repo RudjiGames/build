@@ -431,6 +431,7 @@ function toolchain()
 
 			if not os.getenv("EMSCRIPTEN") then
 				print("Please set EMSCRIPTEN enviroment variable to point to directory where emcc can be found.")
+				os.exit()
 			end
 
 			premake.gcc.cc   = "\"$(EMSCRIPTEN)/emcc\""
@@ -439,9 +440,9 @@ function toolchain()
 			premake.gcc.llvm = true
 
 		elseif "cheerp" == _OPTIONS["gcc"] then
-
 			if not os.getenv("CHEERP") then
 				print("Please set CHEERP enviroment variable to point to directory where Cheerp clang can be found.")
+				os.exit()
 			end
 
 			premake.gcc.cc   = "\"$(CHEERP)/bin/clang\""
