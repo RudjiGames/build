@@ -245,10 +245,10 @@ function getTargetCompiler()
 	if	(_OPTIONS["gcc"] == "android-x86")  then	return "gcc-x86"		end
 
 	-- gmake - asmjs
-	if (_OPTIONS["gcc"] == "asmjs")			then	return "gcc"			end
+	if (_OPTIONS["gcc"] == "asmjs")			then	return "emscripten"		end
 
 	-- gmake - cheerp
-	if (_OPTIONS["gcc"] == "cheerp")		then	return "clang"			end
+	if (_OPTIONS["gcc"] == "cheerp")		then	return "cheerp"			end
 
 	-- gmake - freebsd
 	if (_OPTIONS["gcc"] == "freebsd")		then	return "gcc"			end
@@ -1301,7 +1301,7 @@ end
 
 -- has to be called from an active solution
 function setPlatforms()
-	if actionUsesXcode() or actionTargetsWASM() then
+	if actionUsesXcode() or (_OPTIONS["gcc"] == "cheerp") then --actionTargetsWASM() then
 		platforms { "Universal" }
 	elseif actionUsesMSVC() then
 		if  not (getTargetOS() == "durango")	and 
