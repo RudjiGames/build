@@ -447,7 +447,7 @@ function toolchain()
 
 			premake.gcc.cc   = "\"$(CHEERP)/bin/clang\""
 			premake.gcc.cxx  = "\"$(CHEERP)/bin/clang++\""
-			premake.gcc.ar   = "\"$(CHEERP)/bin/llvm-link\""
+			premake.gcc.platforms.Universal.ar = "\"$(CHEERP)/bin/llvm-link\""
 			premake.gcc.llvm = true
 
 		elseif "freebsd" == _OPTIONS["gcc"] then
@@ -500,7 +500,7 @@ function toolchain()
 
 			premake.gcc.cc   = "$(CLANG)/bin/clang"
 			premake.gcc.cxx  = "$(CLANG)/bin/clang++"
-			premake.gcc.ar   = "$(MINGW)/bin/ar"
+			premake.gcc.ar   = "$(CLANG)/bin/ar"
 			premake.gcc.llvm = true
 
 		elseif "osx" == _OPTIONS["gcc"] then
@@ -988,7 +988,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 
 	configuration { "cheerp", _filter }
-		defines { "RTM_CHEERP" }
+		defines { "RTM_CHEERP", "__EMSCRIPTEN__" }
 
 	configuration { "freebsd", _filter }
 		defines { "RTM_FREEBSD" }
@@ -1303,3 +1303,33 @@ function strip()
 	configuration {} -- reset configuration
 end
 
+
+function actionTargetsWASM()
+	return (_OPTIONS["gcc"] == "cheerp") or (_OPTIONS["gcc"] == "asmjs")
+end
+
+-- has to be called from an active solution
+function setPlatforms()
+	if actionUsesXcode() or actionTargetsWASM() then
+		platforms { "Universal" }
+	elseif actionUsesMSVC() then
+		if  not (getTargetOS() == "durango")	and 
+			not (getTargetOS() == "orbis")		and
+			not (getTargetOS() == "winphone8")	and
+			not (getTargetOS() == "winphone81")	
+--			not (getTargetOS() == "winstore81")	and
+--			not (getTargetOS() == "winstore82") 
+			then -- these platforms set their own platform config
+			platforms { "x32", "x64" }
+		end
+	else
+		platforms { "x32", "x64", "native" }
+	end
+
+	configuration {}
+
+	if not toolchain() then
+		return -- no action specified
+	end 
+
+end

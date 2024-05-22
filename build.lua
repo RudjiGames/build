@@ -102,32 +102,6 @@ function actionUsesXcode()
 	return (_ACTION ~= nil and _ACTION:find("xcode"))
 end
 
--- has to be called from an active solution
-function setPlatforms()
-	if actionUsesXcode() then
-		platforms { "Universal" }
-	elseif actionUsesMSVC() then
-		if  not (getTargetOS() == "durango")	and 
-			not (getTargetOS() == "orbis")		and
-			not (getTargetOS() == "winphone8")	and
-			not (getTargetOS() == "winphone81")	
---			not (getTargetOS() == "winstore81")	and
---			not (getTargetOS() == "winstore82") 
-			then -- these platforms set their own platform config
-			platforms { "x32", "x64" }
-		end
-	else
-		platforms { "x32", "x64", "native" }
-	end
-
-	configuration {}
-
-	if not toolchain() then
-		return -- no action specified
-	end 
-
-end
-
 --------------------------------------------------------
 -- fixup for precompiled header path
 --------------------------------------------------------
