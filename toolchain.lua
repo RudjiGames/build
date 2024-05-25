@@ -245,10 +245,10 @@ function getTargetCompiler()
 	if	(_OPTIONS["gcc"] == "android-x86")  then	return "gcc-x86"		end
 
 	-- gmake - asmjs
-	if (_OPTIONS["gcc"] == "asmjs")			then	return "gcc"			end
+	if (_OPTIONS["gcc"] == "asmjs")			then	return "emscripten"		end
 
 	-- gmake - cheerp
-	if (_OPTIONS["gcc"] == "cheerp")		then	return "clang"			end
+	if (_OPTIONS["gcc"] == "cheerp")		then	return "cheerp"			end
 
 	-- gmake - freebsd
 	if (_OPTIONS["gcc"] == "freebsd")		then	return "gcc"			end
@@ -447,7 +447,8 @@ function toolchain()
 
 			premake.gcc.cc   = "\"$(CHEERP)/bin/clang\""
 			premake.gcc.cxx  = "\"$(CHEERP)/bin/clang++\""
-			premake.gcc.platforms.Universal.ar = "\"$(CHEERP)/bin/llvm-link\""
+			premake.gcc.platforms.Universal.ar    = "\"$(CHEERP)/bin/llvm-link\""
+			premake.gcc.platforms.Universal.flags = ""
 			premake.gcc.llvm = true
 
 		elseif "freebsd" == _OPTIONS["gcc"] then
@@ -722,7 +723,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-fdata-sections",
 			"-ffunction-sections",
 			"-msse2",
-			"-Wunused-value",
 			"-Wundef",
 		}
 		buildoptions_cpp {
@@ -787,16 +787,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "linux-gcc* or linux-clang*" }
 		buildoptions {
 			"-msse2",
---			"-Wdouble-promotion",
---			"-Wduplicated-branches",
---			"-Wduplicated-cond",
---			"-Wjump-misses-init",
 			"-Wlogical-op",
 			"-Wshadow",
---			"-Wnull-dereference",
 			"-Wunused-value",
-			"-Wundef",
---			"-Wuseless-cast",
+			"-Wundef"
 		}
 		buildoptions_cpp {
 			"-std=c++17",
@@ -970,9 +964,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-s TOTAL_MEMORY=64MB",
 			"-s ALLOW_MEMORY_GROWTH=1",
 			"-s MALLOC=emmalloc"
-		}
-		removeflags {
-			"OptimizeSpeed",
 		}
 		flags {
 			"Optimize"
@@ -1311,7 +1302,7 @@ end
 
 -- has to be called from an active solution
 function setPlatforms()
-	if actionUsesXcode() or actionTargetsWASM() then
+	if actionUsesXcode() or (_OPTIONS["gcc"] == "cheerp") then --actionTargetsWASM() then
 		platforms { "Universal" }
 	elseif actionUsesMSVC() then
 		if  not (getTargetOS() == "durango")	and 
