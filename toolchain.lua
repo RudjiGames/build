@@ -968,7 +968,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-s MAX_WEBGL_VERSION=2",
 			"-s WASM=1",
 			"-s TOTAL_MEMORY=64MB",
-			"-s ALLOW_MEMORY_GROWTH=1"
+			"-s ALLOW_MEMORY_GROWTH=1",
+			"-s MALLOC=emmalloc"
 		}
 		removeflags {
 			"OptimizeSpeed",
