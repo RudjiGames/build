@@ -20,7 +20,7 @@ qtDirectory = arg[3] or qtDirectory
 lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
 
 windows = package.config:sub( 1, 1 ) == "\\"
-windowsExe = "5.1.exe"
+windowsExe = ".exe"
 del = "\\"
 if not windows then
 	del = "/"
@@ -217,6 +217,8 @@ if arg[1] == "-moc" then
 	if windows then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
 	end
+
+	print(fullMOCPath)
 
 	if 0 ~= runProgram(fullMOCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFileName, 5 ) ); io.stdout:flush()

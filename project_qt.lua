@@ -28,7 +28,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQt
 		kind		( projKind )
 		uuid		( os.uuid(project().name) )
 
-		project().path = getProjectPath(project().name, ProjectPath.Root) .. _name .. "/"
+		project().path = getProjectPath(project().name, ProjectPath.Root) .. "/" .. _name .. "/"
 
 		local	sourceFiles = mergeTables(	{ project().path .. "inc/**.h" },
 											{ project().path .. "src/**.cpp" },

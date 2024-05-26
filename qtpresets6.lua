@@ -18,7 +18,7 @@ QT_LIB_PREFIX		= "Qt" .. qt.version
 
 function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
 		
-		local sourcePath			= getProjectPath(_projectName) .. "src/"
+		local sourcePath			= getProjectPath(_projectName) .. "/src/"
 		local QT_PREBUILD_LUA_PATH	= '"' .. RTM_ROOT_DIR .. "build/qtprebuild.lua" .. '"'
 
 		-- Defaults
@@ -56,7 +56,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		local LUAEXE = "lua "
 		if os.is("windows") then
-			LUAEXE = "lua.exe "
+			LUAEXE = "lua5.1.exe "
 		end
 
 		local addedFiles = {}
