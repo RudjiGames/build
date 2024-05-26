@@ -20,7 +20,7 @@ qtDirectory = arg[3] or qtDirectory
 lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
 
 windows = package.config:sub( 1, 1 ) == "\\"
-windowsExe = ".exe"
+windowsExe = "5.1.exe"
 del = "\\"
 if not windows then
 	del = "/"
