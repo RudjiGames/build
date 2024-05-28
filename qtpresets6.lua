@@ -65,7 +65,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			local headerSrc = file_read(file);
 			if headerSrc:find("Q_OBJECT") then
-				prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' )
+				prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' }
 				files { file, mocFilePath }
 				table.insert(addedFiles, file)
 			end
