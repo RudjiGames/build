@@ -30,14 +30,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		end
 
 		local QT_PATH = os.getenv(qtEnv)
-		--if getTargetOS() == "windows" then
-    		if QT_PATH == nil then
-	    		print ("ERROR: The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets6.lua")
-		    	os.exit()
-    		end
-        --else
-        --    QT_PATH = ""
-        --end
+    	if QT_PATH == nil then
+	    	print ("ERROR: The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets6.lua")
+		    os.exit()
+    	end
 
 		flatten( _mocfiles )
 		flatten( _qrcfiles )
@@ -65,45 +61,39 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		for _,file in ipairs( _mocfiles ) do
 			local mocFile = stripExtension(file)
 			local mocFileBase = path.getbasename(file)
-			local mocFilePath = QT_MOC_FILES_PATH .. "/" .. mocFileBase .. "_moc.cpp"
+			local mocFilePath = path.getabsolute(QT_MOC_FILES_PATH .. "/" .. mocFileBase .. "_moc.cpp")
 
 			local headerSrc = file_read(file);
 			if headerSrc:find("Q_OBJECT") then
-				local moc_header = path.getrelative(path.getdirectory(mocFilePath), file)
-				prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. moc_header .. '"' }
-
-				local mocAbsolutePath = path.getabsolute(mocFilePath)
-				files { file, mocAbsolutePath }
+				prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' )
+				files { file, mocFilePath }
 				table.insert(addedFiles, file)
 			end
 		end
 
 		for _,file in ipairs( _qrcfiles ) do
 			local qrcFile = stripExtension( file )
-			local qrcFilePath = QT_QRC_FILES_PATH .. "/" .. path.getbasename(file) .. "_qrc.cpp"
+			local qrcFilePath = path.getabsolute(QT_QRC_FILES_PATH .. "/" .. path.getbasename(file) .. "_qrc.cpp")
 			prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -rcc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 
-			local qrcAbsolutePath = path.getabsolute(qrcFilePath)
-			files { file, qrcAbsolutePath }
-			table.insert(addedFiles, qrcAbsolutePath)
+			files { file, qrcFilePath }
+			table.insert(addedFiles, qrcFilePath)
 		end
 
 		for _,file in ipairs( _uifiles ) do
 			local uiFile = stripExtension( file )
-			local uiFilePath = QT_UI_FILES_PATH .. "/" .. path.getbasename(file) .. "_ui.h"
+			local uiFilePath = path.getabsolute(QT_UI_FILES_PATH .. "/" .. path.getbasename(file) .. "_ui.h")
 			prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -uic "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
-			local uiAbsolutePath = path.getabsolute(uiFilePath)
-			files { file, uiAbsolutePath }
-			table.insert(addedFiles, uiAbsolutePath)
+			files { file, uiFilePath }
+			table.insert(addedFiles, uiFilePath)
 		end
 
 		for _,file in ipairs( _tsfiles ) do
 			local tsFile = stripExtension( file )
-			local tsFilePath = QT_TS_FILES_PATH .. "/" .. path.getbasename(file) .. "_ts.qm"
+			local tsFilePath = path.getabsolute(QT_TS_FILES_PATH .. "/" .. path.getbasename(file) .. "_ts.qm")
 			prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -ts "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
-			local tsAbsolutePath = path.getabsolute(tsFilePath)
-			files { file, tsAbsolutePath }
-			table.insert(addedFiles, tsAbsolutePath)
+			files { file, tsFilePath }
+			table.insert(addedFiles, tsFilePath)
 		end				
 
 		local subDir = getLocationDir()
