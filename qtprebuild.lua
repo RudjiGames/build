@@ -213,9 +213,9 @@ if arg[1] == "-moc" then
 
 	if file_is_upToDate(outputFileName) == true then return end
 	
-	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[5] .. "\""
+	local fullMOCPath = qtMocExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFileName .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[2] .. "\""
 	if windows then
-		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[5] .. '"'
+		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[2] .. '"'
 	end
 
 	if 0 ~= runProgram(fullMOCPath) then
