@@ -16,11 +16,12 @@ function addProject_lib_sample(_name, _sampleName)
 
 		local libsPath = getProjectPath(_name, ProjectPath.Root)
 
-		project().path = libsPath .. _name .. "/"
+		project().path = libsPath .. "/" .. _name .. "/"
 
 		local srcFilesPath = project().path .. "samples/" .. _sampleName .. "/"
 		local incFilesPath = project().path .. "samples/" .. _sampleName .. "/"
 
+		print(srcFilesPath)
 		local	sourceFiles = mergeTables(	{ srcFilesPath .. "**.cpp" },
 											{ incFilesPath .. "**.h" } )
 		files  { sourceFiles }
