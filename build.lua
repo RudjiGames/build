@@ -367,9 +367,11 @@ function addProject(_name)
 	end
 
 	if g_projectIsLoaded[name] == nil then
-		local nameWithUnderscore = string.gsub(name, "-", "_")
-		if _G["projectAdd_" .. nameWithUnderscore] ~= nil then -- prebuilt libs have no projects
-			_G["projectAdd_" .. nameWithUnderscore]()
+		local nameNoHyphen = name:gsub("-", "_")
+		local nameNoDot    = nameNoHyphen:gsub("%p", "_")
+
+		if _G["projectAdd_" .. nameNoDot] ~= nil then -- prebuilt libs have no projects
+			_G["projectAdd_" .. nameNoDot]()
 			g_projectIsLoaded[name] = true
 		end
 	end
