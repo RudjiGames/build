@@ -12,7 +12,7 @@ local SUBP_FILES = {
 	SUBP_ROOT .. "subprocess.h",
 }
 
-function projectExtraConfig_subprocess()
+function projectExtraConfig_subprocess_h()
 end
 
 function projectExtraConfig_subprocess_h()

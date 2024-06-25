@@ -27,8 +27,10 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 	if WITH_QT then
     	qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
-	if _G["projectExtraConfig_" .. project().name] then
-		_G["projectExtraConfig_" .. project().name]()
+
+	local nameUnderscore = project().name:gsub("%p", "_")
+	if _G["projectExtraConfig_" .. nameUnderscore] then
+		_G["projectExtraConfig_" .. nameUnderscore]()
 	end
 end
 

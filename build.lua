@@ -230,9 +230,9 @@ function getProjectFullName(_projectName)
 		for _,name in ipairs(_projectName) do
 			if ret == nil then ret = name else ret = ret .. "_" .. name end
 		end
-		return ret
+		return ret:gsub("%p", "_")
 	else
-		return _projectName
+		return _projectName:gsub("%p", "_")
 	end
 end
 
