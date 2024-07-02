@@ -19,6 +19,11 @@ local XXHASH_FILES = {
 
 function projectExtraConfig_xxHash()
 	includedirs { XXHASH_INCLUDE }
+
+	configuration { "vs*", "windows" }
+			-- 4113 -  incompatible function pointer cast
+			buildoptions { "/wd4113"}
+	configuration {}
 end
 
 function projectAdd_xxHash()
