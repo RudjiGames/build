@@ -24,17 +24,17 @@ function projectDependencyConfig_bx()
 		defines { "BX_CONFIG_DEBUG=1" }
 	configuration { "retail" }
 		defines { "BX_CONFIG_DEBUG=0" }
-
-	configuration { "vs*", "not orbis" }
-		buildoptions {
-			"/Zc:preprocessor"
-		}
 	configuration {}
 end
 
 function projectExtraConfig_bx()
 	includedirs { BX_INCLUDE }
 	projectDependencyConfig_bx()
+	configuration { "vs*", "not orbis" }
+		buildoptions {
+			"/Zc:preprocessor"
+		}
+	configuration {}
 end
 
 function projectAdd_bx()
