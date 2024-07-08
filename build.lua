@@ -367,8 +367,8 @@ function addProject(_name)
 	end
 
 	if g_projectIsLoaded[name] == nil then
-		local nameNoHyphen = name:gsub("-", "_")
-		local nameNoDot    = nameNoHyphen:gsub("%p", "_")
+		--local nameNoHyphen = name:gsub("-", "_")
+		local nameNoDot    = name:gsub("%p", "_")
 
 		if _G["projectAdd_" .. nameNoDot] ~= nil then -- prebuilt libs have no projects
 			_G["projectAdd_" .. nameNoDot]()
@@ -382,6 +382,7 @@ function addProject(_name)
 			-- if we cannot find it on OS level - warn user
 			if os.findlib(name) == nil then
 				print('WARNING: Dependency not found - ' .. name .. ' - treating it as a system library')
+				
 			end
 		end
 	end
