@@ -13,7 +13,7 @@ local NANOVG_INCLUDE = {
 }
 
 local NANOVG_FILES = {
-	NANOVG_INCLUDE .. "**.*"
+	NANOVG_ROOT .. "src/**.*"
 }
 
 function projectExtraConfig_nanovg()
