@@ -44,4 +44,3 @@ function addProject_game(_name)
 
 		addDependencies(_name, { {"rapp", "bgfx"} })
 end
-
