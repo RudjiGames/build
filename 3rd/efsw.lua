@@ -15,9 +15,8 @@ local EFSW_INCLUDE	= {
 
 local EFSW_FILES = {
 	EFSW_ROOT .. "include/**.h",
-	EFSW_ROOT .. "src/**.h",
-	EFSW_ROOT .. "src/**.cpp",
-	EFSW_ROOT .. "src/**.h"
+	EFSW_ROOT .. "src/efsw/**.h",
+	EFSW_ROOT .. "src/efsw/**.cpp"
 }
 
 function projectExtraConfig_efsw()
