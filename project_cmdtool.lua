@@ -21,6 +21,7 @@ function addProject_cmd(_name, _projectPath)
 		project().path = path ..  "/src/"
 
 		local	sourceFiles = mergeTables(	{ project().path .. "**.cpp" },
+											{ project().path .. "**.c" },
 											{ project().path .. "**.h" } )
 		files  { sourceFiles }
 
