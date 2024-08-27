@@ -99,9 +99,19 @@ int main(int argc, char** argv)
 	{
 		if (rtm::File::Open == rtm::fileWriterOpen(fileWriter, arg_dstFile))
 		{
-			writeString(fileWriter, "const uint8_t ");
+			char sizeBuffer[32];
+			sprintf(sizeBuffer, "%d", (int)fileSize);
+			writeString(fileWriter, "uint32_t ");
 			writeString(fileWriter, varName);
-			writeString(fileWriter, "[] = { \n\t");
+			writeString(fileWriter, "_size = ");
+			writeString(fileWriter, sizeBuffer);
+			writeString(fileWriter, ";\n");
+
+			writeString(fileWriter, "uint8_t ");
+			writeString(fileWriter, varName);
+			writeString(fileWriter, "[");
+			writeString(fileWriter, sizeBuffer);
+			writeString(fileWriter, "] = { \n\t");
 			for (uint32_t i=0; i<fileSize; ++i)
 			{
 				const char c = fileBuffer[i];
