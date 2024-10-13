@@ -25,25 +25,36 @@ newoption {
 	value = "GCC",
 	description = "Choose GCC flavor",
 	allowed = {
-        { "android-arm",   "Android - ARM"          },
-        { "android-mips",  "Android - MIPS"         },
-        { "android-x86",   "Android - x86"          },
-        { "asmjs",         "Emscripten/asm.js"      },
-        { "cheerp",        "Cheerp/asm.js"          },
-        { "freebsd",       "FreeBSD"                },
-        { "linux-gcc",     "Linux (GCC compiler)"   },
-        { "linux-clang",   "Linux (Clang compiler)" },
-        { "ios-arm",       "iOS - ARM"              },
-        { "ios-arm64",     "iOS - ARM64"            },
-        { "ios-simulator", "iOS - Simulator"        },
-        { "tvos-arm64",    "tvOS - ARM64"           },
-        { "tvos-simulator","tvOS - Simulator"       },
-        { "mingw-gcc",     "MinGW"                  },
-        { "mingw-clang",   "MinGW (clang compiler)" },
-        { "osx",           "OSX"                    },
-        { "orbis",         "Orbis"                  },
-        { "rpi",           "RaspberryPi"            },
-        { "switch",        "Nintendo Switch"        },
+		{ "android-arm",     "Android - ARM"              },
+		{ "android-arm64",   "Android - ARM64"            },
+		{ "android-x86",     "Android - x86"              },
+		{ "android-x86_64",  "Android - x86_64"           },
+		{ "wasm2js",         "Emscripten/Wasm2JS"         },
+		{ "wasm",            "Emscripten/Wasm"            },
+		{ "freebsd",         "FreeBSD"                    },
+		{ "linux-gcc",       "Linux (GCC compiler)"       },
+		{ "linux-gcc-afl",   "Linux (GCC + AFL fuzzer)"   },
+		{ "linux-clang",     "Linux (Clang compiler)"     },
+		{ "linux-clang-afl", "Linux (Clang + AFL fuzzer)" },
+		{ "linux-arm-gcc",   "Linux (ARM, GCC compiler)"  },
+		{ "linux-ppc64le-gcc",  "Linux (PPC64LE, GCC compiler)"  },
+		{ "linux-ppc64le-clang",  "Linux (PPC64LE, Clang compiler)"  },
+		{ "linux-riscv64-gcc",  "Linux (RISC-V 64, GCC compiler)"  },
+		{ "ios-arm",         "iOS - ARM"                  },
+		{ "ios-arm64",       "iOS - ARM64"                },
+		{ "ios-simulator",   "iOS - Simulator"            },
+		{ "tvos-arm64",      "tvOS - ARM64"               },
+		{ "xros-arm64",      "visionOS ARM64"             },
+		{ "xros-simulator",  "visionOS - Simulator"       },
+		{ "tvos-simulator",  "tvOS - Simulator"           },
+		{ "mingw-gcc",       "MinGW"                      },
+		{ "mingw-clang",     "MinGW (clang compiler)"     },
+		{ "netbsd",          "NetBSD"                     },
+		{ "osx-x64",         "OSX - x64"                  },
+		{ "osx-arm64",       "OSX - ARM64"                },
+		{ "orbis",           "Orbis"                      },
+		{ "riscv",           "RISC-V"                     },
+		{ "rpi",             "RaspberryPi"                }
     },
 }
 
@@ -52,21 +63,12 @@ newoption {
 	value = "toolset",
 	description = "Choose VS toolset",
 	allowed = {
-        { "vs2012-clang",  "Clang 3.6"                       },
-        { "vs2013-clang",  "Clang 3.6"                       },
-        { "vs2015-clang",  "Clang 3.9"                       },
-        { "vs2017-clang",  "Clang with MS CodeGen"           },
-        { "vs2012-xp",     "Visual Studio 2012 targeting XP" },
-        { "vs2013-xp",     "Visual Studio 2013 targeting XP" },
-        { "vs2015-xp",     "Visual Studio 2015 targeting XP" },
-        { "vs2017-xp",     "Visual Studio 2017 targeting XP" },
-        { "winphone8",     "Windows Phone 8.0"               },
-        { "winphone81",    "Windows Phone 8.1"               },
-        { "winstore81",    "Windows Store 8.1"               },
-        { "winstore82",    "Universal Windows App"           },
-        { "durango",       "Durango"                         },
-        { "orbis",         "Orbis"                           }
-    },
+		{ "vs2017-clang",  "Clang with MS CodeGen"           },
+		{ "vs2017-xp",     "Visual Studio 2017 targeting XP" },
+		{ "winstore100",   "Universal Windows App 10.0"      },
+		{ "durango",       "Durango"                         },
+		{ "orbis",         "Orbis"                           }
+	},
 }
 
 newoption {
@@ -77,6 +79,7 @@ newoption {
 		{ "osx",  "OSX"  },
 		{ "ios",  "iOS"  },
 		{ "tvos", "tvOS" },
+		{ "xros", "visionOS" }
 	}
 }
 
@@ -89,13 +92,46 @@ newoption {
 newoption {
 	trigger     = "with-ios",
 	value       = "#",
-	description = "Set iOS target version (default: 8.0).",
+	description = "Set iOS target version (default: 13.0).",
+}
+
+newoption {
+	trigger     = "with-macos",
+	value       = "#",
+	description = "Set macOS target version (default 13.0).",
 }
 
 newoption {
 	trigger     = "with-tvos",
 	value       = "#",
-	description = "Set tvOS target version (default: 9.0).",
+	description = "Set tvOS target version (default: 13.0).",
+}
+
+newoption {
+	trigger     = "with-visionos",
+	value       = "#",
+	description = "Set visionOS target version (default: 1.0).",
+}
+
+newoption {
+	trigger = "with-windows",
+	value = "#",
+	description = "Set the Windows target platform version (default: $WindowsSDKVersion or 8.1).",
+}
+
+newoption {
+	trigger     = "with-dynamic-runtime",
+	description = "Dynamically link with the runtime rather than statically",
+}
+
+newoption {
+	trigger     = "with-32bit-compiler",
+	description = "Use 32-bit compiler instead 64-bit.",
+}
+
+newoption {
+	trigger     = "with-avx",
+	description = "Use AVX extension.",
 }
 
 newoption {
@@ -103,32 +139,72 @@ newoption {
 	description = "Links glfw libraries.",
 }
 
-getTargetOSWP = false
-function getTargetOS()
+local androidApiLevel = 24
+if _OPTIONS["with-android"] then
+	androidApiLevel = _OPTIONS["with-android"]
+end
 
+local iosPlatform = ""
+if _OPTIONS["with-ios"] then
+	iosPlatform = _OPTIONS["with-ios"]
+end
+
+local macosPlatform = ""
+if _OPTIONS["with-macos"] then
+	macosPlatform = _OPTIONS["with-macos"]
+end
+
+local tvosPlatform = ""
+if _OPTIONS["with-tvos"] then
+	tvosPlatform = _OPTIONS["with-tvos"]
+end
+
+local xrosPlatform = ""
+if _OPTIONS["with-xros"] then
+	xrosPlatform = _OPTIONS["with-xros"]
+end
+
+local windowsPlatform = nil
+if _OPTIONS["with-windows"] then
+	windowsPlatform = _OPTIONS["with-windows"]
+elseif nil ~= os.getenv("WindowsSDKVersion") then
+	windowsPlatform = string.gsub(os.getenv("WindowsSDKVersion"), "\\", "")
+end
+
+local compiler32bit = false
+if _OPTIONS["with-32bit-compiler"] then
+	compiler32bit = true
+end
+
+function getTargetOS()
 	-- gmake - android
 	if  (_OPTIONS["gcc"] == "android-arm") or
-		(_OPTIONS["gcc"] == "android-mips") or
-		(_OPTIONS["gcc"] == "android-x86") then
+		(_OPTIONS["gcc"] == "android-arm64") or
+		(_OPTIONS["gcc"] == "android-x86") or
+		(_OPTIONS["gcc"] == "android-x86_64") then
 		return "android"
 	end
 
-	-- gmake - asmjs
-	if (_OPTIONS["gcc"] == "asmjs") or
-	   (_OPTIONS["gcc"] == "cheerp") then
-		return "asmjs"
+	-- gmake - wasmjs
+	if (_OPTIONS["gcc"] == "wasmjs") or
+	   (_OPTIONS["gcc"] == "wasm") then
+		return "wasmjs"
 	end
 
 	-- gmake - freebsd
-	if  (_OPTIONS["gcc"] == "freebsd") or 
-		(_OPTIONS["os"]  == "bsd") then
+	if  (_OPTIONS["gcc"] == "freebsd") then
 		return "bsd"
 	end
 
 	-- gmake - linux
-	if	(_OPTIONS["gcc"] == "linux-gcc") or
-		(_OPTIONS["gcc"] == "linux-clang") or
-		(_OPTIONS["os"]  == "linux") then
+	if	(_OPTIONS["os"]  == "linux-gcc") or
+		(_OPTIONS["os"]  == "linux-gcc-afl") or
+		(_OPTIONS["os"]  == "linux-clang") or
+		(_OPTIONS["os"]  == "linux-clang-afl") or
+		(_OPTIONS["os"]  == "linux-arm-gcc") or
+		(_OPTIONS["os"]  == "linux-ppc64le-gcc") or
+		(_OPTIONS["os"]  == "linux-ppc64le-clang") or
+		(_OPTIONS["os"]  == "linux-riscv64-gcc") then
 		return "linux"
 	end
 
@@ -149,11 +225,19 @@ function getTargetOS()
 		return "tvos"
 	end
 
+	-- gmake - xros
+	-- xcode - xros
+	if	(_OPTIONS["xcode"] == "xros") or
+		(_OPTIONS["gcc"]   == "xros-arm64") or
+		(_OPTIONS["gcc"]   == "xros-simulator") then
+		return "xros"
+	end
+
 	-- gmake - osx
 	-- xcode - osx
 	if	(_OPTIONS["xcode"] == "osx") or
-		(_OPTIONS["gcc"]   == "osx") or
-		(_OPTIONS["os"]    == "macosx") then
+		(_OPTIONS["gcc"]   == "osx-x64") or
+		(_OPTIONS["gcc"]   == "osx-arm64") then
 		return "osx"
 	end
 
@@ -161,26 +245,16 @@ function getTargetOS()
 		return "rpi"
 	end
 
+	if _OPTIONS["gcc"] == "netbsd" then
+		return "netbsd"
+	end
+
+	if _OPTIONS["gcc"] == "riscv" then
+		return "riscv"
+	end
+
 	if _OPTIONS["gcc"] == "switch" then
 		return "switch"
-	end
-
-	-- visual studio - winphone
-	if	(_OPTIONS["vs"] == "winphone8") then
-		return "winphone8"
-	end
-
-	if	(_OPTIONS["vs"] == "winphone81") then
-		return "winphone81"
-	end
-	
-	-- visual studio - winstore
-	if	(_OPTIONS["vs"] == "winstore81") then
-		return "winstore81"
-	end
-
-	if	(_OPTIONS["vs"] == "winstore82") then
-		return "winstore82"
 	end
 
 	if  (_OPTIONS["vs"]  == "orbis") or
@@ -192,23 +266,6 @@ function getTargetOS()
 		return "durango"
 	end
 	
-	-- visual studio - windows
-	-- gmake - mingw
-	if	(_OPTIONS["gcc"] == "mingw-gcc") or
-		(_OPTIONS["gcc"] == "mingw-clang") or
-		(_OPTIONS["vs"]  == "vs2012-clang") or
-		(_OPTIONS["vs"]  == "vs2013-clang") or
-		(_OPTIONS["vs"]  == "vs2015-clang") or
-		(_OPTIONS["vs"]  == "vs2017-clang") or
-		(_OPTIONS["vs"]  == "vs2012-xp") or
-		(_OPTIONS["vs"]  == "vs2013-xp") or
-		(_OPTIONS["vs"]  == "vs2015-xp") or
-		(_OPTIONS["vs"]  == "vs2017-xp") or
-		(_OPTIONS["os"]  == "windows") or
-		(_ACTION ~= nil and _ACTION:find("vs")) then
-		return "windows"
-	end
-
 	-- we didn't deduce the target OS, assume host
 	if (os.get() == "bsd")		then return "bsd" end
 	if (os.get() == "linux")	then return "linux" end
@@ -219,6 +276,58 @@ function getTargetOS()
 	os.exit(1)
 
 	return ""
+end
+
+local function noCrt()
+
+	defines {
+		"RTM_NO_CRT=1",
+	}
+
+	buildoptions {
+		"-nostdlib",
+		"-nodefaultlibs",
+		"-nostartfiles",
+		"-Wa,--noexecstack",
+		"-ffreestanding",
+	}
+
+	linkoptions {
+		"-nostdlib",
+		"-nodefaultlibs",
+		"-nostartfiles",
+		"-Wa,--noexecstack",
+		"-ffreestanding",
+	}
+
+	configuration { "linux-*" }
+
+		buildoptions {
+			"-mpreferred-stack-boundary=4",
+			"-mstackrealign",
+		}
+
+		linkoptions {
+			"-mpreferred-stack-boundary=4",
+			"-mstackrealign",
+		}
+
+	configuration {}
+end
+
+local android = {};
+
+local function androidToolchainRoot()
+	if android.toolchainRoot == nil then
+		local hostTags = {
+			windows = "windows-x86_64",
+			linux   = "linux-x86_64",
+			macosx  = "darwin-x86_64"
+		}
+		android.toolchainRoot = "$(ANDROID_NDK_ROOT)/toolchains/llvm/prebuilt/" .. hostTags[os.get()]
+	end
+
+	return android.toolchainRoot;
 end
 
 function isAppleTarget()
@@ -232,7 +341,7 @@ end
 function getTargetCompiler()
 
 	-- ninja
-	if	(_OPTIONS["cc"] == "gcc")			then	return "gcc"			end
+	if	(_OPTIONS["cc"] == "gcc") then return "gcc" end
 	if	(_ACTION == "ninja") and (_OPTIONS["cc"] == nil) then
 		print("ERROR: Ninja action must specify target os and compiler")
 		print("example: genie --cc=gcc --os=windows ninja")
@@ -240,57 +349,68 @@ function getTargetCompiler()
 	end
 
 	-- gmake - android
-	if  (_OPTIONS["gcc"] == "android-arm")  then	return "gcc-arm"		end
-	if	(_OPTIONS["gcc"] == "android-mips") then	return "gcc-mips"		end
-	if	(_OPTIONS["gcc"] == "android-x86")  then	return "gcc-x86"		end
+	if  (_OPTIONS["gcc"] == "android-arm")			then return "gcc-arm"				end
+	if	(_OPTIONS["gcc"] == "android-arm64")		then return "gcc-arm64"				end
+	if	(_OPTIONS["gcc"] == "android-x86")			then return "gcc-x86"				end
+	if	(_OPTIONS["gcc"] == "android-x86_64")		then return "gcc-x86_64"			end
 
-	-- gmake - asmjs
-	if (_OPTIONS["gcc"] == "asmjs")			then	return "emscripten"		end
-
-	-- gmake - cheerp
-	if (_OPTIONS["gcc"] == "cheerp")		then	return "cheerp"			end
-
-	-- gmake - freebsd
-	if (_OPTIONS["gcc"] == "freebsd")		then	return "gcc"			end
+	-- gmake - wasmjs
+	if (_OPTIONS["gcc"] == "wasmjs")				then return "wasmjs"				end
+	if (_OPTIONS["gcc"] == "wasm")					then return "wasm"					end
+													
+	-- gmake - freebsd                      		
+	if (_OPTIONS["gcc"] == "freebsd")				then return "gcc"					end
 
 	-- gmake - linux
-	if	(_OPTIONS["gcc"] == "linux-gcc")	then	return "gcc"			end
-	if	(_OPTIONS["gcc"] == "linux-clang")	then	return "clang"			end
+	if	(_OPTIONS["os"]  == "linux-gcc")			then return "linux-gcc"				end
+	if	(_OPTIONS["os"]  == "linux-gcc-afl")		then return "linux-gcc-afl"			end
+	if	(_OPTIONS["os"]  == "linux-clang")			then return "linux-clang"			end
+	if	(_OPTIONS["os"]  == "linux-clang-afl")		then return "linux-clang-afl"		end
+	if	(_OPTIONS["os"]  == "linux-arm-gcc")		then return "linux-arm-gcc"			end
+	if	(_OPTIONS["os"]  == "linux-ppc64le-gcc")	then return "linux-ppc64le-gcc"		end
+	if	(_OPTIONS["os"]  == "linux-ppc64le-clang")	then return "linux-ppc64le-clang"	end
+	if	(_OPTIONS["os"]  == "linux-riscv64-gcc")	then return "linux-riscv64-gcc"		end
 
 	-- gmake - ios
 	-- xcode - ios	
-	if (_OPTIONS["gcc"] == "ios-arm")		then	return "gcc-arm"		end
-	if (_OPTIONS["gcc"] == "ios-arm64")		then	return "gcc-arm64"		end
-	if (_OPTIONS["gcc"] == "ios-simulator") then	return "gcc-sim"		end
-	if (_OPTIONS["xcode"] == "ios")			then	return "xcode"			end
-
-	-- gmake - tvos
-	-- xcode - tvos	
-	if (_OPTIONS["gcc"] == "tvos-arm64")	then	return "gcc-arm64"		end
-	if (_OPTIONS["gcc"] == "tvos-simulator")then	return "gcc-sim"		end
-	if (_OPTIONS["xcode"] == "tvos")		then	return "xcode"			end
-
-	-- gmake - osx
-	-- xcode - osx
-	if (_OPTIONS["gcc"] == "osx")			then	return "clang"			end
-	if (_OPTIONS["xcode"] == "osx")			then	return "xcode"			end
+	if (_OPTIONS["gcc"] == "ios-arm")				then return "clang-arm"				end
+	if (_OPTIONS["gcc"] == "ios-arm64")				then return "clang-arm64"			end
+	if (_OPTIONS["gcc"] == "ios-simulator") 		then return "clang-sim"				end
+	if (_OPTIONS["xcode"] == "ios")					then return "xcode"					end
+													
+	-- gmake - tvos                         		
+	-- xcode - tvos	                        		
+	if (_OPTIONS["gcc"] == "tvos-arm64")			then return "clang-arm64"			end
+	if (_OPTIONS["gcc"] == "tvos-simulator")		then return "clang-sim"				end
+	if (_OPTIONS["xcode"] == "tvos")				then return "xcode"					end
+													
+	-- gmake - xros                         		
+	-- xcode - xros	                        		
+	if (_OPTIONS["gcc"] == "xros-arm64")			then return "clang-arm64"			end
+	if (_OPTIONS["gcc"] == "xros-simulator")		then return "clang-sim"				end
+	if (_OPTIONS["xcode"] == "xros")				then return "xcode"					end
+													
+	-- gmake - osx                          		
+	-- xcode - osx                          		
+	if (_OPTIONS["gcc"] == "osx")					then return "clang"					end
+	if (_OPTIONS["xcode"] == "osx")					then return "xcode"					end
 
 	-- gmake - rpi
-	if (_OPTIONS["gcc"] == "rpi")			then	return "gcc"			end
+	if (_OPTIONS["gcc"] == "rpi")					then return "gcc"					end
 
 	-- gmake - switch
-	if (_OPTIONS["gcc"] == "switch")		then	return "clang"			end
+	if (_OPTIONS["gcc"] == "switch")				then return "clang"					end
 	
 	-- gmake - orbis
 	-- visuul studio - orbis
-	if (_OPTIONS["gcc"] == "orbis")			then	return "orbis-clang"	end
-	if (_OPTIONS["vs"]  == "orbis")			then	return "orbis-clang"	end
+	if (_OPTIONS["gcc"] == "orbis")					then return "orbis-clang"			end
+	if (_OPTIONS["vs"]  == "orbis")					then return "orbis-clang"			end
 
 	-- visuul studio - durango
-	if (_OPTIONS["vs"]  == "durango")		then	return _ACTION			end
+	if (_OPTIONS["vs"]  == "durango")				then return _ACTION					end
 
 	-- visual studio - multi
-	if	(_OPTIONS["vs"] ~= nil)				then	return _OPTIONS["vs"]	end
+	if	(_OPTIONS["vs"] ~= nil)						then return _OPTIONS["vs"]			end
 	
 	-- gmake - mingw
 	-- visual studio - *
@@ -394,40 +514,21 @@ function toolchain()
 			os.exit(1)
 		end
 
-		if "android-arm" == _OPTIONS["gcc"] then
+		if "android-arm"    == _OPTIONS["gcc"]
+		or "android-arm64"  == _OPTIONS["gcc"]
+		or "android-x86"    == _OPTIONS["gcc"]
+		or "android-x86_64" == _OPTIONS["gcc"] then
 
 			if not os.getenv("ANDROID_NDK_ARM") or not os.getenv("ANDROID_NDK_CLANG") or not os.getenv("ANDROID_NDK_ROOT") then
 				print("Set ANDROID_NDK_ARM, ANDROID_NDK_CLANG, and ANDROID_NDK_ROOT environment variables.")
 			end 
 
-			premake.gcc.cc   = executable("$(ANDROID_NDK_CLANG)/bin/clang")
-			premake.gcc.cxx  = executable("$(ANDROID_NDK_CLANG)/bin/clang++")
-			premake.gcc.ar   = executable("$(ANDROID_NDK_ARM)/bin/arm-linux-androideabi-ar")
+			premake.gcc.cc   = androidToolchainRoot() .. "/bin/clang"
+			premake.gcc.cxx  = androidToolchainRoot() .. "/bin/clang++"
+			premake.gcc.ar   = androidToolchainRoot() .. "/bin/llvm-ar"
 			premake.gcc.llvm = true
 
-		elseif "android-mips" == _OPTIONS["gcc"] then
-
-			if not os.getenv("ANDROID_NDK_MIPS") or not os.getenv("ANDROID_NDK_CLANG") or not os.getenv("ANDROID_NDK_ROOT") then
-				print("Set ANDROID_NDK_MIPS, ANDROID_NDK_CLANG, and ANDROID_NDK_ROOT environment variables.")
-			end 
-
-			premake.gcc.cc   = executable("$(ANDROID_NDK_CLANG)/bin/clang")
-			premake.gcc.cxx  = executable("$(ANDROID_NDK_CLANG)/bin/clang++")
-			premake.gcc.ar   = executable("$(ANDROID_NDK_MIPS)/bin/mipsel-linux-android-ar")
-			premake.gcc.llvm = true
-
-		elseif "android-x86" == _OPTIONS["gcc"] then
-
-			if not os.getenv("ANDROID_NDK_X86") or not os.getenv("ANDROID_NDK_CLANG") or not os.getenv("ANDROID_NDK_ROOT") then
-				print("Set ANDROID_NDK_X86, ANDROID_NDK_CLANG, and ANDROID_NDK_ROOT environment variables.")
-			end 
-
-			premake.gcc.cc   = executable("$(ANDROID_NDK_CLANG)/bin/clang")
-			premake.gcc.cxx  = executable("$(ANDROID_NDK_CLANG)/bin/clang++")
-			premake.gcc.ar   = executable("$(ANDROID_NDK_X86)/bin/i686-linux-android-ar")
-			premake.gcc.llvm = true
-
-		elseif "asmjs" == _OPTIONS["gcc"] then
+		elseif "wasm2js" == _OPTIONS["gcc"] or "wasm" == _OPTIONS["gcc"] then
 
 			if not os.getenv("EMSCRIPTEN") then
 				print("Please set EMSCRIPTEN enviroment variable to point to directory where emcc can be found.")
@@ -438,22 +539,18 @@ function toolchain()
 			premake.gcc.cxx  = "\"$(EMSCRIPTEN)/em++\""
 			premake.gcc.ar   = "\"$(EMSCRIPTEN)/emar\""
 			premake.gcc.llvm = true
-
-		elseif "cheerp" == _OPTIONS["gcc"] then
-			if not os.getenv("CHEERP") then
-				print("Please set CHEERP enviroment variable to point to directory where Cheerp clang can be found.")
-				os.exit()
-			end
-
-			premake.gcc.cc   = "\"$(CHEERP)/bin/clang\""
-			premake.gcc.cxx  = "\"$(CHEERP)/bin/clang++\""
-			premake.gcc.platforms.Universal.ar    = "\"$(CHEERP)/bin/llvm-link\""
-			premake.gcc.platforms.Universal.flags = ""
-			premake.gcc.llvm = true
+			premake.gcc.namestyle = "Emscripten"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-" .. _OPTIONS["gcc"]))
 
 		elseif "freebsd" == _OPTIONS["gcc"] then
+			--location (path.join(_buildDir, "projects", _ACTION .. "-freebsd"))
 
-		elseif "ios-arm" == _OPTIONS["gcc"] or "ios-arm64" == _OPTIONS["gcc"] then
+		elseif "ios-arm"   == _OPTIONS["gcc"] or "ios-arm64" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+			premake.gcc.cxx = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
+			premake.gcc.ar  = "ar"
+
+		elseif "xros-arm64"     == _OPTIONS["gcc"] or "xros-simulator" == _OPTIONS["gcc"] then
 			premake.gcc.cc  = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
 			premake.gcc.cxx = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
 			premake.gcc.ar  = "ar"
@@ -467,21 +564,47 @@ function toolchain()
 			premake.gcc.cc  = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
 			premake.gcc.cxx = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
 			premake.gcc.ar  = "ar"
-			
+
 		elseif "tvos-simulator" == _OPTIONS["gcc"] then
 			premake.gcc.cc  = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
 			premake.gcc.cxx = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
 			premake.gcc.ar  = "ar"
-			
+
 		elseif "linux-gcc" == _OPTIONS["gcc"] then
-			premake.gcc.cc  = "gcc-9"
-			premake.gcc.cxx = "g++-9"
+
+		elseif "linux-gcc-afl" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "afl-gcc"
+			premake.gcc.cxx = "afl-g++"
 			premake.gcc.ar  = "ar"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-linux"))
 
 		elseif "linux-clang" == _OPTIONS["gcc"] then
 			premake.gcc.cc  = "clang"
 			premake.gcc.cxx = "clang++"
 			premake.gcc.ar  = "ar"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-linux-clang"))
+
+		elseif "linux-clang-afl" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "afl-clang"
+			premake.gcc.cxx = "afl-clang++"
+			premake.gcc.ar  = "ar"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-linux-clang"))
+
+		elseif "linux-arm-gcc" == _OPTIONS["gcc"] then
+			--location (path.join(_buildDir, "projects", _ACTION .. "-linux-arm-gcc"))
+
+		elseif "linux-ppc64le-gcc" == _OPTIONS["gcc"] then
+ 			--location (path.join(_buildDir, "projects", _ACTION .. "-linux-ppc64le-gcc"))
+
+		elseif "linux-ppc64le-clang" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "clang"
+			premake.gcc.cxx = "clang++"
+			premake.gcc.ar  = "ar"
+			premake.gcc.llvm = true
+			--location (path.join(_buildDir, "projects", _ACTION .. "-linux-ppc64le-clang"))
+
+		elseif "linux-riscv64-gcc" == _OPTIONS["gcc"] then
+			--location (path.join(_buildDir, "projects", _ACTION .. "-linux-riscv64-gcc"))
 
 		elseif "mingw-gcc" == _OPTIONS["gcc"] then
 
@@ -489,22 +612,33 @@ function toolchain()
 				print("Set MINGW environment variable.")
 			end
 
-			premake.gcc.cc  = "$(MINGW)/bin/x86_64-w64-mingw32-gcc"
-			premake.gcc.cxx = "$(MINGW)/bin/x86_64-w64-mingw32-g++"
+			local mingwToolchain = "x86_64-w64-mingw32"
+			if compiler32bit then
+				if os.is("linux") then
+					mingwToolchain = "i686-w64-mingw32"
+				else
+					mingwToolchain = "mingw32"
+				end
+			end
+
+			premake.gcc.cc  = "$(MINGW)/bin/" .. mingwToolchain .. "-gcc"
+			premake.gcc.cxx = "$(MINGW)/bin/" .. mingwToolchain .. "-g++"
 			premake.gcc.ar  = "$(MINGW)/bin/ar"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-mingw-gcc"))
 
 		elseif "mingw-clang" == _OPTIONS["gcc"] then
 
-			if not os.getenv("CLANG") or not os.getenv("MINGW") then
-				print("Set CLANG and MINGW environment variables.")
-			end
-
 			premake.gcc.cc   = "$(CLANG)/bin/clang"
 			premake.gcc.cxx  = "$(CLANG)/bin/clang++"
-			premake.gcc.ar   = "$(CLANG)/bin/ar"
-			premake.gcc.llvm = true
+			premake.gcc.ar   = "$(MINGW)/bin/ar"
+--			premake.gcc.ar   = "$(CLANG)/bin/llvm-ar"
+--			premake.gcc.llvm = true
+			location (path.join(_buildDir, "projects", _ACTION .. "-mingw-clang"))
 
-		elseif "osx" == _OPTIONS["gcc"] then
+		elseif "netbsd" == _OPTIONS["gcc"] then
+			location (path.join(_buildDir, "projects", _ACTION .. "-netbsd"))
+
+		elseif "osx-x64"   == _OPTIONS["gcc"] or "osx-arm64" == _OPTIONS["gcc"] then
 
 			if os.is("linux") then
 				if not os.getenv("OSXCROSS") then
@@ -517,17 +651,20 @@ function toolchain()
 				premake.gcc.ar  = "$(OSXCROSS)/target/bin/" .. osxToolchain .. "ar"
 			end
 
+			--location (path.join(_buildDir, "projects", _ACTION .. "-" .. _OPTIONS["gcc"]))
+
 		elseif "orbis" == _OPTIONS["gcc"] then
 
 			if not os.getenv("SCE_ORBIS_SDK_DIR") then
 				print("Set SCE_ORBIS_SDK_DIR environment variable.")
 			end
 
-			orbisToolchain = "\"$(SCE_ORBIS_SDK_DIR)/host_tools/bin/orbis-"
+			orbisToolchain = "$(SCE_ORBIS_SDK_DIR)/host_tools/bin/orbis-"
 
-			premake.gcc.cc  = orbisToolchain .. "clang\""
-			premake.gcc.cxx = orbisToolchain .. "clang++\""
-			premake.gcc.ar  = orbisToolchain .. "ar\""
+			premake.gcc.cc  = orbisToolchain .. "clang"
+			premake.gcc.cxx = orbisToolchain .. "clang++"
+			premake.gcc.ar  = orbisToolchain .. "ar"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-orbis"))
 
 		elseif "rpi" == _OPTIONS["gcc"] then
 
@@ -543,36 +680,36 @@ function toolchain()
 			premake.gcc.cxx = nintendoToolchain .. "clang++\""
 			premake.gcc.ar  = nintendoToolchain .. "aarch64-nintendo-nx-elf-ar\""
 
+		elseif "riscv" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-gcc"
+			premake.gcc.cxx = "$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-g++"
+			premake.gcc.ar  = "$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-ar"
+			location (path.join(_buildDir, "projects", _ACTION .. "-riscv"))
+
 		end
 
 		elseif _ACTION == "vs2012" or _ACTION == "vs2013" or _ACTION == "vs2015" or _ACTION == "vs2017" then
 
+			local action = premake.action.current()
+			if nil ~= windowsPlatform then
+				action.vstudio.windowsTargetPlatformVersion    = windowsPlatform
+				action.vstudio.windowsTargetPlatformMinVersion = windowsPlatform
+			end
+
 			if (_ACTION .. "-clang") == _OPTIONS["vs"] then
 				if "vs2017-clang" == _OPTIONS["vs"] then
 					premake.vstudio.toolset = "v141_clang_c2"
-				elseif "vs2015-clang" == _OPTIONS["vs"] then
-					premake.vstudio.toolset = "LLVM-vs2014"
 				else
 					premake.vstudio.toolset = ("LLVM-" .. _ACTION)
 				end
+				location (path.join(_buildDir, "projects", _ACTION .. "-clang"))
 
-			elseif "winphone8" == _OPTIONS["vs"] then
-				premake.vstudio.toolset = "v110_wp80"
+			elseif "winstore100" == _OPTIONS["vs"] then
+				premake.vstudio.toolset = "v141"
+				premake.vstudio.storeapp = "10.0"
 
-			elseif "winphone81" == _OPTIONS["vs"] then
-				premake.vstudio.toolset = "v120_wp81"
-				premake.vstudio.storeapp = "8.1"
 				platforms { "ARM" }
-
-			elseif "winstore81" == _OPTIONS["vs"] then
-				premake.vstudio.toolset = "v120"
-				premake.vstudio.storeapp = "8.1"
-				platforms { "ARM" }
-
-			elseif "winstore82" == _OPTIONS["vs"] then
-				premake.vstudio.toolset = "v140"
-				premake.vstudio.storeapp = "8.2"
-				platforms { "ARM" }
+				location (path.join(_buildDir, "projects", _ACTION .. "-winstore100"))
 
 			elseif "durango" == _OPTIONS["vs"] then
 				if not os.getenv("DurangoXDK") then
@@ -581,40 +718,58 @@ function toolchain()
 
 				premake.vstudio.toolset = "v140"
 				premake.vstudio.storeapp = "durango"
-				platforms { "Durango" } 
-
+				platforms { "Durango" }
+				location (path.join(_buildDir, "projects", _ACTION .. "-durango"))
 			elseif "orbis" == _OPTIONS["vs"] then
+
 				if not os.getenv("SCE_ORBIS_SDK_DIR") then
 					print("Set SCE_ORBIS_SDK_DIR environment variable.")
 				end
+
 				platforms { "Orbis" }
-	 			premake.vstudio.toolset = "Clang"
+				location (path.join(_buildDir, "projects", _ACTION .. "-orbis"))
 
-			elseif ("vs2012-xp") == _OPTIONS["vs"] then
-				premake.vstudio.toolset = ("v110_xp")
-
-			elseif ("vs2013-xp") == _OPTIONS["vs"] then
-				premake.vstudio.toolset = ("v120_xp")
-
-			elseif ("vs2015-xp") == _OPTIONS["vs"] then
-				premake.vstudio.toolset = ("v140_xp")
 			end
 
-			elseif ("vs2017-xp") == _OPTIONS["vs"] then
-				premake.vstudio.toolset = ("v141_xp")
-
-			elseif _ACTION == "xcode4" then
-
-				if "osx" == _OPTIONS["xcode"] then
-					premake.xcode.toolset = "macosx"
-
-			elseif "ios" == _OPTIONS["xcode"] then
-				premake.xcode.toolset = "iphoneos"
-
-			elseif "tvos" == _OPTIONS["xcode"] then
-				premake.xcode.toolset = "appletvos"
-			end
+		elseif _ACTION and _ACTION:match("^xcode.+$") then
+		local action = premake.action.current()
+		local str_or = function(str, def)
+			return #str > 0 and str or def
 		end
+
+		if "osx" == _OPTIONS["xcode"] then
+			action.xcode.macOSTargetPlatformVersion = str_or(macosPlatform, "13.0")
+			premake.xcode.toolset = "macosx"
+			location (path.join(_buildDir, "projects", _ACTION .. "-osx"))
+
+		elseif "ios" == _OPTIONS["xcode"] then
+			action.xcode.iOSTargetPlatformVersion = str_or(iosPlatform, "13.0")
+			premake.xcode.toolset = "iphoneos"
+			location (path.join(_buildDir, "projects", _ACTION .. "-ios"))
+
+		elseif "tvos" == _OPTIONS["xcode"] then
+			action.xcode.tvOSTargetPlatformVersion = str_or(tvosPlatform, "13.0")
+			premake.xcode.toolset = "appletvos"
+			location (path.join(_buildDir, "projects", _ACTION .. "-tvos"))
+
+		elseif "xros" == _OPTIONS["xcode"] then
+			action.xcode.visionOSTargetPlatformVersion = str_or(xrosPlatform, "1.0")
+			premake.xcode.toolset = "xros"
+			location (path.join(_buildDir, "projects", _ACTION .. "-xros"))
+		end
+	end
+
+	if not _OPTIONS["with-dynamic-runtime"] then
+		flags { "StaticRuntime" }
+	end
+
+	if _OPTIONS["with-avx"] then
+		flags { "EnableAVX" }
+	end
+
+	if _OPTIONS["with-crtnone"] then
+		crtNone()
+	end
 
 	configuration {} -- reset configuration
 
@@ -649,9 +804,19 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		"__STDC_CONSTANT_MACROS",
 	}
 
-	configuration { "vs*", "x32", _filter }
+	flags {
+		"Cpp17",
+		"ExtraWarnings",
+		"FloatFast",
+	}
+
+	configuration { "Release" }
 		flags {
-			"EnableSSE2",
+			"NoBufferSecurityCheck",
+			"OptimizeSpeed",
+		}
+		defines {
+			"NDEBUG",
 		}
 
 	configuration { "vs*", _filter, "not orbis" }
@@ -702,10 +867,16 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "x64", "vs*-clang", _filter }
 		defines { "RTM_WIN64", "RTM_WINDOWS" }
 
-	configuration { "winphone8* or winstore8*", _filter }
+	configuration { "winstore*", _filter }
 		removeflags {
 			"StaticRuntime",
-			"NoExceptions",
+			"NoBufferSecurityCheck",
+		}
+		buildoptions {
+			"/wd4530", -- vccorlib.h(1345): warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
+		}
+		linkoptions {
+			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
 		}
 
 	configuration { "*-gcc* or osx", _filter }
@@ -718,26 +889,28 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/mingw") }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/mingw") }
 
+		defines {
+			"MINGW_HAS_SECURE_API=1",
+		}
 		buildoptions {
 			"-Wunused-value",
 			"-fdata-sections",
 			"-ffunction-sections",
-			"-msse2",
+			"-msse4.2",
+			"-Wunused-value",
 			"-Wundef",
 		}
-		buildoptions_cpp {
-			"-std=c++17",
+		linkoptions {
+			"-Wl,--gc-sections",
+			"-static",
+			"-static-libgcc",
+			"-static-libstdc++",
 		}
 		links { 
 			"ole32",
 			"oleaut32",
 			"uuid",
 			"gdi32"
-		}
-		linkoptions {
-			"-Wl,--gc-sections",
-			"-static-libgcc",
-			"-static-libstdc++"
 		}
 
 	configuration { "x32", "mingw-gcc", _filter }
@@ -757,9 +930,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "mingw-clang", _filter }
 		buildoptions {
-			"-isystem$(MINGW)/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++",
-			"-isystem$(MINGW)/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32",
-			"-isystem$(MINGW)/x86_64-w64-mingw32/include",
+			"-isystem $(MINGW)/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++",
+			"-isystem $(MINGW)/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32",
+			"-isystem $(MINGW)/x86_64-w64-mingw32/include",
 		}
 		linkoptions {
 			"-Qunused-arguments",
@@ -786,14 +959,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "linux-gcc* or linux-clang*" }
 		buildoptions {
-			"-msse2",
-			"-Wlogical-op",
+			"-msse4.2",
 			"-Wshadow",
 			"-Wunused-value",
 			"-Wundef"
-		}
-		buildoptions_cpp {
-			"-std=c++17",
 		}
 		links {
 			"rt",
@@ -814,105 +983,27 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-m64",
 		}
 
+	configuration { "linux-arm-gcc" }
+		buildoptions {
+			"-Wunused-value",
+			"-Wundef",
+		}
+		links {
+			"rt",
+			"dl",
+		}
+		linkoptions {
+			"-Wl,--gc-sections",
+		}
+
 	configuration { "android-*", "debug", _filter }
 		defines { "NDK_DEBUG=1" }
 
-	configuration { "android-arm", _filter }
-		libdirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a"
-		}
-		includedirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/include",
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libcxx/include",
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include"
-		}
-		buildoptions {
-			"-gcc-toolchain $(ANDROID_NDK_ARM)",
-			"--sysroot=" .. path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-arm"),
-			"-target armv7-none-linux-androideabi",
-			"-mthumb",
-			"-march=armv7-a",
-			"-mfloat-abi=softfp",
-			"-mfpu=neon",
-			"-Wunused-value",
-			"-Wundef"
-		}
-		linkoptions {
-			"-gcc-toolchain $(ANDROID_NDK_ARM)",
-			"--sysroot=" .. path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-arm"),
-			path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-arm/usr/lib/crtbegin_so.o"),
-			path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-arm/usr/lib/crtend_so.o"),
-			"-target armv7-none-linux-androideabi",
-			"-march=armv7-a",
-			"-Wl,--fix-cortex-a8"
-		}
-
-	configuration { "android-mips", _filter }
-		libdirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/mips",
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libcxx/include",
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include"
-		}
-		includedirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/mips/include"
-		}
-		buildoptions {
-			"-gcc-toolchain $(ANDROID_NDK_MIPS)",
-			"--sysroot=" .. path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-mips"),
-			"-target mipsel-none-linux-android",
-			"-mips32",
-			"-Wunused-value",
-			"-Wundef"
-		}
-		linkoptions {
-			"-gcc-toolchain $(ANDROID_NDK_MIPS)",
-			"--sysroot=" .. path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-mips"),
-			path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-mips/usr/lib/crtbegin_so.o"),
-			path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-mips/usr/lib/crtend_so.o"),
-			"-target mipsel-none-linux-android",
-			"-mips32"
-		}
-
-	configuration { "android-x86", _filter }
-		libdirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/x86"
-		}
-		includedirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libs/x86/include",
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/libcxx/include",
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include"
-		}
-		buildoptions {
-			"-gcc-toolchain $(ANDROID_NDK_X86)",
-			"--sysroot=" .. path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-x86"),
-			"-target i686-none-linux-android",
-			"-march=i686",
-			"-mtune=atom",
-			"-mstackrealign",
-			"-msse3",
-			"-mfpmath=sse",
-			"-Wunused-value",
-			"-Wundef"
-		}
-		linkoptions {
-			"-gcc-toolchain $(ANDROID_NDK_X86)",
-			"--sysroot=" .. path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-x86"),
-			path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-x86/usr/lib/crtbegin_so.o"),
-			path.join("$(ANDROID_NDK_ROOT)/platforms", androidPlatform, "arch-x86/usr/lib/crtend_so.o"),
-			"-target i686-none-linux-android"
-		}
-
 	configuration { "android-*", _filter }
 		defines { "RTM_ANDROID" }
+		targetprefix ("lib")
 		flags {
 			"NoImportLib",
-		}
-		includedirs {
-			"$(ANDROID_NDK_ROOT)/sources/cxx-stl/llvm-libc++/include",
-			"$(ANDROID_NDK_ROOT)/sources/android/native_app_glue",
-		}
-		linkoptions {
-			"-nostdlib"
 		}
 		links {
 			"c",
@@ -920,23 +1011,26 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"m",
 			"android",
 			"log",
-			"c++",
-			"gcc",
+			"c++_shared",
 		}
 		buildoptions {
+			"--gcc-toolchain=" .. androidToolchainRoot(),
+			"--sysroot=" .. androidToolchainRoot() .. "/sysroot",
+			"-DANDROID",
 			"-fPIC",
 			"-no-canonical-prefixes",
+			"-Wa,--noexecstack",
 			"-fstack-protector-strong",
 			"-ffunction-sections",
 			"-Wunused-value",
 			"-Wundef",
 		}
-		buildoptions_cpp {
-			"-std=c++17",
-		}
 		linkoptions {
+			"--gcc-toolchain=" .. androidToolchainRoot(),
+			"--sysroot=" .. androidToolchainRoot() .. "/sysroot",
 			"-no-canonical-prefixes",
 			"-Wl,--no-undefined",
+			"-Wl,-z,noexecstack",
 			"-Wl,-z,relro",
 			"-Wl,-z,now",
 		}
@@ -948,39 +1042,93 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,-z,noexecstack" 
 		}
 		end
+
+	configuration { "android-arm", _filter }
+		buildoptions {
+			"--target=armv7-none-linux-android" .. androidApiLevel,
+			"-mthumb",
+			"-march=armv7-a",
+			"-mfloat-abi=softfp",
+			"-mfpu=neon",
+		}
+		linkoptions {
+			"--target=armv7-none-linux-android" .. androidApiLevel,
+			"-march=armv7-a",
+		}
+
+	configuration { "android-arm64", _filter }
+		buildoptions {
+			"--target=aarch64-none-linux-android" .. androidApiLevel,
+		}
+		linkoptions {
+			"--target=aarch64-none-linux-android" .. androidApiLevel,
+		}
+
+	configuration { "android-x86", _filter }
+		buildoptions {
+			"--target=i686-none-linux-android" .. androidApiLevel,
+			"-mtune=atom",
+			"-mstackrealign",
+			"-msse4.2",
+			"-mfpmath=sse",
+		}
+		linkoptions {
+			"--target=i686-none-linux-android" .. androidApiLevel,
+		}
+
+	configuration { "android-x86_64" }
+		buildoptions {
+			"--target=x86_64-none-linux-android" .. androidApiLevel,
+		}
+		linkoptions {
+			"--target=x86_64-none-linux-android" .. androidApiLevel,
+		}
 		
-	configuration { "asmjs or cheerp", _filter }
+	configuration { "wasmjs or wasm ", _filter }
 		defines { "RTM_ASMJS" }
 		buildoptions {
 			"-Wunused-value",
 			"-Wundef"
 		}
-		buildoptions_cpp {
-			"-std=c++17",
-		}
 		linkoptions {
 			"-s MAX_WEBGL_VERSION=2",
-			"-s WASM=1",
 			"-s TOTAL_MEMORY=64MB",
 			"-s ALLOW_MEMORY_GROWTH=1",
-			"-s MALLOC=emmalloc"
+			"-s MALLOC=emmalloc",
+			"-s WASM=0",
 		}
 		flags {
 			"Optimize"
 		}
-	configuration { "asmjs or cheerp", "retail" }
+
+	configuration { "linux-ppc64le*" }
 		buildoptions {
-			"-Oz",
-			"-fno-rtti",
-			"-flto"
+			"-fsigned-char",
+			"-Wunused-value",
+			"-Wundef",
+			"-mcpu=power8",
+		}
+		links {
+			"rt",
+			"dl",
 		}
 		linkoptions {
-			"-Oz",
-			"-flto"
+			"-Wl,--gc-sections",
 		}
 
-	configuration { "cheerp", _filter }
-		defines { "RTM_CHEERP", "__EMSCRIPTEN__" }
+	configuration { "linux-riscv64*" }
+		buildoptions {
+			"-Wunused-value",
+			"-Wundef",
+			"-march=rv64g"
+		}
+		links {
+			"rt",
+			"dl",
+		}
+		linkoptions {
+			"-Wl,--gc-sections",
+		}
 
 	configuration { "freebsd", _filter }
 		defines { "RTM_FREEBSD" }
@@ -1011,44 +1159,41 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"_XBOX",
 		}
 
-	configuration { "osx", "x32", _filter }
-		buildoptions {
-			"-m32",
-		}
-
-	configuration { "osx", "x64", _filter }
-		buildoptions {
-			"-m64",
-		}
-
-	configuration { "osx", _filter }
+	configuration { "osx-x64", _filter }
 		defines { "RTM_OSX" }
-		buildoptions_cpp {
-			"-std=c++17",
+		linkoptions {
+			"-arch x86_64",
 		}
-		buildoptions_objcpp {
-			"-std=c++17",
+		buildoptions {
+			"-arch x86_64",
+			"-msse4.2",
+			"-target x86_64-apple-macos" .. (#macosPlatform > 0 and macosPlatform or "13.0"),
 		}
+
+	configuration { "osx-arm64", _filter }
+		defines { "RTM_OSX" }
+		linkoptions {
+			"-arch arm64",
+		}
+		buildoptions {
+			"-arch arm64",
+			"-Wno-error=unused-command-line-argument",
+			"-Wno-unused-command-line-argument",
+		}
+	configuration { "osx*" }
 		buildoptions {
 			"-Wfatal-errors",
 			"-Wunused-value",
 			"-Wundef",
+--			"-Wno-overriding-t-option",
+--			"-mmacosx-version-min=13.0",
 		}
-		includedirs { 
-			path.join(getProjectPath("rbase"), "inc/compat/osx"),
-			path.join(find3rdPartyProject("bx"), "include/compat/osx")
-		}
+		includedirs { path.join(bxDir, "include/compat/osx") }
 
 	configuration { "ios*", _filter }
 		defines { "RTM_IOS" }
 		linkoptions {
 			"-lc++",
-		}
-		buildoptions_cpp {
-			"-std=c++17",
-		}
-		buildoptions_objcpp {
-			"-std=c++17",
 		}
 		buildoptions {
 			"-Wfatal-errors",
@@ -1076,31 +1221,59 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "ios-arm*" }
 		linkoptions {
-			"-miphoneos-version-min=7.0",
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk/usr/lib/system",
 			"-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk/System/Library/Frameworks",
 			"-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk/System/Library/PrivateFrameworks",
 		}
 		buildoptions {
-			"-miphoneos-version-min=7.0",
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk",
+			"-fembed-bitcode",
+		}
+
+	configuration { "xros*" }
+		linkoptions {
+			"-lc++",
+		}
+		buildoptions {
+			"-Wfatal-errors",
+			"-Wunused-value",
+			"-Wundef",
+		}
+		includedirs { path.join(bxDir, "include/compat/ios") }
+
+	configuration { "xros-arm64" }
+		linkoptions {
+			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..xrosPlatform.. ".sdk",
+			"-L/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..xrosPlatform .. ".sdk/usr/lib/system",
+			"-F/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..xrosPlatform .. ".sdk/System/Library/Frameworks",
+			"-F/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..xrosPlatform .. ".sdk/System/Library/PrivateFrameworks",
+		}
+		buildoptions {
+			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..tvosPlatform .. ".sdk",
+		}
+
+	configuration { "xros-simulator" }
+		linkoptions {
+			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform.. ".sdk",
+			"-L/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform .. ".sdk/usr/lib/system",
+			"-F/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform .. ".sdk/System/Library/Frameworks",
+		}
+		buildoptions {
+			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform .. ".sdk",
 		}
 
 	configuration { "ios-simulator" }
 		linkoptions {
-			"-mios-simulator-version-min=7.0",
-			"-arch i386",
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk/usr/lib/system",
 			"-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk/System/Library/Frameworks",
 			"-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk/System/Library/PrivateFrameworks",
 		}
 		buildoptions {
-			"-mios-simulator-version-min=7.0",
-			"-arch i386",
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk",
 		}
+
 	configuration { "tvos*" }
 		linkoptions {
 			"-lc++",
@@ -1110,6 +1283,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wunused-value",
 			"-Wundef",
 		}
+		includedirs { path.join(bxDir, "include/compat/ios") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/ios") }
 
@@ -1130,16 +1304,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "tvos-simulator" }
 		linkoptions {
-			"-mtvos-simulator-version-min=9.0",
-			"-arch i386",
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk/usr/lib/system",
 			"-F/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk/System/Library/Frameworks",
 			"-F/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk/System/Library/PrivateFrameworks",
 		}
 		buildoptions {
-			"-mtvos-simulator-version-min=9.0",
-			"-arch i386",
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk",
 		}
 
@@ -1150,9 +1320,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"$(SCE_ORBIS_SDK_DIR)/target/include",
 			"$(SCE_ORBIS_SDK_DIR)/target/include_common",
 		}
-		buildoptions_cpp {
-			"-std=c++17",
-		}
 		links {
 			"ScePosix_stub_weak",
 			"ScePad_stub_weak",
@@ -1160,6 +1327,48 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"SceSysmodule_stub_weak",
 			"SceUserService_stub_weak",
 			"SceIme_stub_weak"
+		}
+	configuration { "rpi" }
+		libdirs {
+			path.join(_libDir, "lib/rpi"),
+			"/opt/vc/lib",
+		}
+		defines {
+			"__VCCOREVER__=0x04000000", -- There is no special prefedined compiler symbol to detect RaspberryPi, faking it.
+			"__STDC_VERSION__=199901L",
+		}
+		buildoptions {
+			"-Wunused-value",
+			"-Wundef",
+		}
+		includedirs {
+			"/opt/vc/include",
+			"/opt/vc/include/interface/vcos/pthreads",
+			"/opt/vc/include/interface/vmcs_host/linux",
+		}
+		links {
+			"rt",
+			"dl",
+		}
+		linkoptions {
+			"-Wl,--gc-sections",
+		}
+
+	configuration { "riscv" }
+		targetdir (path.join(_buildDir, "riscv/bin"))
+		objdir (path.join(_buildDir, "riscv/obj"))
+		defines {
+			"__BSD_VISIBLE",
+			"__MISC_VISIBLE",
+		}
+		includedirs {
+			"$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/riscv64-unknown-elf/include",
+			path.join(bxDir, "include/compat/riscv"),
+		}
+		buildoptions {
+			"-Wunused-value",
+			"-Wundef",
+			"--sysroot=$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/riscv64-unknown-elf",
 		}
 
 	configuration { "durango", _filter }
@@ -1180,9 +1389,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		buildoptions {
 			"-Wunused-value",
 			"-Wundef",
-		}
-		buildoptions_cpp {
-			"-std=c++17",
 		}
 		includedirs {
 			"/opt/vc/include",
@@ -1206,9 +1412,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"nn_init_memory",
 			"nn_profiler",
 		}
-		buildoptions_cpp {
-			"-std=c++17",
-		}
 		if os.getenv("NINTENDO_SDK_ROOT") then
 		libdirs {
 			os.getenv("NINTENDO_SDK_ROOT") .. "/Compilers/NX/nx/aarch64/lib/aarch64-nintendo-nx-elf-ropjop/noeh/",
@@ -1231,7 +1434,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		configuration { "mingw-clang", _filter }
 			kind "ConsoleApp"
 
-		configuration { "asmjs or cheerp", _filter }
+		configuration { "wasmjs or wasm", _filter }
 			kind "ConsoleApp"
 			targetextension ".html"
 
@@ -1255,22 +1458,10 @@ end
 
 function strip()
 
-	configuration { "android-arm", "Release" or "Retail" }
+	configuration { "android-*", "Release" or "Retail" }
 		postbuildcommands {
 			"$(SILENT) echo Stripping symbols.",
-			"$(SILENT) $(ANDROID_NDK_ARM)/bin/arm-linux-androideabi-strip -s \"$(TARGET)\"" 
-		}
-
-	configuration { "android-mips", "Release" or "Retail" }
-		postbuildcommands {
-			"$(SILENT) echo Stripping symbols.",
-			"$(SILENT) $(ANDROID_NDK_MIPS)/bin/mipsel-linux-android-strip -s \"$(TARGET)\"" 
-		}
-
-	configuration { "android-x86", "Release" or "Retail" }
-		postbuildcommands {
-			"$(SILENT) echo Stripping symbols.",
-			"$(SILENT) $(ANDROID_NDK_X86)/bin/i686-linux-android-strip -s \"$(TARGET)\"" 
+			"$(SILENT) " .. androidToolchainRoot() .. "/bin/llvm-strip -s \"$(TARGET)\""
 		}
 
 	configuration { "linux-* or rpi", "Release" or "Retail" }
@@ -1285,9 +1476,15 @@ function strip()
 			"$(SILENT) $(MINGW)/bin/strip -s \"$(TARGET)\""
 		}
 
-	configuration { "asmjs" }
+	configuration { "riscv" }
 		postbuildcommands {
-			"$(SILENT) echo Running asmjs finalize.",
+			"$(SILENT) echo Stripping symbols.",
+			"$(SILENT) $(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-strip -s \"$(TARGET)\""
+		}
+
+	configuration { "wasmjs or wasm" }
+		postbuildcommands {
+			"$(SILENT) echo Running wasmjs finalize.",
 			"$(SILENT) $(EMSCRIPTEN)/emcc -O2 -s TOTAL_MEMORY=268435456 \"$(TARGET)\" -o \"$(TARGET)\".html"
 			-- ALLOW_MEMORY_GROWTH
 		}
@@ -1297,20 +1494,18 @@ end
 
 
 function actionTargetsWASM()
-	return (_OPTIONS["gcc"] == "cheerp") or (_OPTIONS["gcc"] == "asmjs")
+	return (_OPTIONS["gcc"] == "wasm") or (_OPTIONS["gcc"] == "wasmjs")
 end
 
 -- has to be called from an active solution
 function setPlatforms()
-	if actionUsesXcode() or (_OPTIONS["gcc"] == "cheerp") then --actionTargetsWASM() then
+	if actionUsesXcode() then --actionTargetsWASM() then
 		platforms { "Universal" }
 	elseif actionUsesMSVC() then
 		if  not (getTargetOS() == "durango")	and 
 			not (getTargetOS() == "orbis")		and
-			not (getTargetOS() == "winphone8")	and
-			not (getTargetOS() == "winphone81")	
---			not (getTargetOS() == "winstore81")	and
---			not (getTargetOS() == "winstore82") 
+			not (getTargetOS() == "winstore81")	and
+			not (getTargetOS() == "winstore82") 
 			then -- these platforms set their own platform config
 			platforms { "x32", "x64" }
 		end

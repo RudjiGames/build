@@ -10,7 +10,7 @@ local BOX2D_ROOT	= params[1]
 
 local BOX2D_INCLUDE	= {
 	BOX2D_ROOT .. "include",
-	BOX2D_ROOT .. "src"
+	BOX2D_ROOT .. "src",
 }
 
 local BOX2D_FILES = {

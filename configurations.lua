@@ -27,17 +27,17 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 	if WITH_QT then
     	qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
-
-	local nameUnderscore = project().name:gsub("%p", "_")
-	if _G["projectExtraConfig_" .. nameUnderscore] then
-		_G["projectExtraConfig_" .. nameUnderscore]()
+	if _G["projectExtraConfig_" .. project().name] then
+		_G["projectExtraConfig_" .. project().name]()
 	end
 end
 
 function setConfig(_configuration)
 	local currPlatforms = platforms {}
 	for _,platform in ipairs(currPlatforms) do
-		setSubConfig(platform, _configuration, "x64" == platform)
+		if "x64" == platform then
+			setSubConfig(platform, _configuration, "x64" == platform)
+		end
 	end
 end
 

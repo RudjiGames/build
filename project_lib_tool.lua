@@ -3,10 +3,9 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function addProject_lib_tool(_name, _toolName, _gui)
+function addProject_lib_tool(_name, _toolName)
 
 	if _ACTION == nil then return end
-	if _gui == nil then _gui = false end
 
 	group ("libs-tools")
 
@@ -41,7 +40,7 @@ function addProject_lib_tool(_name, _toolName, _gui)
 			dependencies = mergeTables(dependencies, { _name })
 		end
 
-		if _gui then
+		if withBGFX then
 			dependencies = mergeTables(dependencies, {{"rapp", "bgfx"}})
 		else
 			dependencies = mergeTables(dependencies, {"rapp"})

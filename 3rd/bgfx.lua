@@ -143,13 +143,12 @@ function projectExtraConfigExecutable_bgfx()
 
 function projectExtraConfig_bgfx()
  	includedirs { BGFX_INCLUDE }
+	defines { BGFX_DEFINES }
 
 	local BGFX_DEFINES = {}
 	if _OPTIONS["with-glfw"] then
 		BGFX_DEFINES = { "BGFX_CONFIG_MULTITHREADED=0" }		
 	end
-
-	defines { BGFX_DEFINES }
 
 	configuration { "*clang*" }
 		buildoptions {

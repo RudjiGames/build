@@ -230,9 +230,9 @@ function getProjectFullName(_projectName)
 		for _,name in ipairs(_projectName) do
 			if ret == nil then ret = name else ret = ret .. "_" .. name end
 		end
-		return ret:gsub("%p", "_")
+		return ret
 	else
-		return _projectName:gsub("%p", "_")
+		return _projectName
 	end
 end
 
@@ -367,11 +367,9 @@ function addProject(_name)
 	end
 
 	if g_projectIsLoaded[name] == nil then
-		--local nameNoHyphen = name:gsub("-", "_")
-		local nameNoDot    = name:gsub("%p", "_")
-
-		if _G["projectAdd_" .. nameNoDot] ~= nil then -- prebuilt libs have no projects
-			_G["projectAdd_" .. nameNoDot]()
+		local nameWithUnderscore = string.gsub(name, "-", "_")
+		if _G["projectAdd_" .. nameWithUnderscore] ~= nil then -- prebuilt libs have no projects
+			_G["projectAdd_" .. nameWithUnderscore]()
 			g_projectIsLoaded[name] = true
 		end
 	end
@@ -382,7 +380,6 @@ function addProject(_name)
 			-- if we cannot find it on OS level - warn user
 			if os.findlib(name) == nil then
 				print('WARNING: Dependency not found - ' .. name .. ' - treating it as a system library')
-				
 			end
 		end
 	end
