@@ -1500,6 +1500,7 @@ end
 -- has to be called from an active solution
 function setPlatforms()
 	if actionUsesXcode() then --actionTargetsWASM() then
+		configurations { "release" }
 		platforms { "Universal" }
 	elseif actionUsesMSVC() then
 		if  not (getTargetOS() == "durango")	and 
@@ -1507,9 +1508,11 @@ function setPlatforms()
 			not (getTargetOS() == "winstore81")	and
 			not (getTargetOS() == "winstore82") 
 			then -- these platforms set their own platform config
+			configurations { "debug", "release", "retail" }
 			platforms { "x32", "x64" }
 		end
 	else
+		configurations { "debug", "release", "retail" }
 		platforms { "x32", "x64", "native" }
 	end
 
