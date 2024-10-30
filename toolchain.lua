@@ -392,7 +392,8 @@ function getTargetCompiler()
 													
 	-- gmake - osx                          		
 	-- xcode - osx                          		
-	if (_OPTIONS["gcc"] == "osx")					then return "clang"					end
+	if (_OPTIONS["gcc"] == "osx-x64")				then return "clang"					end
+	if (_OPTIONS["gcc"] == "osx-arm64")				then return "clang"					end
 	if (_OPTIONS["xcode"] == "osx")					then return "xcode"					end
 
 	-- gmake - rpi
