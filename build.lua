@@ -606,14 +606,14 @@ end
 -- 
 function mkdir(_dirname)
 	local dir = _dirname
-	if windows then
+	if os.is("windows") then
 		dir = string.gsub( _dirname, "([/]+)", "\\" )
 	else
 		dir = string.gsub( _dirname, "\\\\", "\\" )
 	end
 
 	if not file_isdir(dir) then
-		if not windows then
+		if not os.is("windows") then
 			os.execute("mkdir -p " .. dir)
 		else
 			os.execute("mkdir " .. dir)
