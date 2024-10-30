@@ -197,14 +197,14 @@ function getTargetOS()
 	end
 
 	-- gmake - linux
-	if	(_OPTIONS["os"]  == "linux-gcc") or
-		(_OPTIONS["os"]  == "linux-gcc-afl") or
-		(_OPTIONS["os"]  == "linux-clang") or
-		(_OPTIONS["os"]  == "linux-clang-afl") or
-		(_OPTIONS["os"]  == "linux-arm-gcc") or
-		(_OPTIONS["os"]  == "linux-ppc64le-gcc") or
-		(_OPTIONS["os"]  == "linux-ppc64le-clang") or
-		(_OPTIONS["os"]  == "linux-riscv64-gcc") then
+	if	(_OPTIONS["gcc"]  == "linux-gcc") or
+		(_OPTIONS["gcc"]  == "linux-gcc-afl") or
+		(_OPTIONS["gcc"]  == "linux-clang") or
+		(_OPTIONS["gcc"]  == "linux-clang-afl") or
+		(_OPTIONS["gcc"]  == "linux-arm-gcc") or
+		(_OPTIONS["gcc"]  == "linux-ppc64le-gcc") or
+		(_OPTIONS["gcc"]  == "linux-ppc64le-clang") or
+		(_OPTIONS["gcc"]  == "linux-riscv64-gcc") then
 		return "linux"
 	end
 
@@ -362,14 +362,14 @@ function getTargetCompiler()
 	if (_OPTIONS["gcc"] == "freebsd")				then return "gcc"					end
 
 	-- gmake - linux
-	if	(_OPTIONS["os"]  == "linux-gcc")			then return "linux-gcc"				end
-	if	(_OPTIONS["os"]  == "linux-gcc-afl")		then return "linux-gcc-afl"			end
-	if	(_OPTIONS["os"]  == "linux-clang")			then return "linux-clang"			end
-	if	(_OPTIONS["os"]  == "linux-clang-afl")		then return "linux-clang-afl"		end
-	if	(_OPTIONS["os"]  == "linux-arm-gcc")		then return "linux-arm-gcc"			end
-	if	(_OPTIONS["os"]  == "linux-ppc64le-gcc")	then return "linux-ppc64le-gcc"		end
-	if	(_OPTIONS["os"]  == "linux-ppc64le-clang")	then return "linux-ppc64le-clang"	end
-	if	(_OPTIONS["os"]  == "linux-riscv64-gcc")	then return "linux-riscv64-gcc"		end
+	if	(_OPTIONS["gcc"]  == "linux-gcc")		then return "linux-gcc"			end
+	if	(_OPTIONS["gcc"]  == "linux-gcc-afl")		then return "linux-gcc-afl"		end
+	if	(_OPTIONS["gcc"]  == "linux-clang")		then return "linux-clang"		end
+	if	(_OPTIONS["gcc"]  == "linux-clang-afl")		then return "linux-clang-afl"		end
+	if	(_OPTIONS["gcc"]  == "linux-arm-gcc")		then return "linux-arm-gcc"		end
+	if	(_OPTIONS["gcc"]  == "linux-ppc64le-gcc")	then return "linux-ppc64le-gcc"		end
+	if	(_OPTIONS["gcc"]  == "linux-ppc64le-clang")	then return "linux-ppc64le-clang"	end
+	if	(_OPTIONS["gcc"]  == "linux-riscv64-gcc")	then return "linux-riscv64-gcc"		end
 
 	-- gmake - ios
 	-- xcode - ios	
