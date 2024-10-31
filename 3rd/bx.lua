@@ -30,6 +30,7 @@ end
 
 function projectExtraConfig_bx()
 	includedirs { BX_INCLUDE }
+	includedirs { BX_ROOT .. "include/compat" }
 	projectDependencyConfig_bx()
 end
 
