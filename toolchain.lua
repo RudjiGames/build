@@ -822,7 +822,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "vs*", _filter, "not orbis" }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
-		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		defines {
 			"NOMINMAX",
 			"WIN32",
@@ -848,7 +847,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "vs2008", _filter }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
-		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc/pre1600") }
 
 	configuration { "x32", "vs*", "not orbis", _filter }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
@@ -889,7 +887,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "mingw-*", _filter }
 		defines { "WIN32" }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/mingw") }
-		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/mingw") }
 
 		defines {
 			"MINGW_HAS_SECURE_API=1",
@@ -1134,16 +1131,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration { "freebsd", _filter }
 		defines { "RTM_FREEBSD" }
-		includedirs {
-			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
-			path.join(find3rdPartyProject("bx"), "include/compat/mingw")
-		}
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/freebsd") }
 
 	configuration { "durango", _filter }
-		includedirs {
-			path.join(getProjectPath("rbase"), "inc/compat/msvc"),
-			path.join(find3rdPartyProject("bx"), "include/compat/mingw")
-		}
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc")	}
 		removeflags { 
 			"StaticRuntime", 
 			"NoExceptions" 
@@ -1155,7 +1146,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "Xbox360", _filter }
 		defines { "RTM_XBOX360" }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
-		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		defines {
 			"NOMINMAX",
 			"_XBOX",
@@ -1190,7 +1180,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 --			"-Wno-overriding-t-option",
 --			"-mmacosx-version-min=13.0",
 		}
-		includedirs { path.join(bxDir, "include/compat/osx") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/osx") }
 
 	configuration { "ios*", _filter }
 		defines { "RTM_IOS" }
@@ -1203,7 +1193,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wundef",
 		}
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
-		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/osx") }
 
 	configuration { "ios-arm", _filter }
 		linkoptions {
@@ -1242,7 +1231,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wunused-value",
 			"-Wundef",
 		}
-		includedirs { path.join(bxDir, "include/compat/ios") }
+		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
 
 	configuration { "xros-arm64" }
 		linkoptions {
@@ -1285,9 +1274,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wunused-value",
 			"-Wundef",
 		}
-		includedirs { path.join(bxDir, "include/compat/ios") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
-		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/ios") }
 
 	configuration { "tvos-arm64" }
 		linkoptions {
@@ -1318,7 +1305,6 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "orbis" }
 		includedirs {
 			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
-			path.join(find3rdPartyProject("bx"), "include/compat/freebsd"),
 			"$(SCE_ORBIS_SDK_DIR)/target/include",
 			"$(SCE_ORBIS_SDK_DIR)/target/include_common",
 		}
@@ -1365,7 +1351,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		includedirs {
 			"$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/riscv64-unknown-elf/include",
-			path.join(bxDir, "include/compat/riscv"),
+			path.join(getProjectPath("rbase"), "inc/compat/riscv"),
 		}
 		buildoptions {
 			"-Wunused-value",
