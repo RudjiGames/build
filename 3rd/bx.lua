@@ -20,6 +20,7 @@ local BX_FILES = {
 }
 
 function projectDependencyConfig_bx()
+	includedirs { BX_ROOT .. "include/compat" }
 	configuration { "debug or release" }
 		defines { "BX_CONFIG_DEBUG=1" }
 	configuration { "retail" }
