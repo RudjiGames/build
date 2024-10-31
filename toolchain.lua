@@ -689,7 +689,7 @@ function toolchain()
 
 		end
 
-		elseif _ACTION == "vs2012" or _ACTION == "vs2013" or _ACTION == "vs2015" or _ACTION == "vs2017" then
+		elseif _ACTION == "vs2022" or _ACTION == "vs2019" or _ACTION == "vs2017" then
 
 			local action = premake.action.current()
 			if nil ~= windowsPlatform then
@@ -729,10 +729,9 @@ function toolchain()
 
 				platforms { "Orbis" }
 				location (path.join(_buildDir, "projects", _ACTION .. "-orbis"))
+		end
 
-			end
-
-		elseif _ACTION and _ACTION:match("^xcode.+$") then
+	elseif _ACTION and _ACTION:match("^xcode.+$") then
 		local action = premake.action.current()
 		local str_or = function(str, def)
 			return #str > 0 and str or def
@@ -845,6 +844,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"/ignore:4221", -- LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 		}
 
+	configuration { "vs*", "not NX32", "not NX64" }
+		flags {	"EnableAVX" }
+
 	configuration { "vs2008", _filter }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
 
@@ -905,12 +907,28 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-static-libgcc",
 			"-static-libstdc++",
 		}
+		if EXECUTABLE then
 		links { 
 			"ole32",
 			"oleaut32",
 			"uuid",
 			"gdi32"
 		}
+		end
+
+	configuration { "linux-*" }
+		if EXECUTABLE then
+		links {
+			"pthread",
+		}
+		end
+
+	configuration { "osx-*" }
+		if EXECUTABLE then
+		linkoptions {
+			"-framework Foundation"
+		}
+		end
 
 	configuration { "x32", "mingw-gcc", _filter }
 		defines { "RTM_WIN32", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
