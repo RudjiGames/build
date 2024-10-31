@@ -8,6 +8,7 @@
 
 qt = {}
 qt.version = "6" -- default Qt version
+lua_version = "5.1"
 
 RTM_QT_FILES_PATH_MOC	= "../.qt/qt_moc"
 RTM_QT_FILES_PATH_UI	= "../.qt/qt_ui"
@@ -52,7 +53,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		local LUAEXE = "lua "
 		if os.is("windows") then
-			LUAEXE = "lua.exe "
+			LUAEXE = "lua" .. lua_version .. ".exe "
 		end
 
 		local addedFiles = {}
