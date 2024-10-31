@@ -837,6 +837,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"_WINSOCK_DEPRECATED_NO_WARNINGS",
 		}
 		buildoptions {
+			"/Zc:preprocessor",
 			"/Zc:__cplusplus",
 			"/std:c++17",
 			"/Ob2"		-- The Inline Function Expansion
