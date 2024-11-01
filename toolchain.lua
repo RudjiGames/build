@@ -928,7 +928,8 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		linkoptions {
 			"-framework Foundation",
 			"-framework IOKit",
-			"-framework AppKit"
+			"-framework AppKit",
+			"-framework Metal"
 		}
 		end
 
