@@ -10,8 +10,7 @@ local BX_ROOT		= params[1]
 
 local BX_INCLUDE	= {
 	BX_ROOT .. "include",
-	BX_ROOT .. "3rdparty",
-	BX_ROOT .. "include/compat"
+	BX_ROOT .. "3rdparty"
 }
 
 local BX_FILES = {
@@ -20,17 +19,18 @@ local BX_FILES = {
 }
 
 function projectDependencyConfig_bx()
-	includedirs { BX_ROOT .. "include/compat" }
 	configuration { "debug or release" }
-		defines { "BX_CONFIG_DEBUG=1" }
+		defines { "BX_CONFIG_DEBUG=1", "__STDC_FORMAT_MACROS" }
 	configuration { "retail" }
-		defines { "BX_CONFIG_DEBUG=0" }
+		defines { "BX_CONFIG_DEBUG=0", "__STDC_FORMAT_MACROS" }
 	configuration {}
 end
 
 function projectExtraConfig_bx()
+ 	configuration { "vs*", _filter, "windows" }
+		buildoptions { "/wd4324" } -- 4324 -  structure was padded due to alignment specifier
+	configuration {}
 	includedirs { BX_INCLUDE }
-	includedirs { BX_ROOT .. "include/compat" }
 	projectDependencyConfig_bx()
 end
 

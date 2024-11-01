@@ -66,6 +66,10 @@ function projectExtraConfigExecutable_bgfx()
 			"psapi",
 		}
 
+ 	configuration { "vs*", "windows" }	
+		buildoptions { "/wd4324" } -- 4324 - structure was padded due to alignment specifier
+		buildoptions { "/wd4244" } -- 4244 - 'argument': conversion from 'VkDeviceSize' to 'uint32_t', possible loss of data
+
 	configuration { "winphone8* or winstore8*" }
 		removelinks {
 			"DelayImp",
