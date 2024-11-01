@@ -13,8 +13,9 @@ local XXHASH_INCLUDE	= {
 }
 
 local XXHASH_FILES = {
-	XXHASH_ROOT .. "*.h",
-	XXHASH_ROOT .. "*.c"
+	XXHASH_ROOT .. "xxh3.h",
+	XXHASH_ROOT .. "xxhash*.c",
+	XXHASH_ROOT .. "xxhash*.h"
 }
 
 function projectExtraConfig_xxHash()
