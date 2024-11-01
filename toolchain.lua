@@ -185,10 +185,10 @@ function getTargetOS()
 		return "android"
 	end
 
-	-- gmake - wasmjs
-	if (_OPTIONS["gcc"] == "wasmjs") or
+	-- gmake - wasm2js
+	if (_OPTIONS["gcc"] == "wasm2js") or
 	   (_OPTIONS["gcc"] == "wasm") then
-		return "wasmjs"
+		return "wasm2js"
 	end
 
 	-- gmake - freebsd
@@ -354,8 +354,8 @@ function getTargetCompiler()
 	if	(_OPTIONS["gcc"] == "android-x86")			then return "gcc-x86"				end
 	if	(_OPTIONS["gcc"] == "android-x86_64")		then return "gcc-x86_64"			end
 
-	-- gmake - wasmjs
-	if (_OPTIONS["gcc"] == "wasmjs")				then return "wasmjs"				end
+	-- gmake - wasm2js
+	if (_OPTIONS["gcc"] == "wasm2js")				then return "wasm2js"				end
 	if (_OPTIONS["gcc"] == "wasm")					then return "wasm"					end
 													
 	-- gmake - freebsd                      		
@@ -1109,7 +1109,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--target=x86_64-none-linux-android" .. androidApiLevel,
 		}
 		
-	configuration { "wasmjs or wasm ", _filter }
+	configuration { "wasm2js or wasm ", _filter }
 		defines { "RTM_ASMJS" }
 		buildoptions {
 			"-Wunused-value",
@@ -1457,7 +1457,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		configuration { "mingw-clang", _filter }
 			kind "ConsoleApp"
 
-		configuration { "wasmjs or wasm", _filter }
+		configuration { "wasm2js or wasm", _filter }
 			kind "ConsoleApp"
 			targetextension ".html"
 
@@ -1505,9 +1505,9 @@ function strip()
 			"$(SILENT) $(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-strip -s \"$(TARGET)\""
 		}
 
-	configuration { "wasmjs or wasm" }
+	configuration { "wasm2js or wasm" }
 		postbuildcommands {
-			"$(SILENT) echo Running wasmjs finalize.",
+			"$(SILENT) echo Running wasm2js finalize.",
 			"$(SILENT) $(EMSCRIPTEN)/emcc -O2 -s TOTAL_MEMORY=268435456 \"$(TARGET)\" -o \"$(TARGET)\".html"
 			-- ALLOW_MEMORY_GROWTH
 		}
@@ -1517,7 +1517,7 @@ end
 
 
 function actionTargetsWASM()
-	return (_OPTIONS["gcc"] == "wasm") or (_OPTIONS["gcc"] == "wasmjs")
+	return (_OPTIONS["gcc"] == "wasm") or (_OPTIONS["gcc"] == "wasm2js")
 end
 
 -- has to be called from an active solution
