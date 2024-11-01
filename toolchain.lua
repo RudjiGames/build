@@ -926,7 +926,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "osx-*" }
 		if EXECUTABLE then
 		linkoptions {
-			"-framework Foundation"
+			"-framework Foundation",
+			"-framework IOKit",
+			"-framework AppKit"
 		}
 		end
 
