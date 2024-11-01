@@ -35,9 +35,7 @@ end
 function setConfig(_configuration)
 	local currPlatforms = platforms {}
 	for _,platform in ipairs(currPlatforms) do
-		if "x64" == platform then
-			setSubConfig(platform, _configuration, "x64" == platform)
-		end
+		setSubConfig(platform, _configuration, "x64" == platform)
 	end
 end
 

@@ -27,7 +27,7 @@ function projectDependencyConfig_bx()
 end
 
 function projectExtraConfig_bx()
- 	configuration { "vs*", _filter, "windows" }
+ 	configuration { "vs*", "windows" }
 		buildoptions { "/wd4324" } -- 4324 -  structure was padded due to alignment specifier
 	configuration {}
 	includedirs { BX_INCLUDE }

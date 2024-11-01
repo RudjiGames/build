@@ -779,10 +779,11 @@ end
 function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 
 	configuration {}
-	
-	local binDir = getBuildDirRoot(_filter) .. "bin/"
-	local libDir = getBuildDirRoot(_filter) .. "lib/"
-	local objDir = getBuildDirRoot(_filter) .. "obj/" .. project().name .. "/"
+
+	local buildRoot = getBuildDirRoot(_filter)
+	local binDir = buildRoot .. "bin/"
+	local libDir = buildRoot .. "lib/"
+	local objDir = buildRoot .. "obj/" .. project().name .. "/"
 
 	mkdir(binDir)
 	mkdir(libDir)
@@ -819,7 +820,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"NDEBUG",
 		}
 
-	configuration { "vs*" and "not orbis" }
+	configuration { "vs*", "not orbis", _filter }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
 		defines {
