@@ -929,6 +929,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-framework Foundation",
 			"-framework IOKit",
 			"-framework AppKit",
+			"-framework QuartzCore",
 			"-framework Metal"
 		}
 		end
