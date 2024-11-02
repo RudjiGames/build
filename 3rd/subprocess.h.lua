@@ -13,9 +13,6 @@ local SUBP_FILES = {
 }
 
 function projectExtraConfig_subprocess_h()
-end
-
-function projectExtraConfig_subprocess_h()
 	includedirs { SUBP_ROOT .. "include/" }
 end
 
@@ -23,5 +20,5 @@ function projectHeaderOnlyLib_subprocess_h()
 end
 
 function projectAdd_subprocess_h()
-	addProject_3rdParty_lib("subprocess.h", SUBP_FILES)
+	addProject_3rdParty_lib("subprocess_h", SUBP_FILES)
 end

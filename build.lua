@@ -224,15 +224,21 @@ function getProjectBaseName(_projectName)
 	return _projectName
 end
 
+function buildifyName(_name)
+	local nameWithUnderscore = string.gsub(_name, "-", "_")
+	local nameNoDot = string.gsub(nameWithUnderscore, "%.", "_")
+	return nameNoDot
+end
+
 function getProjectFullName(_projectName)
 	if istable(_projectName) then
 		local ret = nil
 		for _,name in ipairs(_projectName) do
 			if ret == nil then ret = name else ret = ret .. "_" .. name end
 		end
-		return ret
+		return buildifyName(ret)
 	else
-		return _projectName
+		return buildifyName(_projectName)
 	end
 end
 
@@ -367,9 +373,9 @@ function addProject(_name)
 	end
 
 	if g_projectIsLoaded[name] == nil then
-		local nameWithUnderscore = string.gsub(name, "-", "_")
-		if _G["projectAdd_" .. nameWithUnderscore] ~= nil then -- prebuilt libs have no projects
-			_G["projectAdd_" .. nameWithUnderscore]()
+		local nameBuild = buildifyName(name)
+		if _G["projectAdd_" .. nameBuild] ~= nil then -- prebuilt libs have no projects
+			_G["projectAdd_" .. nameBuild]()
 			g_projectIsLoaded[name] = true
 		end
 	end
