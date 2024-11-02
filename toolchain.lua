@@ -846,6 +846,9 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"/ignore:4221", -- LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 		}
 
+	configuration { "linux*" }
+		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/linux") }
+
 	configuration { "vs*", "not NX32", "not NX64" }
 		flags {	"EnableAVX" }
 
