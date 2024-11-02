@@ -8,14 +8,12 @@
 local params		= { ... }
 local BGFX_ROOT		= params[1]
 
-local BX_ROOT		= find3rdPartyProject("bx") .. "include"
-
 local BGFX_INCLUDE	= {
 	BGFX_ROOT .. "include",
 	BGFX_ROOT .. "3rdparty",
 	BGFX_ROOT .. "3rdparty/khronos",
 	BGFX_ROOT .. "3rdparty/directx-headers/include/directx",
-	BX_ROOT,
+	find3rdPartyProject("bx")   .. "include",
 	find3rdPartyProject("bimg") .. "include" 
 }
 
@@ -140,9 +138,8 @@ function projectExtraConfigExecutable_bgfx()
 	if getTargetOS() == "ios" then
 		configuration { "xcode4", "ios" }
 			kind "WindowedApp"
+		configuration {}
 	end
-
-	configuration {}
  end
 
 function projectExtraConfig_bgfx()
@@ -160,14 +157,8 @@ function projectExtraConfig_bgfx()
 			"-Wno-microsoft-const-init", -- default initialization of an object of const type '' without a user-provided default constructor is a Microsoft extension
 		}														
 
-	configuration { "debug or release" }
-		defines { "BX_CONFIG_DEBUG=1" }
-	configuration { "retail" }
-		defines { "BX_CONFIG_DEBUG=0" }
-
 	configuration { "linux*" }
-		includedirs {	BX_ROOT .. "/compat/linux",
-						BGFX_ROOT .. "/3rdparty/directx-headers/include/directx",
+		includedirs {	BGFX_ROOT .. "/3rdparty/directx-headers/include/directx",
 						BGFX_ROOT .. "/3rdparty/directx-headers/include",
 						BGFX_ROOT .. "/3rdparty/directx-headers/include/wsl/stubs" }
 
