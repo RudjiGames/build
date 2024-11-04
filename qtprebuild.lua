@@ -203,6 +203,9 @@ runProgram = function(command)
 	else
 		result = os.execute(command)
 	end
+	if windows then
+		return result == 0
+	end
 	return result
 end
 
@@ -218,7 +221,7 @@ if arg[1] == "-moc" then
 		fullMOCPath = '""'..qtMocExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFileName ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[2] .. '"'
 	end
 
-	if 0 ~= runProgram(fullMOCPath) then
+	if false == runProgram(fullMOCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFileName, 5 ) ); io.stdout:flush()
 	else
 		--print( "MOC Created "..outputFileName )
@@ -235,7 +238,7 @@ elseif arg[1] == "-rcc" then
 		fullRCCPath = '""'..qtQRCExe..'" -name "'..getFileNameNoExtFromPath( arg[2] )..'" "'..arg[2]..'" -o "'..outputFileName..'""'
 	end
 
-	if 0 ~= runProgram(fullRCCPath) then
+	if false == runProgram(fullRCCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[RCC Failed to generate ]]..outputFileName, 6 ) ); io.stdout:flush()
 	else
 		--print( "RCC Created "..outputFileName )
@@ -252,7 +255,7 @@ elseif arg[1] == "-uic" then
 			fullUICPath = '""'..qtUICExe..'" "'..arg[2]..'" -o "'..outputFileName..'""'
 		end
 
-		if 0 ~= runProgram(fullUICPath) then
+		if false == runProgram(fullUICPath) then
 			print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFileName, 7 ) ); io.stdout:flush()
 		else
 			--print( "UIC Created "..outputFileName )
@@ -269,7 +272,7 @@ elseif arg[1] == "-ts" then
 			fullTSPath = '""'..qtTSExe..'" "'..arg[2]
 		end
 
-		if 0 ~= runProgram( fullTSPath) then
+		if false == runProgram( fullTSPath) then
 			print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFileName, 7 ) ); io.stdout:flush()
 		else
 			--print( "UIC Created "..outputFileName )
