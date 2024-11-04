@@ -131,10 +131,12 @@ qtUICExe = "uic" .. windowsExe
 qtQRCExe = "rcc" .. windowsExe
 qtTSExe  = "lrelease" .. windowsExe
 
-qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
-qtUICExe = qtDirectory..del.."bin"..del..qtUICExe
-qtQRCExe = qtDirectory..del.."bin"..del..qtQRCExe
-qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
+if windows then
+	qtMocExe = qtDirectory..del.."bin"..del..qtMocExe
+	qtUICExe = qtDirectory..del.."bin"..del..qtUICExe
+	qtQRCExe = qtDirectory..del.."bin"..del..qtQRCExe
+	qtTSExe  = qtDirectory..del.."bin"..del..qtTSExe
+end
 
 mkdir( qtOutputDirectory )
 
