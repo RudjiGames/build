@@ -23,16 +23,9 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		local QT_PREBUILD_LUA_PATH	= '"' .. RTM_ROOT_DIR .. "build/qtprebuild.lua" .. '"'
 
 		-- Defaults
-		local qtEnv = "QTDIR_" .. string.upper(_ACTION);
-		if _is64bit then
-			qtEnv = qtEnv .. "_x64"
-		else
-			qtEnv = qtEnv .. "_x86"
-		end
-
-		local QT_PATH = os.getenv(qtEnv)
+		local QT_PATH = os.getenv("QTDIR")
     	if QT_PATH == nil then
-	    	print ("ERROR: The " .. qtEnv .. " environment variable must be set to the Qt root directory to use qtpresets6.lua")
+	    	print ("ERROR: The QTDIR environment variable must be set to the Qt root directory to use qtpresets6.lua")
 		    os.exit()
     	end
 
@@ -103,7 +96,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		includedirs	{ QT_PATH .. "/include" }
 
 		local libsDirectory = QT_PATH .. "/lib/"
-	
 		if os.is("macosx") then
 			linkoptions { "-F " .. libsDirectory }
 		else
