@@ -229,7 +229,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
 				--links { "Qt" .. lib .. ".framework" }
 				os.execute("ln -s " .. libsDirectory .. "Qt" .. lib .. ".framework/Versions/A/Headers/ " .. QT_PATH .. "include/Qt" .. lib)
-				os.execute("ls -R " .. libsDirectory )
 				linkoptions {
 					"-framework " .. "Qt" .. lib,
 				}
