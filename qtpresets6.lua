@@ -230,6 +230,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 				--links { "Qt" .. lib .. ".framework" }
 				os.outputof("mkdir -p " .. libsDirectory .. "symbol/Qt" .. lib)
 				os.outputof("ln -s " .. libsDirectory .. "Qt" .. lib .. ".framework/Versions/A/Headers/ " .. libsDirectory .. "symbol/Qt" .. lib)
+				os.outputof("ls -R " .. libsDirectory .. "symbol")
 				linkoptions {
 					"-framework " .. "Qt" .. lib,
 				}
