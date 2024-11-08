@@ -100,6 +100,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		local libsDirectory = QT_PATH .. "/lib/"
 		if os.is("macosx") then
 			linkoptions { "-F " .. libsDirectory }
+			libdirs { libsDirectory }
 		else
 			libdirs { libsDirectory }
 		end
@@ -222,7 +223,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
-				links { "Qt" .. lib .. ".framework" }
+				--links { "Qt" .. lib .. ".framework" }
+				linkoptions {
+					"-framework " .. "Qt" .. lib,
+				}
 			end
 		end
 
