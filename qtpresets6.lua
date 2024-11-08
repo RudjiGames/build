@@ -29,6 +29,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		    os.exit()
     	end
 
+		print ("$QTDIR:  " .. QT_PATH)
+
 		flatten( _mocfiles )
 		flatten( _qrcfiles )
 		flatten( _uifiles )
