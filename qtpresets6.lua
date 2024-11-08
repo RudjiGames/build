@@ -29,6 +29,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		    os.exit()
     	end
 
+		if string.sub(QT_PATH, -1) ~= "/" then
+			QT_PATH = QT_PATH .. "/"
+		end
+
 		print ("$QTDIR:  " .. QT_PATH)
 
 		flatten( _mocfiles )
@@ -95,12 +99,12 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		local subDir = getLocationDir()
 		local binDir = getBuildDirRoot(_config)
 	
-		includedirs	{ QT_PATH .. "/include" }
+		includedirs	{ QT_PATH .. "include" }
 
-		local libsDirectory = QT_PATH .. "/lib/"
+		local libsDirectory = QT_PATH .. "lib/"
 		if os.is("macosx") then
 			linkoptions { "-F " .. libsDirectory }
-			libdirs { libsDirectory }
+			includedirs { libsDirectory .. "symbol"}
 		else
 			libdirs { libsDirectory }
 		end
@@ -116,7 +120,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
-					local source = QT_PATH .. '\\bin\\' .. libname
+					local source = QT_PATH .. 'bin\\' .. libname
 					local dest = destPath .. "\\" .. libname
 
 					if not os.isdir(destPath) then
@@ -168,7 +172,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			configuration { _config }
 
-			includedirs	{ QT_PATH .. "/qtwinextras/include" }
+			includedirs	{ QT_PATH .. "qtwinextras/include" }
 				
 			if _ACTION:find("vs") then
 					-- Qt rcc doesn't support forced header inclusion - preventing us to do PCH in visual studio (gcc accepts files that don't include pch)
@@ -224,7 +228,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
 				--links { "Qt" .. lib .. ".framework" }
-				os.outputof("ln -s " .. libsDirectory .. "Qt" .. lib .. ".framework/Versions/A/Headers/ " .. "Qt" .. lib)
+				os.outputof("mkdir " .. libsDirectory .. "symbol/Qt" .. lib)
+				os.outputof("ln -s " .. libsDirectory .. "Qt" .. lib .. ".framework/Versions/A/Headers/ " .. libsDirectory .. "symbol/Qt" .. lib)
 				linkoptions {
 					"-framework " .. "Qt" .. lib,
 				}
