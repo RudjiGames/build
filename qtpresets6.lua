@@ -227,8 +227,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
-				--links { "Qt" .. lib .. ".framework" }
-				os.execute("ln -s " .. libsDirectory .. "Qt" .. lib .. ".framework/Versions/A/Headers/ " .. QT_PATH .. "include/Qt" .. lib)
+				-- make symbolic link to header files directory
+				os.execute("ln -s -f " .. libsDirectory .. "Qt" .. lib .. ".framework/Versions/A/Headers/ " .. QT_PATH .. "include/Qt" .. lib)
 				linkoptions {
 					"-framework " .. "Qt" .. lib,
 				}
