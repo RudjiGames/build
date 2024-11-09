@@ -29,11 +29,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		    os.exit()
     	end
 
+		-- ensure path ends with slash for concatenation later
 		if string.sub(QT_PATH, -1) ~= "/" then
 			QT_PATH = QT_PATH .. "/"
 		end
-
-		print ("$QTDIR:  " .. QT_PATH)
 
 		flatten( _mocfiles )
 		flatten( _qrcfiles )
