@@ -48,7 +48,7 @@ function addProject_qt(_name, _libProjNotExe, _includes, _prebuildcmds, _extraQt
 		qrcFiles	= 	{ os.matchfiles( project().path .. "src/**.qrc") }
 		tsFiles		= 	{ os.matchfiles( project().path .. "src/**.ts") }
 
-		libsToLink	=	mergeTables({ "Core", "Gui", "Widgets"}, _extraQtModules)
+		libsToLink	=	mergeTables({ "Core", "Gui", "Widgets", "Network"}, _extraQtModules)
 
 		addPCH( project().path .. "src/", project().name )
 
