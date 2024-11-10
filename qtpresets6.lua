@@ -8,7 +8,6 @@
 
 qt = {}
 qt.version = "6" -- default Qt version
-lua_version = "5.1"
 
 RTM_QT_FILES_PATH_MOC	= "../.qt/qt_moc"
 RTM_QT_FILES_PATH_UI	= "../.qt/qt_ui"
@@ -20,7 +19,7 @@ QT_LIB_PREFIX		= "Qt" .. qt.version
 function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
 		
 		local sourcePath			= getProjectPath(_projectName) .. "/src/"
-		local QT_PREBUILD_LUA_PATH	= '"' .. RTM_ROOT_DIR .. "build/qtprebuild.lua" .. '"'
+		local QT_PREBUILD_LUA_PATH	= 'lua "' .. RTM_ROOT_DIR .. "build/qtprebuild.lua" .. '"'
 
 		-- Defaults
 		local QT_PATH = os.getenv("QTDIR")
@@ -53,39 +52,35 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 		-- Set up Qt pre-build steps and add the future generated file paths to the pkg
 		for _,file in ipairs( _mocfiles ) do
-			local mocFile = stripExtension(file)
 			local mocFileBase = path.getbasename(file)
 			local mocFilePath = path.getabsolute(QT_MOC_FILES_PATH .. "/" .. mocFileBase .. "_moc.cpp")
 
 			local headerSrc = file_read(file);
 			if headerSrc:find("Q_OBJECT") then
-				prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' }
+				prebuildcommands { QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' }
 				files { file, mocFilePath }
 				table.insert(addedFiles, file)
 			end
 		end
 
 		for _,file in ipairs( _qrcfiles ) do
-			local qrcFile = stripExtension( file )
 			local qrcFilePath = path.getabsolute(QT_QRC_FILES_PATH .. "/" .. path.getbasename(file) .. "_qrc.cpp")
-			prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -rcc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
+			prebuildcommands { QT_PREBUILD_LUA_PATH .. ' -rcc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 
 			files { file, qrcFilePath }
 			table.insert(addedFiles, qrcFilePath)
 		end
 
 		for _,file in ipairs( _uifiles ) do
-			local uiFile = stripExtension( file )
 			local uiFilePath = path.getabsolute(QT_UI_FILES_PATH .. "/" .. path.getbasename(file) .. "_ui.h")
-			prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -uic "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
+			prebuildcommands { QT_PREBUILD_LUA_PATH .. ' -uic "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 			files { file, uiFilePath }
 			table.insert(addedFiles, uiFilePath)
 		end
 
 		for _,file in ipairs( _tsfiles ) do
-			local tsFile = stripExtension( file )
 			local tsFilePath = path.getabsolute(QT_TS_FILES_PATH .. "/" .. path.getbasename(file) .. "_ts.qm")
-			prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -ts "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
+			prebuildcommands { QT_PREBUILD_LUA_PATH .. ' -ts "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 			files { file, tsFilePath }
 			table.insert(addedFiles, tsFilePath)
 		end				
