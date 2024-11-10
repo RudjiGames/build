@@ -49,11 +49,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		recreateDir( QT_UI_FILES_PATH )
 		recreateDir( QT_TS_FILES_PATH )
 
-		local LUAEXE = "lua "
-		if os.is("windows") then
-			LUAEXE = "lua" .. lua_version .. ".exe "
-		end
-
 		local addedFiles = {}
 
 		-- Set up Qt pre-build steps and add the future generated file paths to the pkg
@@ -64,7 +59,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			local headerSrc = file_read(file);
 			if headerSrc:find("Q_OBJECT") then
-				prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' }
+				prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -moc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '" "' .. _projectName .. '" "' .. mocFilePath .. '"' }
 				files { file, mocFilePath }
 				table.insert(addedFiles, file)
 			end
@@ -73,7 +68,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		for _,file in ipairs( _qrcfiles ) do
 			local qrcFile = stripExtension( file )
 			local qrcFilePath = path.getabsolute(QT_QRC_FILES_PATH .. "/" .. path.getbasename(file) .. "_qrc.cpp")
-			prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -rcc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
+			prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -rcc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 
 			files { file, qrcFilePath }
 			table.insert(addedFiles, qrcFilePath)
@@ -82,7 +77,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		for _,file in ipairs( _uifiles ) do
 			local uiFile = stripExtension( file )
 			local uiFilePath = path.getabsolute(QT_UI_FILES_PATH .. "/" .. path.getbasename(file) .. "_ui.h")
-			prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -uic "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
+			prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -uic "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 			files { file, uiFilePath }
 			table.insert(addedFiles, uiFilePath)
 		end
@@ -90,7 +85,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		for _,file in ipairs( _tsfiles ) do
 			local tsFile = stripExtension( file )
 			local tsFilePath = path.getabsolute(QT_TS_FILES_PATH .. "/" .. path.getbasename(file) .. "_ts.qm")
-			prebuildcommands { LUAEXE .. QT_PREBUILD_LUA_PATH .. ' -ts "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
+			prebuildcommands { "lua " .. QT_PREBUILD_LUA_PATH .. ' -ts "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
 			files { file, tsFilePath }
 			table.insert(addedFiles, tsFilePath)
 		end				
