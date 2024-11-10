@@ -85,7 +85,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			table.insert(addedFiles, tsFilePath)
 		end				
 
-		local subDir = getLocationDir()
 		local binDir = getBuildDirRoot(_config)
 	
 		includedirs	{ QT_PATH .. "include" }
