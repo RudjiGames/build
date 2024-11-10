@@ -39,8 +39,8 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		flatten( _tsfiles )				
 
 		local QT_MOC_FILES_PATH = sourcePath .. RTM_QT_FILES_PATH_MOC
-		local QT_UI_FILES_PATH	= sourcePath .. RTM_QT_FILES_PATH_UI
 		local QT_QRC_FILES_PATH = sourcePath .. RTM_QT_FILES_PATH_QRC
+		local QT_UI_FILES_PATH	= sourcePath .. RTM_QT_FILES_PATH_UI
 		local QT_TS_FILES_PATH	= sourcePath .. RTM_QT_FILES_PATH_TS
 
 		recreateDir( QT_MOC_FILES_PATH )
