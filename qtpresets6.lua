@@ -110,7 +110,6 @@ function qtConfigure( _platform, _configuration, _projectName, _mocfiles, _qrcfi
 					local source = QT_PATH .. 'bin\\' .. libname
 					local dest = destPath .. libname
 					mkdir(destPath .. "/platforms")
-			print(source .. "   " .. dest)
 					if not os.isfile(dest) then
 						os.copyfile( source, dest )
 					end
