@@ -611,6 +611,7 @@ end
 
 -- 
 function mkdir(_dirname)
+	if os.isdir(_dirname) then return end
 	local dir = _dirname
 	if os.is("windows") then
 		dir = string.gsub( _dirname, "([/]+)", "\\" )

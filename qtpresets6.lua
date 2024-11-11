@@ -66,7 +66,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 		for _,file in ipairs( _qrcfiles ) do
 			local qrcFilePath = path.getabsolute(QT_QRC_FILES_PATH .. "/" .. path.getbasename(file) .. "_qrc.cpp")
 			prebuildcommands { QT_PREBUILD_LUA_PATH .. ' -rcc "' .. path.getabsolute(file) .. '" "' .. QT_PATH .. '"' .. " " .. _projectName }
-
 			files { file, qrcFilePath }
 			table.insert(addedFiles, qrcFilePath)
 		end
@@ -142,18 +141,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 						os.copyfile( source, dest )
 					end
 				end
-
-				-- optional OpenSSL
-				if os.isdir(RTM_ROOT_DIR .. "3rd\\openssl_winbinaries") then
-					local winVer = "win32"
-					if _is64bit then
-						winVer = "win64"
-					end
-					local src1 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl_winbinaries\\" .. winVer .. "\\libeay32.dll", "([/]+)", "\\" )
-					local src2 = string.gsub( RTM_ROOT_DIR .. "3rd\\openssl_winbinaries\\" .. winVer .. "\\ssleay32.dll", "([/]+)", "\\" )
-					os.copyfile( src1, destPath .. "libeay32.dll" )
-					os.copyfile( src2, destPath .. "ssleay32.dll" )
-				end
 			end
 
 			defines { "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
@@ -171,13 +158,11 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			end
 
 			for _, lib in ipairs( _libsToLink ) do
-				local libDebug = libsDirectory .. QT_LIB_PREFIX .. lib .. "d" -- .. ".lib"
-				local libRelease = libsDirectory .. QT_LIB_PREFIX .. lib -- .. ".lib"
+				local libFile = libsDirectory .. QT_LIB_PREFIX .. lib
 				configuration { "debug", _config }
-					links( libDebug )
-
+					links( libFile .. "d" )
 				configuration { "not debug", _config }
-					links( libRelease )
+					links( libFile )
 			end
 	
 			configuration { _config }
