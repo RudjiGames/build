@@ -84,7 +84,7 @@ function qtConfigure( _platform, _configuration, _projectName, _mocfiles, _qrcfi
 			table.insert(addedFiles, tsFilePath)
 		end				
 
-		local binDir = _platform .. "/" .. _configuration
+		local binDir = getBuildDirRoot(_platform, _configuration)
 	
 		includedirs	{ QT_PATH .. "include" }
 
@@ -108,8 +108,9 @@ function qtConfigure( _platform, _configuration, _projectName, _mocfiles, _qrcfi
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
 					local source = QT_PATH .. 'bin\\' .. libname
-					local dest = destPath .. "\\" .. libname
+					local dest = destPath .. libname
 					mkdir(destPath .. "/platforms")
+			print(source .. "   " .. dest)
 					if not os.isfile(dest) then
 						os.copyfile( source, dest )
 					end

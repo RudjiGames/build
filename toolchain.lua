@@ -767,9 +767,13 @@ function toolchain()
 	return true
 end
 
+function getBuildDirRoot(_platform, _configuration)
+	return getSolutionBaseDir() .. "/" .. _platform .. "/" .. _configuration .. "/"
+end
+
 function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executable)
 
-	local buildRoot = _platform .. "/" .. _configuration
+	local buildRoot = getBuildDirRoot(_platform, _configuration)
 	local binDir = buildRoot .. "bin/"
 	local libDir = buildRoot .. "lib/"
 	local objDir = buildRoot .. "obj/" .. project().name .. "/"
