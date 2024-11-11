@@ -76,19 +76,21 @@ end
 -- compiler flags
 --------------------------------------------------------
 
-Flags_ThirdParty	= { "StaticRuntime", "NoEditAndContinue", "NoPCH",  "MinimumWarnings" }
-Flags_Libraries		= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings", "NoExceptions" }
-Flags_Tests			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings" }
-Flags_Cmd			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings", "NoExceptions" }
-Flags_QtTool		= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings" }
+Flags_ThirdParty		= { "StaticRuntime", "NoEditAndContinue", "NoPCH",  "MinimumWarnings" }
+Flags_Libraries			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings", "NoExceptions" }
+Flags_Tests				= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings" }
+Flags_Cmd				= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings", "NoExceptions" }
+Flags_QtTool			= { "StaticRuntime", "NoEditAndContinue", "NoRTTI", "ExtraWarnings" }
 
-ExtraFlags_Debug	= { "Symbols" }
-ExtraFlags_Release	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck", "Symbols" }
-ExtraFlags_Retail	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck" }
+ExtraFlags = {}
+ExtraFlags["debug"]		= { "Symbols" }
+ExtraFlags["release"]	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck", "Symbols" }
+ExtraFlags["retail"]	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck" }
 
-Defines_Debug   	= { "RTM_DEBUG_BUILD", "_DEBUG", "DEBUG" }
-Defines_Release 	= { "RTM_RELEASE_BUILD", "NDEBUG" }
-Defines_Retail  	= { "RTM_RETAIL_BUILD", "NDEBUG", "RETAIL" }
+ExtraDefines = {}
+ExtraDefines["debug"]   = { "RTM_DEBUG_BUILD", "_DEBUG", "DEBUG" }
+ExtraDefines["release"] = { "RTM_RELEASE_BUILD", "NDEBUG" }
+ExtraDefines["retail"]	= { "RTM_RETAIL_BUILD", "NDEBUG", "RETAIL" }
 
 --------------------------------------------------------
 -- utility functions to check for target compiler

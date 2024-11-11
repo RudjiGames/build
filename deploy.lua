@@ -94,26 +94,26 @@ function sedAppendReplace(_str, _search, _replace, _last)
 	return _str
 end
 
-function prepareProjectDeployment(_filter, _binDir)
+function prepareProjectDeployment(_platform, _configuration, _binDir)
 	if  getTargetOS() == "ios"	or
 		getTargetOS() == "tvos" then
-		prepareDeployment_iOS(_filter, _binDir) 	return
+		prepareDeployment_iOS(_platform, _configuration, _binDir) 	return
 	end
 
 	if getTargetOS() == "asmjs" then
-		prepareDeployment_AsmJS(_filter, _binDir)	return
+		prepareDeployment_AsmJS(_platform, _configuration, _binDir)	return
 	end
 	
 	if getTargetOS() == "linux" then
-		prepareDeployment_Linux(_filter, _binDir)	return
+		prepareDeployment_Linux(_platform, _configuration, _binDir)	return
 	end
 
 	if getTargetOS() == "osx" then
-		prepareDeployment_OSX(_filter, _binDir)	return
+		prepareDeployment_OSX(_platform, _configuration, _binDir)	return
 	end
 
 	if getTargetOS() == "android" then
-		prepareDeployment_Android(_filter, _binDir)	return
+		prepareDeployment_Android(_platform, _configuration, _binDir)	return
 	end
 
 	if  getTargetOS() == "windows"		or
@@ -131,7 +131,7 @@ end
 
 imagesConverted = {}
 
-function prepareDeployment_Android(_filter, _binDir)
+function prepareDeployment_Android(_platform, _configuration, _binDir)
 	local copyDst = _binDir .. "deploy/" .. project().name .. "/"
 	local copySrc = script_dir() .. "deploy/android/"
 	
@@ -184,22 +184,22 @@ end
 -- 480 x 480
 -- 1920 x 1080
 
-function prepareDeployment_iOS(_filter, _binDir)
+function prepareDeployment_iOS(_platform, _configuration, _binDir)
 end
 
-function prepareDeployment_AsmJS(_filter, _binDir)	return
+function prepareDeployment_AsmJS(_platform, _configuration, _binDir)
 end
 
-function prepareDeployment_Linux(_filter, _binDir)	return
+function prepareDeployment_Linux(_platform, _configuration, _binDir)
 end
 
-function prepareDeployment_OSX(_filter, _binDir)	return
+function prepareDeployment_OSX(_platform, _configuration, _binDir)
 end
 
-function prepareDeployment_Android(_filter, _binDir)	return
+function prepareDeployment_Android(_platform, _configuration, _binDir)
 end
 
-function prepareDeployment_Windows(_filter, _binDir)
+function prepareDeployment_Windows(_platform, _configuration, _binDir)
 	local copyDst = RTM_LOCATION_PATH .. project().name .. "/" .. "Image/Loose/"
 	local copySrc = script_dir() .. "deploy/durango/"
 

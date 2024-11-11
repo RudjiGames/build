@@ -39,27 +39,17 @@ function setConfig(_configuration)
 	end
 end
 
-configuration {}
-
 local qtAddedFiles = {}
 
+configuration {}
 local all_configs = configurations()
 for _,config in ipairs(all_configs) do
 	configuration { config }
 		targetsuffix ("_" .. config)
+		defines { ExtraDefines[config] }
+		flags   { ExtraFlags[config] }
 	setConfig(config)
 end
-
-configuration {}
-configuration {"debug"}
-	defines { Defines_Debug }
-	flags   { ExtraFlags_Debug }
-configuration {"debug"}
-	defines { Defines_Release }
-	flags   { ExtraFlags_Release }
-configuration {"debug"}
-	defines { Defines_Retail }
-	flags   { ExtraFlags_Retail }
 configuration {}
 
 function vpathFilter(_string, _find)

@@ -804,15 +804,6 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 		"FloatFast",
 	}
 
-	configuration { "Release" }
-		flags {
-			"NoBufferSecurityCheck",
-			"OptimizeSpeed",
-		}
-		defines {
-			"NDEBUG",
-		}
-
 	configuration { "vs*", "not orbis", _platform, _configuration }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
@@ -839,10 +830,10 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 			"/ignore:4221", -- LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 		}
 
-	configuration { "linux*" }
+	configuration { "linux*", _platform, _configuration }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/linux") }
 
-	configuration { "vs*", "not NX32", "not NX64" }
+	configuration { "vs*", "not NX32", "not NX64", _platform, _configuration }
 		flags {	"EnableAVX" }
 
 	configuration { "vs2008", _platform, _configuration }
@@ -1122,7 +1113,7 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 			"Optimize"
 		}
 
-	configuration { "linux-ppc64le*" }
+	configuration { "linux-ppc64le*", _platform, _configuration }
 		buildoptions {
 			"-fsigned-char",
 			"-Wunused-value",
@@ -1137,7 +1128,7 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 			"-Wl,--gc-sections",
 		}
 
-	configuration { "linux-riscv64*" }
+	configuration { "linux-riscv64*", _platform, _configuration }
 		buildoptions {
 			"-Wunused-value",
 			"-Wundef",
@@ -1470,7 +1461,7 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 	configuration {}
 
 	if _OPTIONS["deploy"] ~= nil and EXECUTABLE then
-		prepareProjectDeployment({_platform, _configuration}, binDir)
+		prepareProjectDeployment(_platform, _configuration, binDir)
 	end
 end
 
