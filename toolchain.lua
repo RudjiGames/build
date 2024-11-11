@@ -418,6 +418,7 @@ function getTargetCompiler()
 	if	(_OPTIONS["gcc"] == "mingw-gcc")	then	return "mingw-gcc"		end
 	if	(_OPTIONS["gcc"] == "mingw-clang")	then	return "mingw-clang"	end
 	if (_ACTION ~= nil and _ACTION:find("vs")) then	return _ACTION			end
+	if (_ACTION ~= nil and _ACTION:find("xcode")) then	return _ACTION		end
 
 	print("ERROR: Target compiler could not be deduced from command line arguments")
 	os.exit(1)
