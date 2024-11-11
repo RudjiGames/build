@@ -3,57 +3,57 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-function shaderConfigure( _config, _projectName, _shaderFiles )
+function shaderConfigure( _platform, _configuration, _projectName, _shaderFiles )
 
 	if _shaderFiles == nil then
 		return
 	end
 
-		local sourcePath				= path.getabsolute(RTM_ROOT_DIR .. "src/tools/qt/" .. _projectName .. "/src/") .. "/"
-		local SHADER_PREBUILD_LUA_PATH	= '"' .. RTM_ROOT_DIR .. "build/embedded_shader_prebuild.lua" .. '"'
+	local sourcePath				= path.getabsolute(RTM_ROOT_DIR .. "src/tools/qt/" .. _projectName .. "/src/") .. "/"
+	local SHADER_PREBUILD_LUA_PATH	= '"' .. RTM_ROOT_DIR .. "build/embedded_shader_prebuild.lua" .. '"'
 
-		flatten( _shaderFiles )
+	flatten( _shaderFiles )
 
-		local LUAEXE = "lua "
-		local shaderc = RTM_ROOT_DIR .. "tools/bgfx/shaderc"
-		if os.is("windows") then
-			shaderc = RTM_ROOT_DIR .. "tools/bgfx/shaderc.exe"
-			LUAEXE = "lua.exe "
-		end
+	local LUAEXE = "lua "
+	local shaderc = RTM_ROOT_DIR .. "tools/bgfx/shaderc"
+	if os.is("windows") then
+		shaderc = RTM_ROOT_DIR .. "tools/bgfx/shaderc.exe"
+		LUAEXE = "lua.exe "
+	end
 
-		local addedFiles = {}
+	local addedFiles = {}
 
-		-- Set up Qt pre-build steps and add the future generated file paths to the pkg
-		for _,file in ipairs( _shaderFiles ) do
-			local scFile = stripExtension(file)
-			local scFileBase = path.getbasename(file)
+	-- Set up Qt pre-build steps and add the future generated file paths to the pkg
+	for _,file in ipairs( _shaderFiles ) do
+		local scFile = stripExtension(file)
+		local scFileBase = path.getbasename(file)
 
-			if scFileBase ~= "varying.def" then
+		if scFileBase ~= "varying.def" then
 
-				local outFile = path.getabsolute(scFile .. '.bin.h')
-				local outFileTemp = path.getabsolute(scFile .. '.bin.h.temp')
+			local outFile = path.getabsolute(scFile .. '.bin.h')
+			local outFileTemp = path.getabsolute(scFile .. '.bin.h.temp')
 
-				local shaderType = ""
+			local shaderType = ""
 
-				local includesDirs = " -i " .. RTM_ROOT_DIR .. "3rd/bgfx/src/" .. " -i " .. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/"
+			local includesDirs = " -i " .. RTM_ROOT_DIR .. "3rd/bgfx/src/" .. " -i " .. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/"
 
-				local srcFile = path.getabsolute(file)
-				local dstFile = path.getabsolute(outFile)
+			local srcFile = path.getabsolute(file)
+			local dstFile = path.getabsolute(outFile)
 
-				-- vertex shader
-				if string.find(scFileBase, "vs_") ~= nil then
-					prebuildcommands { LUAEXE .. SHADER_PREBUILD_LUA_PATH .. ' -vs ' .. srcFile .. ' ' .. shaderc .. ' ' .. RTM_ROOT_DIR .. "3rd/bgfx/src/ ".. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/" }
-				end
+			-- vertex shader
+			if string.find(scFileBase, "vs_") ~= nil then
+				prebuildcommands { LUAEXE .. SHADER_PREBUILD_LUA_PATH .. ' -vs ' .. srcFile .. ' ' .. shaderc .. ' ' .. RTM_ROOT_DIR .. "3rd/bgfx/src/ ".. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/" }
+			end
 
-				if string.find(scFileBase, "fs_") ~= nil then
-					prebuildcommands { LUAEXE .. SHADER_PREBUILD_LUA_PATH .. ' -fs ' .. srcFile .. ' ' .. shaderc .. ' ' .. RTM_ROOT_DIR .. "3rd/bgfx/src/ ".. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/" }
-				end
+			if string.find(scFileBase, "fs_") ~= nil then
+				prebuildcommands { LUAEXE .. SHADER_PREBUILD_LUA_PATH .. ' -fs ' .. srcFile .. ' ' .. shaderc .. ' ' .. RTM_ROOT_DIR .. "3rd/bgfx/src/ ".. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/" }
+			end
 
-				if string.find(scFileBase, "cs_") ~= nil then
-					prebuildcommands { LUAEXE .. SHADER_PREBUILD_LUA_PATH .. ' -cs ' .. srcFile .. ' ' .. shaderc .. ' ' .. RTM_ROOT_DIR .. "3rd/bgfx/src/ ".. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/" }
-				end
+			if string.find(scFileBase, "cs_") ~= nil then
+				prebuildcommands { LUAEXE .. SHADER_PREBUILD_LUA_PATH .. ' -cs ' .. srcFile .. ' ' .. shaderc .. ' ' .. RTM_ROOT_DIR .. "3rd/bgfx/src/ ".. RTM_ROOT_DIR .. "3rd/bgfx/examples/common/" }
 			end
 		end
+	end
 
 	configuration {}
 	return addedFiles

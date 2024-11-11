@@ -16,8 +16,7 @@ RTM_QT_FILES_PATH_TS	= "../.qt/qt_qm"
 
 QT_LIB_PREFIX		= "Qt" .. qt.version
 
-function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
-		configuration { _config }
+function qtConfigure( _platform, _configuration, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
 
 		local sourcePath			= getProjectPath(_projectName) .. "/src/"
 		local QT_PREBUILD_LUA_PATH	= 'lua "' .. RTM_ROOT_DIR .. "build/qtprebuild.lua" .. '"'
@@ -85,7 +84,7 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			table.insert(addedFiles, tsFilePath)
 		end				
 
-		local binDir = getBuildDirRoot(_config)
+		local binDir = _platform .. "/" .. _configuration
 	
 		includedirs	{ QT_PATH .. "include" }
 

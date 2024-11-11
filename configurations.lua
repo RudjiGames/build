@@ -19,13 +19,13 @@ assert(loadfile(RTM_SCRIPTS_DIR .. "toolchain.lua"))( EXECUTABLE )
 
 function setSubConfig(_platform, _configuration, _is64bit)
 	commonConfig(_platform, _configuration, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)
-	shaderConfigure({ _platform, _configuration }, PROJECT_NAME, shaderFiles)
+	shaderConfigure(_platform, _configuration, PROJECT_NAME, shaderFiles)
 	local prefix = ""
 	if _configuration == "debug" then
 		prefix = "d"
 	end
 	if WITH_QT then
-    	qtAddedFiles = qtConfigure({ _subConfig, _configuration }, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
+    	qtAddedFiles = qtConfigure(_platform, _configuration, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
 	if _G["projectExtraConfig_" .. project().name] then
 		_G["projectExtraConfig_" .. project().name]()
