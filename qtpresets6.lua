@@ -17,7 +17,8 @@ RTM_QT_FILES_PATH_TS	= "../.qt/qt_qm"
 QT_LIB_PREFIX		= "Qt" .. qt.version
 
 function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix )
-		
+		configuration { _config }
+
 		local sourcePath			= getProjectPath(_projectName) .. "/src/"
 		local QT_PREBUILD_LUA_PATH	= 'lua "' .. RTM_ROOT_DIR .. "build/qtprebuild.lua" .. '"'
 
@@ -139,8 +140,6 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			defines { "QT_THREAD_SUPPORT", "QT_USE_QSTRINGBUILDER" }
 
-			configuration { _config }
-
 			includedirs	{ QT_PATH .. "qtwinextras/include" }
 				
 			if _ACTION:find("vs") then
@@ -153,14 +152,9 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 
 			for _, lib in ipairs( _libsToLink ) do
 				local libFile = libsDirectory .. QT_LIB_PREFIX .. lib
-				configuration { "debug", _config }
-					links( libFile .. "d" )
-				configuration { "not debug", _config }
-					links( libFile )
+				links( libFile .. _dbgPrefix )
 			end
 	
-			configuration { _config }
-
 		elseif os.is("linux") then
 
 			-- check if X11Extras is needed
@@ -185,12 +179,10 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 			libPipe:close()
 			flagPipe:close()
 
-			configuration { _config }
 			buildoptions { qtFlags }
 			linkoptions { qtLibs }
 
 		elseif os.is("macosx") then
-			configuration { _config }
 			buildoptions { qtFlags }
 			for _,lib in ipairs(_libsToLink) do
 				print("Linking framework: " .. libsDirectory .. "Qt" .. lib .. ".framework")
