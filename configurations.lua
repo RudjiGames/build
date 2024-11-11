@@ -17,9 +17,9 @@ dofile (RTM_SCRIPTS_DIR .. "embedded_files.lua")
 dofile (RTM_SCRIPTS_DIR .. "qtpresets6.lua")
 assert(loadfile(RTM_SCRIPTS_DIR .. "toolchain.lua"))( EXECUTABLE )
 
-function setSubConfig(_subConfig, _configuration, _is64bit)
-	commonConfig({ _subConfig, _configuration }, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)
-	shaderConfigure({ _subConfig, _configuration }, PROJECT_NAME, shaderFiles)
+function setSubConfig(_platform, _configuration, _is64bit)
+	commonConfig(_platform, _configuration, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)
+	shaderConfigure({ _platform, _configuration }, PROJECT_NAME, shaderFiles)
 	local prefix = ""
 	if _configuration == "debug" then
 		prefix = "d"
@@ -33,7 +33,7 @@ function setSubConfig(_subConfig, _configuration, _is64bit)
 end
 
 function setConfig(_configuration)
-	local currPlatforms = platforms {}
+	local currPlatforms = platforms()
 	for _,platform in ipairs(currPlatforms) do
 		setSubConfig(platform, _configuration, "x64" == platform)
 	end
@@ -43,30 +43,23 @@ configuration {}
 
 local qtAddedFiles = {}
 
--- debug configurations
-configuration { "debug" } 
-	targetsuffix "_debug"
+local all_configs = configurations()
+for _,config in ipairs(all_configs) do
+	configuration { config }
+		targetsuffix ("_" .. config)
+	setConfig(config)
+end
+
+configuration {}
+configuration {"debug"}
 	defines { Defines_Debug }
 	flags   { ExtraFlags_Debug }
-
-setConfig("debug")
-
--- release configurations
-configuration { "release" }
-	targetsuffix "_release"
+configuration {"debug"}
 	defines { Defines_Release }
 	flags   { ExtraFlags_Release }
-
-setConfig("release")
-	
-	-- retail configurations
-configuration { "retail" }
-	targetsuffix "_retail"
+configuration {"debug"}
 	defines { Defines_Retail }
 	flags   { ExtraFlags_Retail }
-
-setConfig("retail")
-
 configuration {}
 
 function vpathFilter(_string, _find)

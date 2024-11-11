@@ -14,10 +14,7 @@ local EXECUTABLE = params[1]
 
 dofile(RTM_SCRIPTS_DIR .. "deploy.lua")
 
-local iosPlatform      = ""
-local tvosPlatform     = ""
-
-androidTarget          = "24"
+local androidTarget    = "24"
 local androidPlatform  = "android-" .. androidTarget
 
 newoption {
@@ -417,8 +414,9 @@ function getTargetCompiler()
 	-- visual studio - *
 	if	(_OPTIONS["gcc"] == "mingw-gcc")	then	return "mingw-gcc"		end
 	if	(_OPTIONS["gcc"] == "mingw-clang")	then	return "mingw-clang"	end
-	if (_ACTION ~= nil and _ACTION:find("vs")) then	return _ACTION			end
-	if (_ACTION ~= nil and _ACTION:find("xcode")) then	return _ACTION		end
+	
+	if (actionUsesMSVC())  then	return _ACTION	end
+	if (actionUsesXcode()) then	return _ACTION	end
 
 	print("ERROR: Target compiler could not be deduced from command line arguments")
 	os.exit(1)
@@ -475,14 +473,6 @@ end
 
 function getLocationDir()
 	return getSolutionBaseDir() .. "/projects/"
-end
-
-function getBuildDirRoot(_filter)
-	local pathAdd = ""
-	for _,dir in ipairs(_filter) do
-		pathAdd = pathAdd .. "/" .. dir
-	end
-	return getSolutionBaseDir() .. "/" .. pathAdd .. "/"
 end
 
 function toolchain()
@@ -777,11 +767,9 @@ function toolchain()
 	return true
 end
 
-function commonConfig(_filter, _isLib, _isSharedLib, _executable)
+function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executable)
 
-	configuration {}
-
-	local buildRoot = getBuildDirRoot(_filter)
+	local buildRoot = _platform .. "/" .. _configuration
 	local binDir = buildRoot .. "bin/"
 	local libDir = buildRoot .. "lib/"
 	local objDir = buildRoot .. "obj/" .. project().name .. "/"
@@ -794,7 +782,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		binDir = libDir
 	end
 
-	configuration { _filter }
+	configuration { _platform, _configuration }
 		targetdir (binDir)
 		objdir (objDir)
 		libdirs {libDir}
@@ -821,7 +809,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"NDEBUG",
 		}
 
-	configuration { "vs*", "not orbis", _filter }
+	configuration { "vs*", "not orbis", _platform, _configuration }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
 		defines {
@@ -853,30 +841,30 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration { "vs*", "not NX32", "not NX64" }
 		flags {	"EnableAVX" }
 
-	configuration { "vs2008", _filter }
+	configuration { "vs2008", _platform, _configuration }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/pre1600") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
 
-	configuration { "x32", "vs*", "not orbis", _filter }
+	configuration { "x32", "vs*", "not orbis", _platform, _configuration }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
 
-	configuration { "x64", "vs*", "not orbis", _filter }
+	configuration { "x64", "vs*", "not orbis", _platform, _configuration }
 		defines { "RTM_WIN64", "RTM_WINDOWS", "_WIN64" }
 
-	configuration { "ARM", "vs*", "not orbis", _filter }
+	configuration { "ARM", "vs*", "not orbis", _platform, _configuration }
 
-	configuration { "vs*-clang", _filter }
+	configuration { "vs*-clang", _platform, _configuration }
 		buildoptions {
 			"-Qunused-arguments",
 		}
 
-	configuration { "x32", "vs*-clang", _filter }
+	configuration { "x32", "vs*-clang", _platform, _configuration }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
 
-	configuration { "x64", "vs*-clang", _filter }
+	configuration { "x64", "vs*-clang", _platform, _configuration }
 		defines { "RTM_WIN64", "RTM_WINDOWS" }
 
-	configuration { "winstore*", _filter }
+	configuration { "winstore*", _platform, _configuration }
 		removeflags {
 			"StaticRuntime",
 			"NoBufferSecurityCheck",
@@ -888,12 +876,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
 		}
 
-	configuration { "*-gcc* or osx", _filter }
+	configuration { "*-gcc* or osx", _platform, _configuration }
 		buildoptions {
 			"-Wshadow",
 		}
 
-	configuration { "mingw-*", _filter }
+	configuration { "mingw-*", _platform, _configuration }
 		defines { "WIN32" }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/mingw") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/mingw") }
@@ -924,14 +912,14 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		end
 
-	configuration { "linux-*" }
+	configuration { "linux-*", _platform, _configuration }
 		if EXECUTABLE then
 		links {
 			"pthread",
 		}
 		end
 
-	configuration { "osx-*" }
+	configuration { "osx-*", _platform, _configuration }
 		if EXECUTABLE then
 		linkoptions {
 			"-framework Foundation",
@@ -942,14 +930,14 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		end
 
-	configuration { "x32", "mingw-gcc", _filter }
+	configuration { "x32", "mingw-gcc", _platform, _configuration }
 		defines { "RTM_WIN32", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		buildoptions { "-m32" }
 		libdirs {
 			"$(MINGW)/x86_64-w64-mingw32/lib32"
 		}
 
-	configuration { "x64", "mingw-gcc", _filter }
+	configuration { "x64", "mingw-gcc", _platform, _configuration }
 		defines { "RTM_WIN64", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(GLES_X64_DIR)",
@@ -957,7 +945,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		buildoptions { "-m64" }
 
-	configuration { "mingw-clang", _filter }
+	configuration { "mingw-clang", _platform, _configuration }
 		buildoptions {
 			"-isystem $(MINGW)/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++",
 			"-isystem $(MINGW)/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32",
@@ -968,25 +956,25 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wno-error=unused-command-line-argument-hard-error-in-future",
 		}
 
-	configuration { "x32", "mingw-clang", _filter }
+	configuration { "x32", "mingw-clang", _platform, _configuration }
 		defines { "RTM_WIN32", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		buildoptions { "-m32" }
 
-	configuration { "x64", "mingw-clang", _filter }
+	configuration { "x64", "mingw-clang", _platform, _configuration }
 		defines { "RTM_WIN64", "RTM_WINDOWS", "WINVER=0x0601", "_WIN32_WINNT=0x0601" }
 		libdirs {
 			"$(GLES_X64_DIR)",
 		}
 		buildoptions { "-m64" }
 
-	configuration { "linux-clang", _filter }
+	configuration { "linux-clang", _platform, _configuration }
 
-	configuration { "linux-g*", _filter }
+	configuration { "linux-g*", _platform, _configuration }
 		buildoptions {
 			"-mfpmath=sse", -- force SSE to get 32-bit and 64-bit builds deterministic.
 		}
 
-	configuration { "linux-gcc* or linux-clang*" }
+	configuration { "linux-gcc* or linux-clang*", _platform, _configuration }
 		buildoptions {
 			"-msse4.2",
 			"-Wshadow",
@@ -1002,17 +990,17 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,--as-needed",
 		}
 
-	configuration { "linux-*", "x32", _filter }
+	configuration { "linux-*", "x32", _platform, _configuration }
 		buildoptions {
 			"-m32",
 		}
 
-	configuration { "linux-*", "x64", _filter }
+	configuration { "linux-*", "x64", _platform, _configuration }
 		buildoptions {
 			"-m64",
 		}
 
-	configuration { "linux-arm-gcc" }
+	configuration { "linux-arm-gcc", _platform, _configuration }
 		buildoptions {
 			"-Wunused-value",
 			"-Wundef",
@@ -1025,10 +1013,10 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,--gc-sections",
 		}
 
-	configuration { "android-*", "debug", _filter }
+	configuration { "android-*", "debug", _platform, _configuration }
 		defines { "NDK_DEBUG=1" }
 
-	configuration { "android-*", _filter }
+	configuration { "android-*", _platform, _configuration }
 		defines { "RTM_ANDROID" }
 		targetprefix ("lib")
 		flags {
@@ -1072,7 +1060,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		}
 		end
 
-	configuration { "android-arm", _filter }
+	configuration { "android-arm", _platform, _configuration }
 		buildoptions {
 			"--target=armv7-none-linux-android" .. androidApiLevel,
 			"-mthumb",
@@ -1085,7 +1073,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-march=armv7-a",
 		}
 
-	configuration { "android-arm64", _filter }
+	configuration { "android-arm64", _platform, _configuration }
 		buildoptions {
 			"--target=aarch64-none-linux-android" .. androidApiLevel,
 		}
@@ -1093,7 +1081,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--target=aarch64-none-linux-android" .. androidApiLevel,
 		}
 
-	configuration { "android-x86", _filter }
+	configuration { "android-x86", _platform, _configuration }
 		buildoptions {
 			"--target=i686-none-linux-android" .. androidApiLevel,
 			"-mtune=atom",
@@ -1105,7 +1093,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--target=i686-none-linux-android" .. androidApiLevel,
 		}
 
-	configuration { "android-x86_64" }
+	configuration { "android-x86_64", _platform, _configuration }
 		buildoptions {
 			"--target=x86_64-none-linux-android" .. androidApiLevel,
 		}
@@ -1113,7 +1101,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--target=x86_64-none-linux-android" .. androidApiLevel,
 		}
 		
-	configuration { "wasm2js or wasm ", _filter }
+	configuration { "wasm2js or wasm ", _platform, _configuration }
 		defines { "RTM_ASMJS" }
 		buildoptions {
 			"-Wunused-value",
@@ -1159,12 +1147,12 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,--gc-sections",
 		}
 
-	configuration { "freebsd", _filter }
+	configuration { "freebsd", _platform, _configuration }
 		defines { "RTM_FREEBSD" }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/freebsd") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/freebsd") }
 
-	configuration { "durango", _filter }
+	configuration { "durango", _platform, _configuration }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc")	}
 		removeflags { 
@@ -1175,7 +1163,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		linkoptions { "/ignore:4264" }
 
 
-	configuration { "Xbox360", _filter }
+	configuration { "Xbox360", _platform, _configuration }
 		defines { "RTM_XBOX360" }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
@@ -1184,7 +1172,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"_XBOX",
 		}
 
-	configuration { "osx-x64", _filter }
+	configuration { "osx-x64", _platform, _configuration }
 		defines { "RTM_OSX" }
 		linkoptions {
 			"-arch x86_64",
@@ -1195,7 +1183,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-target x86_64-apple-macos" .. (#macosPlatform > 0 and macosPlatform or "13.0"),
 		}
 
-	configuration { "osx-arm64", _filter }
+	configuration { "osx-arm64", _platform, _configuration }
 		defines { "RTM_OSX" }
 		linkoptions {
 			"-arch arm64",
@@ -1205,18 +1193,17 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wno-error=unused-command-line-argument",
 			"-Wno-unused-command-line-argument",
 		}
-	configuration { "osx*" }
+	
+	configuration { "osx*", "xcode*", _platform, _configuration }
 		buildoptions {
 			"-Wfatal-errors",
 			"-Wunused-value",
 			"-Wundef",
---			"-Wno-overriding-t-option",
---			"-mmacosx-version-min=13.0",
 		}
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/osx") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/osx") }
 
-	configuration { "ios*", _filter }
+	configuration { "ios*", _platform, _configuration }
 		defines { "RTM_IOS" }
 		linkoptions {
 			"-lc++",
@@ -1229,7 +1216,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/ios") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
 
-	configuration { "ios-arm", _filter }
+	configuration { "ios-arm", _platform, _configuration }
 		linkoptions {
 			"-arch armv7",
 		}
@@ -1237,7 +1224,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-arch armv7",
 		}
 
-	configuration { "ios-arm64", _filter }
+	configuration { "ios-arm64", _platform, _configuration }
 		linkoptions {
 			"-arch arm64",
 		}
@@ -1245,7 +1232,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-arch arm64",
 		}
 
-	configuration { "ios-arm*" }
+	configuration { "ios-arm*", _platform, _configuration }
 		linkoptions {
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" ..iosPlatform .. ".sdk/usr/lib/system",
@@ -1257,7 +1244,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-fembed-bitcode",
 		}
 
-	configuration { "xros*" }
+	configuration { "xros*", _platform, _configuration }
 		linkoptions {
 			"-lc++",
 		}
@@ -1269,7 +1256,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/ios") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
 
-	configuration { "xros-arm64" }
+	configuration { "xros-arm64", _platform, _configuration }
 		linkoptions {
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..xrosPlatform.. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..xrosPlatform .. ".sdk/usr/lib/system",
@@ -1280,7 +1267,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS" ..tvosPlatform .. ".sdk",
 		}
 
-	configuration { "xros-simulator" }
+	configuration { "xros-simulator", _platform, _configuration }
 		linkoptions {
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform.. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform .. ".sdk/usr/lib/system",
@@ -1290,7 +1277,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator" ..xrosPlatform .. ".sdk",
 		}
 
-	configuration { "ios-simulator" }
+	configuration { "ios-simulator", _platform, _configuration }
 		linkoptions {
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk/usr/lib/system",
@@ -1301,7 +1288,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator" ..iosPlatform .. ".sdk",
 		}
 
-	configuration { "tvos*" }
+	configuration { "tvos*", _platform, _configuration }
 		linkoptions {
 			"-lc++",
 		}
@@ -1313,7 +1300,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/ios") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/ios") }
 
-	configuration { "tvos-arm64" }
+	configuration { "tvos-arm64", _platform, _configuration }
 		linkoptions {
 			"-mtvos-version-min=9.0",
 			"-arch arm64",
@@ -1328,7 +1315,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS" ..tvosPlatform .. ".sdk",
 		}
 
-	configuration { "tvos-simulator" }
+	configuration { "tvos-simulator", _platform, _configuration }
 		linkoptions {
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk",
 			"-L/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk/usr/lib/system",
@@ -1339,7 +1326,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator" ..tvosPlatform .. ".sdk",
 		}
 
-	configuration { "orbis" }
+	configuration { "orbis", _platform, _configuration }
 		includedirs {
 			path.join(find3rdPartyProject("bx"), "include/compat/freebsd"),
 			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
@@ -1354,7 +1341,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"SceUserService_stub_weak",
 			"SceIme_stub_weak"
 		}
-	configuration { "rpi" }
+	configuration { "rpi", _platform, _configuration }
 		libdirs {
 			path.join(_libDir, "lib/rpi"),
 			"/opt/vc/lib",
@@ -1380,7 +1367,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,--gc-sections",
 		}
 
-	configuration { "riscv" }
+	configuration { "riscv", _platform, _configuration }
 		targetdir (path.join(_buildDir, "riscv/bin"))
 		objdir (path.join(_buildDir, "riscv/obj"))
 		defines {
@@ -1398,7 +1385,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"--sysroot=$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/riscv64-unknown-elf",
 		}
 
-	configuration { "durango", _filter }
+	configuration { "durango", _platform, _configuration }
 		defines { "NOMINMAX" }
 		links {
 			"d3d11_x",
@@ -1407,7 +1394,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"kernelx"
 		}
 
-	configuration { "rpi", _filter }
+	configuration { "rpi", _platform, _configuration }
 		defines { "RTM_RPI" }
 		defines {
 			"__VCCOREVER__=0x04000000", -- There is no special prefedined compiler symbol to detect RaspberryPi, faking it.
@@ -1430,7 +1417,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			"-Wl,--gc-sections",
 		}
 
-	configuration { "switch", _filter }
+	configuration { "switch", _platform, _configuration }
 		defines { "RTM_SWITCH" }
 		links {
 			"c",
@@ -1450,28 +1437,28 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 			os.getenv("NINTENDO_SDK_ROOT") .. "/Common/Configs/Targets/NX-NXFP2-a64/Include"
 		}
 		end
-	configuration { "switch", "debug", _filter }
+	configuration { "switch", "debug", _platform, _configuration }
 		defines { "NN_SDK_BUILD_DEBUG" }
-	configuration { "switch", "debug", _filter }
+	configuration { "switch", "debug", _platform, _configuration }
 		defines { "NN_SDK_BUILD_DEVELOP" }
-	configuration { "switch", "retail", _filter }
+	configuration { "switch", "retail", _platform, _configuration }
 		defines { "NN_SDK_BUILD_RELEASE" }
 
 	if _executable then
-		configuration { "mingw-clang", _filter }
+		configuration { "mingw-clang", _platform, _configuration }
 			kind "ConsoleApp"
 
-		configuration { "wasm2js or wasm", _filter }
+		configuration { "wasm2js or wasm", _platform, _configuration }
 			kind "ConsoleApp"
 			targetextension ".html"
 
-		configuration { "mingw*", _filter }
+		configuration { "mingw*", _platform, _configuration }
 			targetextension ".exe"
 
-		configuration { "orbis", _filter }
+		configuration { "orbis", _platform, _configuration }
 			targetextension ".elf"
 
-		configuration { "android*", _filter }
+		configuration { "android*", _platform, _configuration }
 			kind "ConsoleApp"
 			targetextension ".so"
 	end
@@ -1479,7 +1466,7 @@ function commonConfig(_filter, _isLib, _isSharedLib, _executable)
 	configuration {}
 
 	if _OPTIONS["deploy"] ~= nil and EXECUTABLE then
-		prepareProjectDeployment(_filter, binDir)
+		prepareProjectDeployment({_platform, _configuration}, binDir)
 	end
 end
 
@@ -1542,8 +1529,6 @@ function setPlatforms()
 		configurations { "debug", "release", "retail" }
 		platforms { "x32", "x64", "native" }
 	end
-
-	configuration {}
 
 	if not toolchain() then
 		return -- no action specified

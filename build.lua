@@ -86,6 +86,10 @@ ExtraFlags_Debug	= { "Symbols" }
 ExtraFlags_Release	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck", "Symbols" }
 ExtraFlags_Retail	= { "NoFramePointer", "OptimizeSpeed", "NoBufferSecurityCheck" }
 
+Defines_Debug   	= { "RTM_DEBUG_BUILD", "_DEBUG", "DEBUG" }
+Defines_Release 	= { "RTM_RELEASE_BUILD", "NDEBUG" }
+Defines_Retail  	= { "RTM_RETAIL_BUILD", "NDEBUG", "RETAIL" }
+
 --------------------------------------------------------
 -- utility functions to check for target compiler
 --------------------------------------------------------
@@ -135,14 +139,6 @@ Lib = {
 	Tool	= {},
 	Game	= {}
 }
-
---------------------------------------------------------
--- configuration specific defines
---------------------------------------------------------
-
-Defines_Debug   = { "RTM_DEBUG_BUILD", "_DEBUG", "DEBUG" }
-Defines_Release = { "RTM_RELEASE_BUILD", "NDEBUG" }
-Defines_Retail  = { "RTM_RETAIL_BUILD", "NDEBUG", "RETAIL" }
 
 dofile (RTM_SCRIPTS_DIR .. "project_3rd.lua")
 dofile (RTM_SCRIPTS_DIR .. "project_cmdtool.lua")
