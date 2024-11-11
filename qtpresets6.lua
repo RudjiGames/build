@@ -109,20 +109,14 @@ function qtConfigure( _config, _projectName, _mocfiles, _qrcfiles, _uifiles, _ts
 					local libname =  QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
 					local source = QT_PATH .. 'bin\\' .. libname
 					local dest = destPath .. "\\" .. libname
-
-					if not os.isdir(destPath) then
-						mkdir(destPath)
-					end
-					if not os.isdir(destPath .. "/platforms") then
-						mkdir(destPath .. "/platforms")
-					end
+					mkdir(destPath .. "/platforms")
 					if not os.isfile(dest) then
 						os.copyfile( source, dest )
 					end
 				end
 
-				otherDLLNames = { "libEGL" .. _dbgPrefix, "libGLESv2" .. _dbgPrefix, "platforms\\qwindows" .. _dbgPrefix, "platforms\\qminimal" .. _dbgPrefix }
-				otherDLLSrcPrefix = { "\\bin\\", "\\bin\\", "\\plugins\\", "\\plugins\\", "\\bin\\" }
+				otherDLLNames = { "platforms\\qwindows" .. _dbgPrefix, "platforms\\qminimal" .. _dbgPrefix }
+				otherDLLSrcPrefix = { "\\plugins\\", "\\plugins\\", "\\bin\\" }
 	
 				if _ACTION:find("gmake") then
 					if _is64bit then
