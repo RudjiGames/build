@@ -1189,7 +1189,7 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 			"-Wno-unused-command-line-argument",
 		}
 	
-	configuration { "osx*", "xcode*", _platform, _configuration }
+	configuration { "osx*", _platform, _configuration }
 		buildoptions {
 			"-Wfatal-errors",
 			"-Wunused-value",
