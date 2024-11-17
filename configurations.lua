@@ -25,6 +25,7 @@ function setSubConfig(_platform, _configuration, _is64bit)
 		prefix = "d"
 	end
 	if WITH_QT then
+		configuration { _configuration }
     	qtAddedFiles = qtConfigure(_platform, _configuration, PROJECT_NAME, mocFiles, qrcFiles, uiFiles, tsFiles, libsToLink, COPY_QT_DLLS, _is64bit, prefix )
 	end
 	if _G["projectExtraConfig_" .. project().name] then
