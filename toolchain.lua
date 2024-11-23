@@ -50,6 +50,7 @@ newoption {
 		{ "osx-x64",         "OSX - x64"                  },
 		{ "osx-arm64",       "OSX - ARM64"                },
 		{ "orbis",           "Orbis"                      },
+		{ "prospero",        "Prospero"                   },
 		{ "riscv",           "RISC-V"                     },
 		{ "rpi",             "RaspberryPi"                }
     },
@@ -64,7 +65,8 @@ newoption {
 		{ "vs2017-xp",     "Visual Studio 2017 targeting XP" },
 		{ "winstore100",   "Universal Windows App 10.0"      },
 		{ "durango",       "Durango"                         },
-		{ "orbis",         "Orbis"                           }
+		{ "orbis",         "Orbis"                           },
+		{ "prospero",      "Prospero"                        }
 	},
 }
 
@@ -259,6 +261,11 @@ function getTargetOS()
 		return "orbis"
 	end
 
+	if  (_OPTIONS["vs"]  == "prospero") or
+		(_OPTIONS["gcc"] == "prospero") then
+		return "prospero"
+	end
+
 	if (_OPTIONS["vs"]  == "durango") then
 		return "durango"
 	end
@@ -403,6 +410,11 @@ function getTargetCompiler()
 	-- visuul studio - orbis
 	if (_OPTIONS["gcc"] == "orbis")					then return "orbis-clang"			end
 	if (_OPTIONS["vs"]  == "orbis")					then return "orbis-clang"			end
+
+	-- gmake - prospero
+	-- visuul studio - prospero
+	if (_OPTIONS["gcc"] == "prospero")				then return "prospero-clang"		end
+	if (_OPTIONS["vs"]  == "prospero")				then return "prospero-clang"		end
 
 	-- visuul studio - durango
 	if (_OPTIONS["vs"]  == "durango")				then return _ACTION					end
@@ -658,6 +670,19 @@ function toolchain()
 			premake.gcc.ar  = orbisToolchain .. "ar"
 			--location (path.join(_buildDir, "projects", _ACTION .. "-orbis"))
 
+		elseif "prospero" == _OPTIONS["gcc"] then
+
+			if not os.getenv("SCE_PROSPERO_SDK_DIR") then
+				print("Set SCE_PROSPERO_SDK_DIR environment variable.")
+			end
+
+			prosperoToolchain = "$(SCE_PROSPERO_SDK_DIR)/host_tools/bin/prospero-"
+
+			premake.gcc.cc  = prosperoToolchain .. "clang"
+			premake.gcc.cxx = prosperoToolchain .. "clang++"
+			premake.gcc.ar  = prosperoToolchain .. "ar"
+			--location (path.join(_buildDir, "projects", _ACTION .. "-prospero"))
+
 		elseif "rpi" == _OPTIONS["gcc"] then
 
 		elseif "switch" == _OPTIONS["gcc"] then
@@ -720,6 +745,14 @@ function toolchain()
 
 				platforms { "Orbis" }
 				location (path.join(_buildDir, "projects", _ACTION .. "-orbis"))
+			elseif "prospero" == _OPTIONS["vs"] then
+
+				if not os.getenv("SCE_PROSPERO_SDK_DIR") then
+					print("Set SCE_PROSPERO_SDK_DIR environment variable.")
+				end
+
+				platforms { "Prospero" }
+				location (path.join(_buildDir, "projects", _ACTION .. "-prospero"))
 		end
 
 	elseif _ACTION and _ACTION:match("^xcode.+$") then
@@ -804,7 +837,7 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 		"FloatFast",
 	}
 
-	configuration { "vs*", "not orbis", _platform, _configuration }
+	configuration { "vs*", "not orbis", "not prospero", _platform, _configuration }
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/msvc") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc") }
 		defines {
@@ -840,13 +873,13 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 		includedirs { path.join(find3rdPartyProject("bx"), "include/compat/pre1600") }
 		includedirs { path.join(getProjectPath("rbase"), "inc/compat/msvc/pre1600") }
 
-	configuration { "x32", "vs*", "not orbis", _platform, _configuration }
+	configuration { "x32", "vs*", "not orbis", "not prospero", _platform, _configuration }
 		defines { "RTM_WIN32", "RTM_WINDOWS" }
 
-	configuration { "x64", "vs*", "not orbis", _platform, _configuration }
+	configuration { "x64", "vs*", "not orbis", "not prospero", _platform, _configuration }
 		defines { "RTM_WIN64", "RTM_WINDOWS", "_WIN64" }
 
-	configuration { "ARM", "vs*", "not orbis", _platform, _configuration }
+	configuration { "ARM", "vs*", "not orbis", "not prospero", _platform, _configuration }
 
 	configuration { "vs*-clang", _platform, _configuration }
 		buildoptions {
@@ -1336,6 +1369,21 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 			"SceUserService_stub_weak",
 			"SceIme_stub_weak"
 		}
+	configuration { "prospero", _platform, _configuration }
+		includedirs {
+			path.join(find3rdPartyProject("bx"), "include/compat/freebsd"),
+			path.join(getProjectPath("rbase"), "inc/compat/freebsd"),
+			"$(SCE_PROSPERO_SDK_DIR)/target/include",
+			"$(SCE_PROSPERO_SDK_DIR)/target/include_common",
+		}
+		links {
+			"ScePosix_stub_weak",
+			"ScePad_stub_weak",
+			"SceMouse_stub_weak",
+			"SceSysmodule_stub_weak",
+			"SceUserService_stub_weak",
+			"SceIme_stub_weak"
+		}
 	configuration { "rpi", _platform, _configuration }
 		libdirs {
 			path.join(_libDir, "lib/rpi"),
@@ -1453,6 +1501,9 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 		configuration { "orbis", _platform, _configuration }
 			targetextension ".elf"
 
+		configuration { "prospero", _platform, _configuration }
+			targetextension ".self"
+
 		configuration { "android*", _platform, _configuration }
 			kind "ConsoleApp"
 			targetextension ".so"
@@ -1514,6 +1565,7 @@ function setPlatforms()
 	elseif actionUsesMSVC() then
 		if  not (getTargetOS() == "durango")	and 
 			not (getTargetOS() == "orbis")		and
+			not (getTargetOS() == "prospero")	and
 			not (getTargetOS() == "winstore81")	and
 			not (getTargetOS() == "winstore82") 
 			then -- these platforms set their own platform config
