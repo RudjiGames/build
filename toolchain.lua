@@ -665,9 +665,13 @@ function toolchain()
 
 			orbisToolchain = "$(SCE_ORBIS_SDK_DIR)/host_tools/bin/orbis-"
 
-			premake.gcc.cc  = orbisToolchain .. "clang"
-			premake.gcc.cxx = orbisToolchain .. "clang++"
-			premake.gcc.ar  = orbisToolchain .. "ar"
+			quote = "";
+			if os.is("windows") then
+				quote = '"'
+			end
+			premake.gcc.cc  = quote .. orbisToolchain .. "clang" .. quote
+			premake.gcc.cxx = quote .. orbisToolchain .. "clang++" .. quote
+			premake.gcc.ar  = quote .. orbisToolchain .. "ar" .. quote
 			--location (path.join(_buildDir, "projects", _ACTION .. "-orbis"))
 
 		elseif "prospero" == _OPTIONS["gcc"] then
@@ -678,9 +682,13 @@ function toolchain()
 
 			prosperoToolchain = "$(SCE_PROSPERO_SDK_DIR)/host_tools/bin/prospero-"
 
-			premake.gcc.cc  = prosperoToolchain .. "clang"
-			premake.gcc.cxx = prosperoToolchain .. "clang++"
-			premake.gcc.ar  = prosperoToolchain .. "ar"
+			quote = "";
+			if os.is("windows") then
+				quote = '"'
+			end
+			premake.gcc.cc  = quote .. prosperoToolchain .. "clang" .. quote
+			premake.gcc.cxx = quote .. prosperoToolchain .. "clang" .. quote
+			premake.gcc.ar  = quote .. prosperoToolchain .. "llvm-ar" .. quote
 			--location (path.join(_buildDir, "projects", _ACTION .. "-prospero"))
 
 		elseif "rpi" == _OPTIONS["gcc"] then
