@@ -21,7 +21,6 @@ function addProject_lib_sample(_name, _sampleName)
 		local srcFilesPath = project().path .. "samples/" .. _sampleName .. "/"
 		local incFilesPath = project().path .. "samples/" .. _sampleName .. "/"
 
-		print(srcFilesPath)
 		local	sourceFiles = mergeTables(	{ srcFilesPath .. "**.cpp" },
 											{ incFilesPath .. "**.h" } )
 		files  { sourceFiles }
