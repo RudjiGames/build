@@ -18,6 +18,10 @@ local NANOVG_FILES = {
 
 function projectExtraConfig_nanovg()
 	includedirs { NANOVG_ROOT .. "src/" }
+
+ 	configuration { "vs*", "windows" }	
+		buildoptions { "/wd4244" } -- 4324 - '=': conversion from 'int' to 'stbi_uc', possible loss of data
+ 	configuration {}	
 end
 
 function projectAdd_nanovg()
