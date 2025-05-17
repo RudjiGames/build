@@ -1,6 +1,6 @@
 #!/usr/local/bin/lua5.1
 --
--- Copyright 2023 Milos Tosic. All rights reserved.
+-- Copyright 2025 Milos Tosic. All rights reserved.
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 -- Based on script from Kyle Hendricks <kyle.hendricks@gentex.com> and
