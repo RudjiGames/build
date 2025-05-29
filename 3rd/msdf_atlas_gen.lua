@@ -35,6 +35,19 @@ function projectExtraConfig_msdf_atlas_gen()
 		MSDFATLASGEN_ROOT .. "artery-font-format"		
 	}
 	defines { "MSDFGEN_PUBLIC= " } -- static link
+
+ 	configuration { "vs*", "windows" }
+		buildoptions { "/wd4005" } -- 4005 - '_CRT_SECURE_NO_WARNINGS': macro redefinition
+		buildoptions { "/wd4100" } -- 4100 - '': unreferenced parameter
+		buildoptions { "/wd4458" } -- 4458 - declaration of 'p' hides class member
+		buildoptions { "/wd4244" } -- 4244 - 'argument': conversion from '' to '', possible loss of data
+		buildoptions { "/wd4267" } -- 4267 - 'argument': conversion from '' to '', possible loss of data
+		buildoptions { "/wd4706" } -- 4706 - assignment used as a condition
+		buildoptions { "/wd4505" } -- 4505 - '': unreferenced function with internal linkage has been removed
+		buildoptions { "/wd4127" } -- 4127 - conditional expression is constant
+		buildoptions { "/wd4457" } -- 4457 - declaration of '' hides function parameter
+		buildoptions { "/wd4456" } -- 4456 - declaration of '' hides previous local declaration
+ 	configuration {}	
 end
 
 function projectDependencies_msdf_atlas_gen()

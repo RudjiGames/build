@@ -67,6 +67,11 @@ function projectExtraConfig_freetype2()
 	defines { "FT2_BUILD_LIBRARY" }
 
 	includedirs { FREETYPE2_ROOT .. "include"}
+
+ 	configuration { "vs*", "windows" }	
+		buildoptions { "/wd4267" } -- 4267 - conversion from '' to '', possible loss of data
+		buildoptions { "/wd4244" } -- 4244 - conversion from '' to '', possible loss of data
+ 	configuration {}	
 end
 
 function projectAdd_freetype2()
