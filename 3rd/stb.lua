@@ -15,6 +15,15 @@ local STB_FILES = {
 
 function projectExtraConfig_stb()
 	includedirs { STB_ROOT }
+
+ 	configuration { "vs*", "windows" }
+		-- : '=': conversion from '' to '', possible loss of data
+		-- : declaration of '' hides previous local declaration
+		-- : declaration of '' hides function parameter
+		-- : '=': conversion from '' to '', signed/unsigned mismatch
+		-- : potentially uninitialized local variable '' used
+		buildoptions { "/wd4244 /wd4456 /wd4457 /wd4245 /wd4701" }
+	configuration {}
 end
 
 function projectAdd_stb()

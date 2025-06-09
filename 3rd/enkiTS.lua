@@ -16,6 +16,7 @@ local ENKITS_FILES = {
 function projectExtraConfig_enkiTS()
  	configuration { "vs*", "windows" }
 		buildoptions { "/wd4100"} -- 4100: 'pETS_': unreferenced formal parameter
+	configuration {}
 
 	includedirs { ENKITS_ROOT .. "include/" }
 end
