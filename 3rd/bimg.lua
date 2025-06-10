@@ -44,6 +44,10 @@ function projectExtraConfig_bimg()
 		buildoptions { "/wd4505" } -- 4505 - unreferenced function with internal linkage has been removed
 		buildoptions { "/wd4244" } -- 4244 - '=': conversion from 'unsigned int' to 'uint16_t', possible loss of data
 		buildoptions { "/wd4706" } -- 4706 - assignment within conditional expression
+	configuration { "*clang*" }
+		buildoptions {
+			"-Wundef -Wunused-but-set-variable"
+		}														
 	configuration {}
 end
 
