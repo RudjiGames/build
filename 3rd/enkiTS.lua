@@ -20,7 +20,7 @@ function projectExtraConfig_enkiTS()
 		buildoptions {
 			"-Wunused-variable",
 			"-Wunused-function",
-		}														
+		}
 	configuration {}
 
 	includedirs { ENKITS_ROOT .. "include/" }
