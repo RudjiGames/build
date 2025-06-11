@@ -23,7 +23,7 @@ function projectExtraConfig_stb()
 		-- : '=': conversion from '' to '', signed/unsigned mismatch
 		-- : potentially uninitialized local variable '' used
 		buildoptions { "/wd4244 /wd4456 /wd4457 /wd4245 /wd4701" }
-	configuration { "linux-* or osx-*" }
+	configuration { "linux-* or *clang*" }
 		buildoptions {
 			"-Wshadow"
 		}		
