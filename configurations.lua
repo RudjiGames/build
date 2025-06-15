@@ -55,6 +55,9 @@ configuration {}
 
 function vpathFilter(_string, _find)
 
+	-- make sure we search for project folder, other folders can contain its name so adding slashes fixes it
+    _find = "/" .. _find .. "/"
+
 	-- lib samples
 	local pathPos = string.find(_string, "/samples/")
 	if pathPos ~= nil then
@@ -89,9 +92,8 @@ function vpathFilter(_string, _find)
 	-- 
 	local pos = string.find(_string, _find)
 	if pos ~= nil then
-		local rem = string.sub(_string, pos + string.len(_find) + 1)
+		local rem = string.sub(_string, pos + string.len(_find))
 		pos = string.findlast(rem, "/")
-
 		if pos ~= nil then
 			return string.sub(rem, 1, pos-1)
 		end
@@ -116,7 +118,7 @@ for _,srcFilePattern in ipairs(SOURCE_FILES) do
 		srcFiles = { srcFilePattern }
 	end
 	for _,srcFile in ipairs(srcFiles) do
-		
+
 		if string.endswith(srcFile, ".ui") then
 			vpaths { ["qt/forms"]			= srcFile }
 		end
@@ -124,32 +126,46 @@ for _,srcFilePattern in ipairs(SOURCE_FILES) do
 		if string.endswith(srcFile, ".qrc") then
 			vpaths { ["qt/resources"]		= srcFile }
 		end
-
+		
 		local filtered = false
 		if	string.endswith(srcFile, "_ui.h") then
 			filtered = true
 			vpaths { ["qt/generated/ui"]	= srcFile }
 		end
-
+		
 		if	string.endswith(srcFile, "_moc.cpp") then
 			filtered = true
 			vpaths { ["qt/generated/moc"]	= srcFile }
 		end
-
+		
 		if	string.endswith(srcFile, "_qrc.cpp") then
 			filtered = true
 			vpaths { ["qt/generated/qrc"]	= srcFile }
 		end
 		
 		if	string.endswith(srcFile, ".ts") then
+			filtered = true
 			vpaths { ["qt/translation"]		= srcFile }
 		end
 
+		if	string.endswith(srcFile, ".sc") then
+			filtered = true
+			vpaths { ["shaders"]			= srcFile }
+		end
+		
 		if	string.endswith(srcFile, ".h")		or
 			string.endswith(srcFile, ".hpp")	or
-			string.endswith(srcFile, ".inl")	or
-			string.endswith(srcFile, ".c")		or
+			string.endswith(srcFile, ".hxx")	or
+			string.endswith(srcFile, ".inl")	then
+			if not filtered then
+				filtered = true
+				vpaths { [vpathFilter(srcFile, PROJECT_NAME)]	= srcFile }
+			end
+		end
+
+		if	string.endswith(srcFile, ".c")		or
 			string.endswith(srcFile, ".cc")		or
+			string.endswith(srcFile, ".cxx")	or
 			string.endswith(srcFile, ".cpp")	then
 			if not filtered then
 				vpaths { [vpathFilter(srcFile, PROJECT_NAME)]		= srcFile }
