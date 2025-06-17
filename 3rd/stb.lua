@@ -24,9 +24,7 @@ function projectExtraConfig_stb()
 		-- : potentially uninitialized local variable '' used
 		buildoptions { "/wd4244 /wd4456 /wd4457 /wd4245 /wd4701" }
 	configuration { "linux-* or *clang*" }
-		buildoptions {
-			"-Wshadow"
-		}		
+		buildoptions_c { "-Wshadow" }
 	configuration {}
 end
 
