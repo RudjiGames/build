@@ -10,7 +10,8 @@ function script_dir()
 end
 
 local params = { ... }
-local EXECUTABLE = params[1]
+local EXECUTABLE	= params[1]
+local IS_3RD_PARTY	= params[2]
 
 dofile(RTM_SCRIPTS_DIR .. "deploy.lua")
 
@@ -913,9 +914,11 @@ function commonConfig(_platform, _configuration, _isLib, _isSharedLib, _executab
 		}
 
 	configuration { "*-gcc* or osx", _platform, _configuration }
-		buildoptions {
-			"-Wshadow",
-		}
+		if not IS_3RD_PARTY then
+			buildoptions {
+				"-Wshadow",
+			}
+		end
 
 	configuration { "mingw-*", _platform, _configuration }
 		defines { "WIN32" }

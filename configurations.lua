@@ -12,10 +12,11 @@ local COPY_QT_DLLS		= params[4] or false
 local WITH_QT			= params[5] or false
 local EXECUTABLE		= params[6] or false
 local PROJECT_NAME		= params[7] or project().name
+local IS_3RD_PARTY		= params[8] or false
 
 dofile (RTM_SCRIPTS_DIR .. "embedded_files.lua")
 dofile (RTM_SCRIPTS_DIR .. "qtpresets6.lua")
-assert(loadfile(RTM_SCRIPTS_DIR .. "toolchain.lua"))( EXECUTABLE )
+assert(loadfile(RTM_SCRIPTS_DIR .. "toolchain.lua"))( EXECUTABLE, IS_3RD_PARTY )
 
 function setSubConfig(_platform, _configuration, _is64bit)
 	commonConfig(_platform, _configuration, IS_LIBRARY, IS_SHARED_LIBRARY, EXECUTABLE)

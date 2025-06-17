@@ -28,7 +28,9 @@ function addProject_3rdParty_lib(_name, _libFiles, _exceptions)
 																	false,	-- IS_SHARED_LIBRARY
 																	false,	-- COPY_QT_DLLS
 																	false,	-- WITH_QT
-																	false	-- EXECUTABLE
+																	false,	-- EXECUTABLE
+																	nil,	-- PROJECT_NAME
+																	true	-- IS_3RD_PARTY
 																	)
 		addDependencies(project().name)															
 end
