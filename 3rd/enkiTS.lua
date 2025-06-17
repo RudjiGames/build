@@ -18,7 +18,7 @@ function projectExtraConfig_enkiTS()
 		buildoptions { "/wd4100" } -- 4100: 'pETS_': unreferenced formal parameter
 	configuration { "linux-* or *clang*" }
 		buildoptions {
-			"-Wno-unused-variable -Wno-unused-function"
+			"-Wno-unused-variable -Wno-unused-function -Wno-unused-parameter"
 		}
 	configuration {}
 
