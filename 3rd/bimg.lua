@@ -44,14 +44,11 @@ function projectExtraConfig_bimg()
 		buildoptions { "/wd4505" } -- 4505 - unreferenced function with internal linkage has been removed
 		buildoptions { "/wd4244" } -- 4244 - '=': conversion from 'unsigned int' to 'uint16_t', possible loss of data
 		buildoptions { "/wd4706" } -- 4706 - assignment within conditional expression
-	configuration { "linux-* or *clang*" }
-		buildoptions {
-			"-Wno-undef -Wno-unused-but-set-variable"
-		}														
+	configuration { "linux-* or osx-* or *clang*" }
+		buildoptions { "-Wno-undef -Wno-unused-but-set-variable" }														
 	configuration {}
 end
 
 function projectAdd_bimg()
 	addProject_3rdParty_lib("bimg", BIMG_FILES)
 end
-
