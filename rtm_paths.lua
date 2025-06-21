@@ -4,7 +4,6 @@
 --
 
 RTM_PROJECT_DIR_PATHS = {
-   { true, "" },
    { true, "build/3rd/" },
    { true, "build/tools/src/" },
    { true, "3rd/" },
@@ -17,5 +16,5 @@ RTM_PROJECT_DIR_PATHS = {
    { true, "src/tools/libs/" },
    { true, "src/tools/cmdline/" },
    { true, "src/tools/qt/" },
-   --{ true, "../" } -- fall back at the end of search
+   { true, "" } -- fall back at the end of search
 }

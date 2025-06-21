@@ -36,7 +36,7 @@ if (customProjectDirs == nil) then
     customProjectDirs = script_dir() .. "rtm_paths.lua"
 end
 
--- could be a relative path
+customProjectDirs = path.getabsolute(customProjectDirs)
 if (not os.isfile(customProjectDirs)) then                  
     customProjectDirs = _WORKING_DIR .. '/' .. customProjectDirs
 end
@@ -254,10 +254,11 @@ function find3rdPartyProject(_name)
 	end
 
 	if istable(_name) then return nil end
-
+	
 	local name = getProjectBaseName(_name)
+	
 	for _,dir in ipairs(RTM_PROJECT_DIRS) do
-		local libDir = dir .. "3rd/" .. name
+		local libDir = dir .. name
 		if os.isdir(libDir) then
 			local projectPath = libDir .. "/"
 			g_3rdPartyProjectPathCache[_name] = projectPath
@@ -567,7 +568,6 @@ function addLibSubProjects(_name)
 
 	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
 	for _,dir in ipairs(toolsDirs) do
-	print(dir)
 		local dirName = path.getbasename(dir)
 		addProject_lib_tool(_name, dirName)
 	end
