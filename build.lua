@@ -31,6 +31,16 @@ newoption {
 	description = "Generates library sample projects"
 }
 
+newoption {
+	trigger = "with-unittests",
+	description = "Generates library unit test projects"
+}
+
+newoption {
+	trigger = "with-tools",
+	description = "Generates library tools projects"
+}
+
 local customProjectDirs = _OPTIONS["project-dirs"]
 if (customProjectDirs == nil) then
     customProjectDirs = script_dir() .. "rtm_paths.lua"
@@ -390,6 +400,7 @@ function addProject(_name)
 			-- if we cannot find it on OS level - warn user
 			if os.findlib(name) == nil then
 				print('WARNING: Dependency not found - ' .. name .. ' - treating it as a system library')
+				print(debug.traceback())
 			end
 		end
 	end
@@ -536,13 +547,11 @@ function addDependencies(_name, _additionalDeps)
 	end
 end
 
-function addLibSubProjects(_name)
+function addLibSubProjects_samples(_name)
 
 	if istable(_name) then return end
 
 	g_projectIsLoaded[_name] = true
-
-	if (istable(_name)) then return	  end
 
 	local projectDir = getProjectPath(_name)
 	if projectDir == nil then return end
@@ -556,6 +565,16 @@ function addLibSubProjects(_name)
 			addProject_lib_sample(_name, dirName)
 		end
 	end
+end
+
+function addLibSubProjects_unittests(_name)
+
+	if istable(_name) then return end
+
+	g_projectIsLoaded[_name] = true
+
+	local projectDir = getProjectPath(_name)
+	if projectDir == nil then return end
 
 	-- Add unit test projects only if unittest-cpp dependency can be found
 	local unittest_path = find3rdPartyProject("unittest-cpp")
@@ -565,6 +584,16 @@ function addLibSubProjects(_name)
 			addProject_lib_test(_name)
  		end
 	end
+end
+
+function addLibSubProjects_tools(_name)
+
+	if istable(_name) then return end
+
+	g_projectIsLoaded[_name] = true
+
+	local projectDir = getProjectPath(_name)
+	if projectDir == nil then return end
 
 	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
 	for _,dir in ipairs(toolsDirs) do
@@ -575,9 +604,23 @@ end
 
 function addLibProjects(_name)
 	loadProject(_name)
-	local withSamples = _OPTIONS["with-samples"]
-	if (withSamples ~= nil) then
-		addLibSubProjects(_name)
+
+	local addLibProjects = _name == solution().name
+
+	-- we're adding library samples only if it's a main solution
+	-- in other words, only in library development mode.
+	if (_OPTIONS["with-samples"] ~= nil) and addLibProjects then
+		addLibSubProjects_samples(_name)
+	end
+
+	-- same as above
+	if (_OPTIONS["with-unittests"] ~= nil) and addLibProjects then
+		addLibSubProjects_unittests(_name)
+	end
+
+	-- adding library tools always, if requested
+	if (_OPTIONS["with-tools"] ~= nil) then
+		addLibSubProjects_tools(_name)
 	end
 end
 
