@@ -84,4 +84,5 @@ function addProject_lib(_name, _libType, _shared, _nameAppend, _disablePCH)
 																	)
 
 		addDependencies(project().name)
+		addLibProjects(project().name)
 end

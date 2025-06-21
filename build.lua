@@ -26,6 +26,11 @@ newoption {
 	description = "Specify file with project search paths table (has to be named RTM_PROJECT_DIR_PATHS)"
 }
 
+newoption {
+	trigger = "with-samples",
+	description = "Generates library sample projects"
+}
+
 local customProjectDirs = _OPTIONS["project-dirs"]
 if (customProjectDirs == nil) then
     customProjectDirs = script_dir() .. "rtm_paths.lua"
@@ -530,8 +535,50 @@ function addDependencies(_name, _additionalDeps)
 	end
 end
 
+function addLibSubProjects(_name)
+
+	if istable(_name) then return end
+
+	g_projectIsLoaded[_name] = true
+
+	if (istable(_name)) then return	  end
+
+	local projectDir = getProjectPath(_name)
+	if projectDir == nil then return end
+
+	-- Add unit sample projects only if rapp dependency can be found
+	local rapp = getProjectPath("rapp")
+	if rapp ~= nil then
+		local sampleDirs = os.matchdirs(projectDir .. "/samples/*") 
+		for _,dir in ipairs(sampleDirs) do
+			local dirName = path.getbasename(dir)
+			addProject_lib_sample(_name, dirName)
+		end
+	end
+
+	-- Add unit test projects only if unittest-cpp dependency can be found
+	local unittest_path = find3rdPartyProject("unittest-cpp")
+	if unittest_path ~= nil then
+		local testDir = projectDir .. "/test/"
+		if os.isdir(testDir) then
+			addProject_lib_test(_name)
+ 		end
+	end
+
+	local toolsDirs = os.matchdirs(projectDir .. "/tools/*") 
+	for _,dir in ipairs(toolsDirs) do
+	print(dir)
+		local dirName = path.getbasename(dir)
+		addProject_lib_tool(_name, dirName)
+	end
+end
+
 function addLibProjects(_name)
 	loadProject(_name)
+	local withSamples = _OPTIONS["with-samples"]
+	if (withSamples ~= nil) then
+		addLibSubProjects(_name)
+	end
 end
 
 function stripExtension( _path )
