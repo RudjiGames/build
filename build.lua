@@ -400,22 +400,23 @@ function addProject(_name)
 			-- if we cannot find it on OS level - warn user
 			if os.findlib(name) == nil then
 				print('WARNING: Dependency not found - ' .. name .. ' - treating it as a system library')
-				print(debug.traceback())
 			end
 		end
 	end
 
-	local projectDir = getProjectPath(_name, ProjectPath.Dir)
-	if projectDir ~= nil then
-		local toolDirs = os.matchdirs(projectDir .. "/tools/*")
-		for _,toolPath in ipairs(toolDirs) do
-			local tool = path.getbasename(toolPath)
-			local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
-			if file_exists(scriptPath) then
-				dofile(scriptPath)
-				if _G["projectAdd_" .. tool] ~= nil then
-					_G["projectAdd_" .. tool](toolPath)
-					g_projectIsLoaded[tool] = true
+	if (_OPTIONS["with-tools"] ~= nil) then
+		local projectDir = getProjectPath(_name, ProjectPath.Dir)
+		if projectDir ~= nil then
+			local toolDirs = os.matchdirs(projectDir .. "/tools/*")
+			for _,toolPath in ipairs(toolDirs) do
+				local tool = path.getbasename(toolPath)
+				local scriptPath = toolPath .. "/genie/" .. tool .. ".lua"
+				if file_exists(scriptPath) then
+					dofile(scriptPath)
+					if _G["projectAdd_" .. tool] ~= nil then
+						_G["projectAdd_" .. tool](toolPath)
+						g_projectIsLoaded[tool] = true
+					end
 				end
 			end
 		end
@@ -431,6 +432,7 @@ function configDependency(dependency)
 end
 
 function loadProject(_projectName, _load)
+
 	local name = getProjectBaseName(_projectName)
 	if name ~= nil then
 		local prjFile = ""
