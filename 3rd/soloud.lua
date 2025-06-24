@@ -430,7 +430,7 @@ print ("")
 function projectExtraConfig_soloud()
 	includedirs { SOLOUD_ROOT .. "include" }
 	if (WITH_VITA_HOMEBREW == 0) then
-		configuration { "gmake" }
+		configuration { "x64 and not arm64x" }
 			buildoptions { 
 				"-msse4.1 -msimd128", 
 				"-fPIC"
