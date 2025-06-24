@@ -28,7 +28,8 @@ end
 
 function projectAdd_sparsehash()
 	if getTargetOS() ~= "windows" then
-		os.execute("cp " .. SPARSEH_ROOT .. "src/config.h.in " .. SPARSEH_ROOT .. "src/sparsehash/internal/sparseconfig.h")
+		os.execute(SPARSEH_ROOT .. "configure")
+		os.execute("cp " .. SPARSEH_ROOT .. "src/config.h " .. SPARSEH_ROOT .. "src/sparsehash/internal/sparseconfig.h")
 	end
 
 	addProject_3rdParty_lib("sparsehash", SPARSEH_FILES)
