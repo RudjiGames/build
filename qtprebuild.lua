@@ -90,12 +90,6 @@ local function getExe(_name)
 	return binPath
 end
 
-local QtToolExe = {}
-QtToolExe.moc		= getExe("moc")
-QtToolExe.uic		= getExe("uic")
-QtToolExe.qrc		= getExe("rcc")
-QtToolExe.ts		= getExe("lrelease")
-
 local function shellQuoteWindows(_s)
 	return "'" .. string.gsub(_s, "'", "''") .. "'"
 end
@@ -109,11 +103,12 @@ local function trim(_s)
 end
 
 local lfs_ok, lfs = pcall(require, "lfs")
+local fileTimes = {} -- one prebuild invocation; no generated output is read after the tool runs
 
 local function file_get_time(_filepath)
-	if not file_exists(_filepath) then
-		return nil
-	end
+	if _filepath == nil then return nil end
+	local cached = fileTimes[_filepath]
+	if cached ~= nil then return cached or nil end
 
 	-- LuaFileSystem reads the mtime with ZERO child processes. The old code spawned a powershell (Windows) or
 	-- stat (posix) PER FILE, so a .qrc with hundreds of embedded resources fired hundreds of serial process
@@ -122,7 +117,15 @@ local function file_get_time(_filepath)
 	-- in a run comes from the SAME source; hence lfs is used exclusively when present (a nil attribute -> nil ->
 	-- treated as out-of-date, the safe result). The popen probe stays only as the fallback for a lua without lfs.
 	if lfs_ok then
-		return lfs.attributes(_filepath, "modification")
+		-- One stat supplies existence, type and time; avoid rename + open probes for every QRC resource.
+		local attr = lfs.attributes(_filepath)
+		local time = attr and attr.mode == "file" and attr.modification or nil
+		fileTimes[_filepath] = time or false
+		return time
+	end
+	if not file_exists(_filepath) then
+		fileTimes[_filepath] = false
+		return nil
 	end
 
 	local pipe = nil
@@ -134,12 +137,15 @@ local function file_get_time(_filepath)
 	end
 
 	if not pipe then
+		fileTimes[_filepath] = false
 		return nil
 	end
 
 	local output = pipe:read("*a")
 	pipe:close()
-	return tonumber(trim(output))
+	local time = tonumber(trim(output))
+	fileTimes[_filepath] = time or false
+	return time
 end
 
 local function pathJoin(_dir, _leaf)
@@ -222,10 +228,6 @@ local runProgram = function(command)
 	return ok == true and (code == nil or code == 0)
 end
 
-if outputDir ~= "" then
-	mkdir( outputDir )
-end
-
 -- All four tool modes generate arg[2] and share the SAME up-to-date test (mode = arg[1]). Run it ONCE here and bail
 -- silently when nothing changed, so an up-to-date rebuild no longer prints a "Generating <type> for ..." line for
 -- every file it then immediately skips (the per-branch checks below were AFTER their print).
@@ -241,11 +243,19 @@ if file_is_upToDate(arg[2], upToDateOutput, arg[1]) then
 	return
 end
 
+if outputDir ~= "" then
+	mkdir( outputDir )
+end
+
+-- An up-to-date build needs no Qt executable lookups. On a rebuild, probe only the requested tool.
+local toolNames = { ["-moc"] = "moc", ["-uic"] = "uic", ["-rcc"] = "rcc", ["-ts"] = "lrelease" }
+local toolExe = getExe(toolNames[arg[1]])
+
 if arg[1] == "-moc" then
 	print("Generating MOC file for " .. arg[2])
-	local fullMOCPath = QtToolExe.moc.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFilePath .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[2] .. "\""
+	local fullMOCPath = toolExe.." \""..arg[2].. "\" -I \"" .. getPath(arg[2]) .. "\" -o \"" .. outputFilePath .."\" -f\"".. arg[4] .. "_pch.h\" -f\"" .. arg[2] .. "\""
 	if windows then
-		fullMOCPath = '""'..QtToolExe.moc..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFilePath ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[2] .. '"'
+		fullMOCPath = '""'..toolExe..'" "'..arg[2].. '" -I "' .. getPath(arg[2]) .. '" -o "' .. outputFilePath ..'"' .. " -f".. arg[4] .. "_pch.h -f" .. arg[2] .. '"'
 	end
 	if false == runProgram(fullMOCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[MOC Failed to generate ]]..outputFilePath, 5 ) ); io.stdout:flush()
@@ -254,9 +264,9 @@ if arg[1] == "-moc" then
 	end
 elseif arg[1] == "-uic" then
 	print("Generating UI header for " .. arg[2])
-	local fullUICPath = QtToolExe.uic.." \""..arg[2].."\" -o \""..outputFilePath.."\""
+	local fullUICPath = toolExe.." \""..arg[2].."\" -o \""..outputFilePath.."\""
 	if windows then
-		fullUICPath = '""'..QtToolExe.uic..'" "'..arg[2]..'" -o "'..outputFilePath..'""'
+		fullUICPath = '""'..toolExe..'" "'..arg[2]..'" -o "'..outputFilePath..'""'
 	end
 	if false == runProgram(fullUICPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[UIC Failed to generate ]]..outputFilePath, 7 ) ); io.stdout:flush()
@@ -273,9 +283,9 @@ elseif arg[1] == "-rcc" then
 	-- rather than falling back. QResource inflates on first access, so this trades a little startup/first-paint
 	-- CPU for the size.
 	local RCC_COMPRESS = " --compress-algo zlib --compress 9 --threshold 5"
-	local fullRCCPath = QtToolExe.qrc..RCC_COMPRESS.." -name \""..getFileNameNoExtNoPathFromPath( arg[2] ).."\" \""..arg[2].."\" -o \""..outputFilePath.."\""
+	local fullRCCPath = toolExe..RCC_COMPRESS.." -name \""..getFileNameNoExtNoPathFromPath( arg[2] ).."\" \""..arg[2].."\" -o \""..outputFilePath.."\""
 	if windows then
-		fullRCCPath = '""'..QtToolExe.qrc..'"'..RCC_COMPRESS..' -name "'..getFileNameNoExtNoPathFromPath( arg[2] )..'" "'..arg[2]..'" -o "'..outputFilePath..'""'
+		fullRCCPath = '""'..toolExe..'"'..RCC_COMPRESS..' -name "'..getFileNameNoExtNoPathFromPath( arg[2] )..'" "'..arg[2]..'" -o "'..outputFilePath..'""'
 	end
 	if false == runProgram(fullRCCPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[RCC Failed to generate ]]..outputFilePath, 6 ) ); io.stdout:flush()
@@ -284,9 +294,9 @@ elseif arg[1] == "-rcc" then
 	end
 elseif arg[1] == "-ts" then
 	print("Generating Translation file for " .. arg[2])
-	local fullTSPath = QtToolExe.ts.." \""..arg[2].."\""
+	local fullTSPath = toolExe.." \""..arg[2].."\""
 	if windows then
-		fullTSPath = '""' .. QtToolExe.ts .. '" "' .. arg[2] .. '""'
+		fullTSPath = '""' .. toolExe .. '" "' .. arg[2] .. '""'
 	end
 	if false == runProgram( fullTSPath) then
 		print( BuildErrorWarningString( debug.getinfo(1).currentline, true, [[Translation Failed to generate ]]..outputFilePath, 7 ) ); io.stdout:flush()

@@ -209,6 +209,17 @@ Full documentation is available in the [doc/](doc/) directory:
 4. [Custom Configurations](doc/zidar_doc_04_custom_configurations.md) — toolchains, Qt, shaders, 3rd party management
 5. [Samples](doc/zidar_doc_05_samples.md) — walkthrough of all included sample projects
 
+## Regression Tests
+
+Run from the zidar directory (replace `windows/genie.exe` with `linux/genie` or `darwin/genie` on those hosts):
+
+```bash
+tools/bin/windows/genie.exe --file=tests/genie.lua test
+lua tests/qtprebuild.lua
+```
+
+The GENie tests cover dependency ordering, cycles, language detection, and operation counts for large dependency chains and source lists. The standalone Lua tests cover Qt incremental-build decisions with and without LuaFileSystem; they do not require a Qt installation.
+
 ## Dependencies
 
 - [GENie](https://github.com/bkaradzic/GENie) — project file generator (required)

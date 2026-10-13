@@ -726,44 +726,33 @@ end
 
 -- Returns true if any of the project files have a C++ extension
 function projectIsCPP(_projectFiles)
-	-- Key on a SORTED copy: the result ("does any file have a C++ extension") is order-independent, but the old
-	-- key was table.concat in list order, so {a,b} and {b,a} missed each other's cached result and re-globbed.
-	-- Sort a copy (never the caller's table) so equivalent file sets share one cache entry.
-	local keyFiles = {}
-	for i = 1, #_projectFiles do keyFiles[i] = _projectFiles[i] end
-	table.sort(keyFiles)
-	local cacheKey = table.concat(keyFiles, "\n")
-	local cached = _projectIsCPPCache[cacheKey]
-	if cached ~= nil then
-		return cached
-	end
-
-	local function isCPPFile(_file)
-		return _projectIsCPPExtensions[string.lower(path.getextension(_file))] == true
-	end
-
 	for _, entry in ipairs(_projectFiles) do
-		local ext = path.getextension(entry)
-		if string.find(entry, "*", 1, true) ~= nil and not string.find(ext, "[%*%?]") and not isCPPFile(entry) then
-			-- Glob with a literal, non C++ extension (e.g. "src/**.c"): it can only match non C++
-			-- files, so skip the directory walk entirely
-		elseif string.find(entry, "*", 1, true) ~= nil then
-			-- Glob pattern: inspect the files it actually expands to. The
-			-- pattern's own extension can be a wildcard (e.g. ".*" in
-			-- "src/**.*") which tells us nothing about the source language.
-			for _, file in ipairs(os.matchfiles(entry)) do
-				if isCPPFile(file) then
-					_projectIsCPPCache[cacheKey] = true
-					return true
+		local ext = string.lower(path.getextension(entry))
+		local isCPP = _projectIsCPPExtensions[ext] == true
+		if string.find(entry, "*", 1, true) then
+			-- A literal non-C++ extension cannot match C++; an extensionless glob ("src/**") can.
+			if isCPP or ext == "" or string.find(ext, "[%*%?]") then
+				-- Cache each glob, so overlapping file lists share walks without copying/sorting the lists.
+				-- Absolute keys keep identical relative patterns in different script directories separate.
+				local cacheKey = path.getabsolute(entry)
+				local cached = _projectIsCPPCache[cacheKey]
+				if cached == nil then
+					cached = false
+					for _, file in ipairs(os.matchfiles(entry)) do
+						if _projectIsCPPExtensions[string.lower(path.getextension(file))] then
+							cached = true
+							break
+						end
+					end
+					_projectIsCPPCache[cacheKey] = cached
 				end
+				if cached then return true end
 			end
-		elseif os.isfile(entry) and isCPPFile(entry) then
-			_projectIsCPPCache[cacheKey] = true
+		elseif isCPP and os.isfile(entry) then
 			return true
 		end
 	end
 
-	_projectIsCPPCache[cacheKey] = false
 	return false
 end
 
@@ -1384,6 +1373,7 @@ end
 local g_subDependenciesCount = {}
 local g_resolvedDependencies = {}
 local g_resolvingDependencies = {} -- projects currently mid-resolution; the cycle guard for projectGetDependencies
+local g_dependencyCycleDetected = false
 
 --
 function sortDependencies(a, b)
@@ -1408,6 +1398,7 @@ function projectGetDependencies(_name, _additionalDeps)
 	-- still being resolved and recurse to a stack overflow. If we're already resolving this name, break the cycle
 	-- (return empty) and warn, instead of hanging.
 	if g_resolvingDependencies[fullName] then
+		g_dependencyCycleDetected = true
 		printWarning("Circular dependency detected at " .. textColor(fullName, Color.Yellow) .. " - breaking the cycle.")
 		return {}
 	end
@@ -1443,7 +1434,14 @@ function projectGetDependencies(_name, _additionalDeps)
 		projectLoadIfNeeded(dependency, false) -- do not add
 	end
 
-	for _, d in ipairs(dependencies) do
+	-- Each direct dependency already returns its transitive closure. Re-expanding every appended entry
+	-- merges the same lists repeatedly (cubic work for a chain). If a cycle was cut, cached closures may
+	-- be incomplete; retain the full expansion in that case, including for subsequent consumers.
+	local directCount = #dependencies
+	local dependencyIndex = 1
+	while dependencyIndex <= #dependencies do
+		if dependencyIndex > directCount and not g_dependencyCycleDetected then break end
+		local d = dependencies[dependencyIndex]
 		local depNested = projectGetDependencies(d)
 		for _, dep in ipairs(depNested) do
 			if not dependenciesHashed[dep] then
@@ -1451,6 +1449,7 @@ function projectGetDependencies(_name, _additionalDeps)
 				dependenciesHashed[dep] = true
 			end
 		end
+		dependencyIndex = dependencyIndex + 1
 	end
 
 	if _ACTION == "gmake" then
