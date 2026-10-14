@@ -279,7 +279,7 @@ elseif arg[1] == "-rcc" then
 	-- --threshold, whose DEFAULT (70) demands a 70% saving before a file is stored compressed - so fonts, SVGs
 	-- and QSS all fell through it and every byte went in raw. Dropping the threshold to 5% is what actually turns
 	-- compression on; measured on Omni: OmniProfiler.qrc -38%, rg_qt.qrc -62% of the generated array.
-	-- zlib, not zstd: the vendored Qt (6.11.1) reports "Zstandard support not compiled in", and rcc then FAILS
+	-- zlib, not zstd: the vendored Qt (6.11.1 and 6.12.0, both built without zstd) reports "Zstandard support not compiled in", and rcc then FAILS
 	-- rather than falling back. QResource inflates on first access, so this trades a little startup/first-paint
 	-- CPU for the size.
 	local RCC_COMPRESS = " --compress-algo zlib --compress 9 --threshold 5"
