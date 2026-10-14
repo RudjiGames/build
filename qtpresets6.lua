@@ -44,15 +44,9 @@ local function qtWarnMissingOnce(_varName, _qtPath)
 	printWarning(why .. " - 32-bit Qt projects will be generated, but building them will fail until it is set.")
 end
 
-local function qtFileSize(_path)
-	local f = io.open(_path, "rb")
-	if not f then
-		return nil
-	end
-	local size = f:seek("end")
-	f:close()
-	return size
-end
+local g_qtSourceSizes = {}
+local g_qtStagedFiles = {}
+local g_qtStagingReported = {}
 
 -- Staging a Qt DLL used to be "copy only if the destination is missing", which
 -- was safe while a single QTDIR meant the staged DLL could never be the wrong
@@ -64,12 +58,38 @@ end
 -- in the sense that two different Qt builds of the same DLL are essentially
 -- never byte-identical in length.
 local function qtCopyIfDifferent(_source, _dest)
-	local destSize = qtFileSize(_dest)
-	if destSize ~= nil and destSize == qtFileSize(_source) then
+	-- Use GENie's native stat instead of opening every DLL just to seek to its end. Opening
+	-- cold binaries can trigger virus scanning; this runs for every configuration of every
+	-- Qt project, before the next project name is printed. Cache only for this generation.
+	_source = path.getabsolute(_source)
+	_dest = path.getabsolute(_dest)
+	if g_qtStagedFiles[_dest] == _source then
 		return
 	end
-	os.mkdir(path.getdirectory(_dest))
-	os.copyfile(_source, _dest)
+	local sourceSize = g_qtSourceSizes[_source]
+	if sourceSize == nil then
+		local sourceInfo = os.stat(_source)
+		sourceSize = sourceInfo and sourceInfo.size or false
+		g_qtSourceSizes[_source] = sourceSize
+	end
+	if sourceSize == false then return end
+	local destInfo = os.stat(_dest)
+	if destInfo and destInfo.size == sourceSize then
+		g_qtStagedFiles[_dest] = _source
+		return
+	end
+	local destDir = path.getdirectory(_dest)
+	if not g_qtStagingReported[destDir] then
+		printInfo("Staging Qt runtime: " .. destDir)
+		g_qtStagingReported[destDir] = true
+	end
+	os.mkdir(destDir)
+	if os.copyfile(_source, _dest) then
+		g_qtStagedFiles[_dest] = _source
+	else
+		-- Do not cache a failed copy: a later project must be able to retry it.
+		printWarning("Could not stage Qt runtime: " .. _source .. " -> " .. _dest)
+	end
 end
 
 function qtConfigure( _platform, _configuration, _mocfiles, _uifiles, _qrcfiles, _tsfiles, _libsToLink, _copyDynamicLibraries, _is64bit, _dbgPrefix, _isFirstConfig, _copyOnlyDlls )
@@ -201,23 +221,9 @@ function qtConfigure( _platform, _configuration, _mocfiles, _uifiles, _qrcfiles,
 			-- DLLs land on the next generate once the variable points somewhere real.
 			if _copyDynamicLibraries and qtAvailable then
 
-				local destPath = binDir
-				destPath = string.gsub( destPath, "([/]+)", "\\" ) .. '\\bin\\'
-
-				-- The "platforms" plugin dir is invariant of lib, so create it once before the copy loop
-				-- (guarded by a non-empty lib list to match the original loop-body semantics: the dir was
-				-- only ever created when at least one iteration ran) instead of re-issuing an idempotent
-				-- mkdir syscall for every linked Qt library.
-				if #_libsToLink > 0 then
-					os.mkdir(destPath .. "/platforms")
-					-- The plugin subdirs the loop below copies INTO. qtCopyIfDifferent does mkdir the parent of its
-					-- destination, but the destination is built as destPath .. '\' .. "iconengines\qsvgicon.dll" - a doubled
-					-- separator - and path.getdirectory() of that resolves to bin\, so the copy landed in a directory that
-					-- did not exist and failed silently. platforms\ only ever worked because of the explicit mkdir above.
-					-- Symptom when it fails: every .svg QIcon is null (toolbar/dock icons and checkbox glyphs vanish).
-					os.mkdir(destPath .. "/iconengines")
-					os.mkdir(destPath .. "/imageformats")
-				end
+				-- GENie's path helpers require forward slashes, including when creating the
+				-- parent of a DLL in a fresh output tree. qtCopyIfDifferent creates it on demand.
+				local destPath = path.join(binDir, "bin") .. "/"
 
 				for _, lib in ipairs( _libsToLink ) do
 					local libname =  RG_QT_LIB_PREFIX .. lib  .. _dbgPrefix .. '.dll'
@@ -253,7 +259,7 @@ function qtConfigure( _platform, _configuration, _mocfiles, _uifiles, _qrcfiles,
 
 				for i=1, #otherDLLs, 1 do
 					local libname =  otherDLLs[i].name .. '.dll'
-					qtCopyIfDifferent( QT_PATH .. otherDLLs[i].srcPrefix .. libname, destPath .. '\\' .. libname )
+					qtCopyIfDifferent( QT_PATH .. otherDLLs[i].srcPrefix .. libname, destPath .. libname )
 				end
 			end
 

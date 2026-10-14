@@ -215,10 +215,13 @@ Run from the zidar directory (replace `windows/genie.exe` with `linux/genie` or 
 
 ```bash
 tools/bin/windows/genie.exe --file=tests/genie.lua test
+tools/bin/windows/genie.exe --file=tests/qt_staging.lua test-qt-staging
 lua tests/qtprebuild.lua
 ```
 
 The GENie tests cover dependency ordering, cycles, language detection, and operation counts for large dependency chains and source lists. The standalone Lua tests cover Qt incremental-build decisions with and without LuaFileSystem; they do not require a Qt installation.
+
+The Qt staging checks use small fixture files to verify fresh output directories, 32/64-bit and debug runtimes, upgrades, missing plugins, and failed-copy retries. They also require unchanged generation to inspect metadata without opening DLL contents or repeating checks across Qt projects.
 
 ## Dependencies
 
