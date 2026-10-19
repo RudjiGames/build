@@ -8,7 +8,7 @@
 -- https://github.com/apitrace/apitrace
 --
 -- Zidar owns the DEPENDENCY only: the consumer reads the Python API specifications (specs/) at development time
--- (OmniProfiler: scripts/gen_d3d_trace.py generates the native Direct3D call-trace hooks and replay decoders from
+-- (OmniProfiler: scripts/gen/gen_d3d_trace.py generates the native Direct3D call-trace hooks and replay decoders from
 -- them; the generated files are checked in). Nothing of apitrace is built, linked or shipped. The checkout is
 -- PINNED because the generator reads exact spec files; the project in the solution carries the public headers for
 -- browsing and is header-only: nothing links it.
@@ -16,7 +16,7 @@
 local params		= { ... }
 local APITRACE_ROOT	= params[1]
 
--- The pinned upstream revision - the ONE place it is declared. BuildDirect3DReplay.py reads this assignment (and the
+-- The pinned upstream revision - the ONE place it is declared. scripts/gen/apitrace_pin.py and scripts/gen/gen_d3d_trace.py read this assignment (and the
 -- submodule table below) from this file, so keep each in this exact shape.
 local APITRACE_REVISION = "ceac241a8be6bcbaf2776c601f3c4ae52dea4680"
 
