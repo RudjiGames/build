@@ -7,13 +7,11 @@
 -- Tools for tracing OpenGL, Direct3D, and other graphics APIs
 -- https://github.com/apitrace/apitrace
 --
--- Zidar owns the DEPENDENCY, not the build: apitrace generates its trace/retrace sources with its own Python code
--- generators and builds them with CMake, so the consumer drives that build against the checkout zidar provides
--- (OmniProfiler: scripts/BuildDirect3DReplay.py, with its overlay from src/tools/OmniD3DReplay). What zidar does is
--- what it does for every other library here: clone into .3rd/apitrace - PINNED, because consumers patch the engine at
--- exact source anchors - with the submodules the Windows (Direct3D) build needs, and put a project in the solution.
--- That project carries the public headers (trace model / parser, os, image, retrace) for browsing and is header-only:
--- nothing links it.
+-- Zidar owns the DEPENDENCY only: the consumer reads the Python API specifications (specs/) at development time
+-- (OmniProfiler: scripts/gen_d3d_trace.py generates the native Direct3D call-trace hooks and replay decoders from
+-- them; the generated files are checked in). Nothing of apitrace is built, linked or shipped. The checkout is
+-- PINNED because the generator reads exact spec files; the project in the solution carries the public headers for
+-- browsing and is header-only: nothing links it.
 
 local params		= { ... }
 local APITRACE_ROOT	= params[1]
