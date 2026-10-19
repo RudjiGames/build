@@ -1003,7 +1003,12 @@ function projectInstallDestination(_name)
 	return RG_DEPENDENCY_DIR .. "/" .. projectNameCleanup(name)
 end
 
--- Downloads and installs a 3rd party library via git clone
+-- Downloads and installs a 3rd party library via git clone. projectSource_<name>() names the repository; two optional
+-- companions pin WHAT is cloned, so a dependency can be an exact upstream state instead of a moving branch head:
+--   projectSourceRevision_<name>()   -> commit hash / tag to check out after the clone (the clone is made with
+--                                       --no-checkout and checked out detached, so the branch head never materialises)
+--   projectSourceSubmodules_<name>() -> table of submodule paths to initialise (shallow), or true for all of them
+-- A missing destination is the only trigger: an existing clone is never moved to a new pin (delete it to re-download).
 function projectInstall3rdPartyLib(_name)
 	local name = projectGetBaseName(_name)
 	local destination = projectInstallDestination(_name)
@@ -1017,8 +1022,37 @@ function projectInstall3rdPartyLib(_name)
 	if downloadLink then
 		print("Downloading " .. textColor(name, Color.Cyan) .. " from: " .. textColor(downloadLink, Color.Yellow))
 		if not pathIsDirCached(destination) then
-			if not os.execute('git clone "' .. downloadLink .. '" "' .. destination .. '"') then
+			local revision = nil
+			if _G["projectSourceRevision_" .. buildName] ~= nil then
+				revision = _G["projectSourceRevision_" .. buildName]()
+			end
+			local cloneOptions = revision and "--no-checkout " or ""
+			if not os.execute('git clone ' .. cloneOptions .. '"' .. downloadLink .. '" "' .. destination .. '"') then
 				printError("Failed to download missing dependency: " .. textColor(name, Color.Red))
+				return false
+			end
+			if revision then
+				print("Checking out " .. textColor(name, Color.Cyan) .. " at: " .. textColor(revision, Color.Yellow))
+				if not os.execute('git -C "' .. destination .. '" checkout --detach "' .. revision .. '"') then
+					printError("Failed to check out revision " .. textColor(revision, Color.Red) .. " of dependency: " .. textColor(name, Color.Red))
+					return false
+				end
+			end
+			if _G["projectSourceSubmodules_" .. buildName] ~= nil then
+				local submodules = _G["projectSourceSubmodules_" .. buildName]()
+				if submodules then
+					local paths = ""
+					if isTable(submodules) then
+						for _, submodule in ipairs(submodules) do
+							paths = paths .. ' "' .. submodule .. '"'
+						end
+					end
+					print("Initialising submodules of " .. textColor(name, Color.Cyan) .. (paths ~= "" and (":" .. paths) or " (all)"))
+					if not os.execute('git -C "' .. destination .. '" submodule update --init --depth 1 --' .. paths) then
+						printError("Failed to initialise submodules of dependency: " .. textColor(name, Color.Red))
+						return false
+					end
+				end
 			end
 			return pathIsDirCached(destination, true)
 		end

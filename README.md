@@ -44,7 +44,7 @@ end
 - **Console support** — PlayStation 4/5 (Orbis/Prospero), Xbox One (Durango), Nintendo Switch
 - **Qt 6 integration** — automatic MOC, UIC, RCC, and translation file processing
 - **Shader compilation** — bgfx shader cross-compilation (GLSL, SPIR-V, DirectX 9/11, Metal) as a pre-build step
-- **Third-party library management** — build scripts for 63 common libraries
+- **Third-party library management** — build scripts for 64 common libraries
 - **Precompiled header support** — automatic PCH detection and configuration
 - **Deployment** — platform-specific packaging, icon generation, and manifest creation
 
@@ -122,6 +122,8 @@ Projects are defined through named callback functions. Zidar calls them automati
 | `projectAdd_<name>()` | **Required.** Adds the project to the solution |
 | `projectDependencies_<name>()` | Returns a table of dependency names |
 | `projectSource_<name>()` | Returns a git URL for auto-download |
+| `projectSourceRevision_<name>()` | Returns the commit / tag to check out after the clone (a pinned dependency) |
+| `projectSourceSubmodules_<name>()` | Returns the submodule paths to initialise (shallow), or `true` for all of them |
 | `projectExtraConfig_<name>()` | Per-configuration extra flags/defines/links |
 | `projectExtraConfigExecutable_<name>()` | Extra settings for executable targets |
 | `projectDependencyConfig_<name>()` | Settings applied when used as a dependency |
@@ -160,7 +162,7 @@ Projects are defined through named callback functions. Zidar calls them automati
 
 ## Third-Party Libraries
 
-Zidar includes build scripts for 63 libraries in `3rd/`. When a dependency isn't found locally, zidar automatically downloads it via `git clone`:
+Zidar includes build scripts for 64 libraries in `3rd/`. When a dependency isn't found locally, zidar automatically downloads it via `git clone` (pinned to a revision, with the submodules it needs, when the script says so):
 
 `assimp` `basis_universal` `bgfx` `bimg` `bnet` `box2d` `bx` `cgltf` `curl` `DIA` `efsw` `enet` `enkiTS` `fcpp` `freetype2` `imgui` `jolt` `libdom` `libparserutils` `librdkafka` `libsvgtiny` `libtess2` `libuv` `libwapcaplet` `libxml2` `lua` `mbedtls` `meshoptimizer` `minilua` `msdf_atlas_gen` `msdfgen` `nanosvg` `nanosvg2` `nanovg` `ogg` `openssl` `raw_pdb` `sasl2` `simple-svg` `soloud` `sparsehash` `spdlog` `squish` `stb` `subprocess.h` `ta_lib` `tbb` `tinygltf` `tinyspline` `tinyxml2` `tomlplusplus` `ufbx` `unity` `unittest-cpp` `usockets` `uwebsockets` `vg_renderer` `vorbis` `wolfssl` `xxHash` `zfp` `zlib` `zstd`
 

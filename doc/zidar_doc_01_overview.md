@@ -13,7 +13,7 @@ Zidar is a Lua-based build system framework built on top of [GENie](https://gith
 - **Cross-platform toolchain support** — 30+ platform/compiler combinations including Windows (MSVC 2017–2026, MinGW GCC/Clang), Linux (GCC, Clang, AFL variants), macOS/iOS/tvOS/visionOS (Xcode), Android NDK (arm, arm64, x86, x86_64), WebAssembly (Emscripten), FreeBSD, NetBSD, Raspberry Pi, RISC-V, and consoles (PlayStation 4/5, Xbox One, Nintendo Switch)
 - **Qt 6 integration** — automatic MOC, UIC, RCC, and translation file processing with per-project file caching and automatic linking of Qt modules (Core, Gui, Widgets, Network, and custom modules)
 - **Embedded shader compilation** — bgfx shaderc integration for cross-compiling shaders to GLSL, SPIR-V, DirectX 9/11, and Metal as a prebuild step
-- **3rd party library management** — 63 pre-configured library scripts with automatic git cloning, building, and linking; libraries include bgfx, imgui, assimp, curl, zlib, box2d, jolt, spdlog, and many more
+- **3rd party library management** — 64 pre-configured library scripts with automatic git cloning (optionally pinned to a revision, with submodules), building, and linking; libraries include bgfx, imgui, assimp, curl, zlib, box2d, jolt, spdlog, and many more
 - **Precompiled header support** — automatic detection of `<projectname>_pch.h` / `<projectname>_pch.cpp` in the `src/` directory; can be disabled globally with `--with-no-pch`
 - **Seven project types** — libraries (static/shared), command-line tools, games, Qt applications, 3rd party library wrappers, unit tests, samples, and library tools
 - **Build configurations** — debug (full symbols), release (optimized with symbols), and retail (fully optimized, no symbols) with appropriate defines and compiler flags
@@ -42,7 +42,7 @@ Zidar is organized into the following scripts:
 | `project_lib_sample.lua` | Library sample project type with automatic bgfx detection | |
 | `project_lib_test.lua` | Library unit test project type (unittest-cpp for C++, unity for C) | |
 | `project_lib_tool.lua` | Library tool project type | |
-| `3rd/*.lua` | 63 third-party library build scripts | |
+| `3rd/*.lua` | 64 third-party library build scripts | |
 
 ## How It Works
 
@@ -53,7 +53,7 @@ Zidar is organized into the following scripts:
 3. Path globals are initialized (`RG_ROOT_DIR`, `RG_SCRIPTS_DIR`, `RG_ZIDAR_DIR`, etc.)
 4. The `.zidar/` (temp files) and `.3rd/` (dependency cache) directories are established
 5. All sub-scripts are loaded (`toolchain.lua`, `configurations.lua`, `project_*.lua`, `deploy.lua`)
-6. The 3rd party registry (`RG_3RD_PARTY_SCRIPTS`) is populated with 63 library scripts
+6. The 3rd party registry (`RG_3RD_PARTY_SCRIPTS`) is populated with 64 library scripts
 7. UTF-8 mode is enabled on startup and disabled on exit via atexit callbacks
 
 ### Project Registration
@@ -176,6 +176,8 @@ Projects are defined by registering global Lua functions following a naming conv
 | `projectAdd_<name>()` | Yes | Main project setup — calls the appropriate `addProject_*()` function |
 | `projectDependencies_<name>()` | No | Returns a table of dependency project names |
 | `projectSource_<name>()` | No | Returns a git URL for auto-downloading the project |
+| `projectSourceRevision_<name>()` | No | Returns the commit / tag to check out after the clone — a pinned dependency instead of a moving branch head |
+| `projectSourceSubmodules_<name>()` | No | Returns a table of submodule paths to initialise (shallow) after the clone, or `true` for all of them |
 | `projectExtraConfig_<name>()` | No | Additional per-configuration setup (platform-specific flags, etc.) |
 | `projectExtraConfigExecutable_<name>()` | No | Additional config applied only to executable targets |
 | `projectDependencyConfig_<name>()` | No | Configuration applied to projects that depend on this one |
@@ -184,7 +186,7 @@ Projects are defined by registering global Lua functions following a naming conv
 
 ## 3rd Party Library Registry
 
-Zidar ships with 63 pre-configured build scripts for popular C/C++ libraries. Missing dependencies are automatically cloned via git when a `projectSource_<name>()` callback provides a URL.
+Zidar ships with 64 pre-configured build scripts for popular C/C++ libraries. Missing dependencies are automatically cloned via git when a `projectSource_<name>()` callback provides a URL; `projectSourceRevision_<name>()` pins the checkout to a commit or tag and `projectSourceSubmodules_<name>()` names the submodules to initialise.
 
 | Category | Libraries |
 |---|---|

@@ -191,6 +191,8 @@ Output is a `.bin.h` header with C arrays named `[filename]_glsl`, `[filename]_s
 
 When a dependency isn't found locally, zidar checks `RG_3RD_PARTY_SCRIPTS` for a matching script in `zidar/3rd/`. If the script defines a `projectSource_[name]()` function, zidar downloads it via `git clone`.
 
+Two optional companions pin what is cloned. `projectSourceRevision_[name]()` returns a commit hash or tag: the clone is made with `--no-checkout` and that revision is checked out detached, so the dependency is an exact upstream state rather than whatever the branch head is on the day. `projectSourceSubmodules_[name]()` returns a table of submodule paths (or `true` for all of them) that zidar initialises shallowly after the checkout. An existing `.3rd/[name]` is never moved to a new pin; delete it to download again.
+
 ### Custom Dependency Directory
 
 Set `RG_ZIDAR_DEPENDENCY_DIR` environment variable to override the default `.3rd` directory.
@@ -209,6 +211,15 @@ function projectAdd_my_3rd_lib()
         projectInstallDestination("my_3rd_lib") .. "/src/*.c",
         projectInstallDestination("my_3rd_lib") .. "/src/*.h",
     })
+end
+
+-- Optional: pin the clone to a revision and initialise the submodules it needs.
+function projectSourceRevision_my_3rd_lib()
+    return "v1.2.3"
+end
+
+function projectSourceSubmodules_my_3rd_lib()
+    return { "thirdparty/zlib" }
 end
 ```
 

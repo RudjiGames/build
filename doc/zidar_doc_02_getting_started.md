@@ -653,7 +653,7 @@ end
 
 ## Tutorial 6: Using 3rd Party Libraries
 
-Zidar ships with 63 pre-configured build scripts for popular C/C++ libraries. When you declare a dependency on one of these, zidar automatically downloads the source code via git and builds it as part of your project.
+Zidar ships with 64 pre-configured build scripts for popular C/C++ libraries. When you declare a dependency on one of these, zidar automatically downloads the source code via git and builds it as part of your project.
 
 ### Using a Built-In 3rd Party Library
 
@@ -680,7 +680,7 @@ No manual downloading, no submodules, no CMake — just declare the dependency.
 
 ### Available 3rd Party Libraries
 
-Some commonly used libraries from the 63 included scripts:
+Some commonly used libraries from the 64 included scripts:
 
 | Category | Libraries |
 |---|---|
